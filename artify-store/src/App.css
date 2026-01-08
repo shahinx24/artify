@@ -1,42 +1,89 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+:root {
+  --primary: #ff6b6b;
+  --secondary: #4ecdc4;
+  --accent: #ffe66d;
+  --dark: #1a1a2e;
+  --light: #f7f7f7;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--light);
+}
+
+header {
   text-align: center;
+  color: var(--dark);
+  padding: 20px 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+p {
+  font-size: 1rem;
+  color: var(--dark);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
-.card {
-  padding: 2em;
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  transition: 0.25s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+  border: 2px solid transparent;
 }
 
-.read-the-docs {
-  color: #888;
+.product-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  border-color: var(--secondary);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.product-card h4 {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  color: var(--dark);
+}
+
+.product-card p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+button {
+  background: var(--secondary);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: var(--primary);
 }

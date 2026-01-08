@@ -1,33 +1,53 @@
-import { createContext, useReducer } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
 
-const initialState = [];
-
-function cartReducer(state, action) {
-  switch (action.type) {
-    case "ADD":
-      return [...state, action.item];
-    case "REMOVE":
-      return state.filter((p) => p.id !== action.id);
-    default:
-      return state;
-  }
-}
-
 export function CartProvider({ children }) {
-  const [cart, dispatch] = useReducer(cartReducer, initialState);
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const addToCart = (item) => {
-    dispatch({ type: "ADD", item });
-  };
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
-  const removeFromCart = (id) => {
-    dispatch({ type: "REMOVE", id });
-  };
+  function addToCart(product) {
+    setCart(prev => {
+      const item = prev.find(p => p.id === product.id);
+      if (item) {
+        return prev.map(p =>
+          p.id === product.id ? { ...p, qty: p.qty + 1 } : p
+        );
+      }
+      return [...prev, { ...product, qty: 1 }];
+    });
+  }
+
+  function increase(id) {
+    setCart(prev =>
+      prev.map(p =>
+        p.id === id ? { ...p, qty: p.qty + 1 } : p
+      )
+    );
+  }
+
+  function decrease(id) {
+    setCart(prev =>
+      prev.map(p =>
+        p.id === id && p.qty > 0 ? { ...p, qty: p.qty - 1 } : p
+      )
+    );
+  }
+
+  function removeFromCart(id) {
+    setCart(prev => prev.filter(p => p.id !== id));
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, increase, decrease, removeFromCart, total }}>
       {children}
     </CartContext.Provider>
   );
