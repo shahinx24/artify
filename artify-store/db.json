@@ -1,0 +1,11 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Acrylic Paint Set",
+      "price": 499,
+      "image": "paint.jpg",
+      "category": "Colors"
+    }
+  ]
+}
