@@ -14,7 +14,6 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-
       <Footer />
     </>
   );
