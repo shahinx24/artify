@@ -1,13 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
-
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
+  // Save cart in localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
   function decrease(id) {
     setCart(prev =>
       prev.map(p =>
-        p.id === id && p.qty > 0 ? { ...p, qty: p.qty - 1 } : p
+        p.id === id && p.qty > 1 ? { ...p, qty: p.qty - 1 } : p
       )
     );
   }
@@ -45,9 +45,22 @@ export function CartProvider({ children }) {
   }
 
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  const displayCount = cartCount > 99 ? "99+" : cartCount;
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, increase, decrease, removeFromCart, total }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        increase,
+        decrease,
+        removeFromCart,
+        total,
+        cartCount,
+        displayCount
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

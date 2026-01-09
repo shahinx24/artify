@@ -55,30 +55,14 @@ export default function HomePage() {
       <section id="about" className="about-section">
         <h2 className="section-title">About Artify</h2>
         <p className="about-text">
-          Artify is a premium artist supply brand bringing luxury-grade materials
-          to creators of every level. Designed with passion, powered by creativity.
+          Artify is more than a supply store — it's a creative movement.
+          We provide premium, thoughtfully crafted art materials designed to elevate every artist’s imagination.
+          Whether you're a beginner exploring your first sketchbook or a seasoned creator shaping your next masterpiece,
+          Artify brings you tools that feel luxurious, perform beautifully, and inspire bold expression.
+
+          Every product in our collection is hand-selected with purpose, tested with passion, and powered by the spirit of creativity.
+          At Artify, we believe art should be accessible, empowering, and limitless — and we’re here to help you turn imagination into reality.
         </p>
-      </section>
-
-      <section id="contact" className="contact-section">
-        <h2 className="section-title">Contact Us</h2>
-
-        <div className="contact-items">
-          <p><strong>Email:</strong> artifystore@gmail.com</p>
-          <p><strong>Phone:</strong> +91 9876543210</p>
-
-          <div className="social-icons">
-            <a href="#" target="_blank" aria-label="Instagram">
-              🟣 Instagram
-            </a>
-            <a href="#" target="_blank" aria-label="Facebook">
-              🔵 Facebook
-            </a>
-            <a href="mailto:artifystore@gmail.com" aria-label="Email">
-              ✉️ Gmail
-            </a>
-          </div>
-        </div>
       </section>
     </>
   );

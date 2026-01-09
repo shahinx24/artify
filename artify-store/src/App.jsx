@@ -4,10 +4,11 @@ import HomePage from "./pages/HomePage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import { CartProvider } from "./context/CartContext";
 
 export default function App() {
   return (
-    <>
+    <CartProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products/:category" element={<ProductsPage />} />
@@ -15,6 +16,6 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-    </>
+    </CartProvider>
   );
 }
