@@ -7,9 +7,7 @@ export default function CartPage() {
   return (
     <div>
       <h1>Your Cart</h1>
-
       {cart.length === 0 && <p>No items in cart</p>}
-
       {cart.map(item => (
         <div key={item.id} style={{ marginBottom: "20px" }}>
           <h3>{item.name}</h3>
@@ -25,7 +23,6 @@ export default function CartPage() {
           </button>
         </div>
       ))}
-
       {cart.length > 0 && (
         <h2>Total: ₹{total}</h2>
       )}

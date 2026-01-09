@@ -3,7 +3,7 @@ import { CartContext } from "../context/CartContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import CartButton from "../components/CartButton.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 export default function ProductsPage() {
   const { category } = useParams();  // read category from URL
@@ -17,13 +17,10 @@ export default function ProductsPage() {
   }, []);
 
   const filtered = products.filter(p => p.category === category);
-
   return (
-    <div>
-      <CartButton />
+    <div className="page-content">
+      <Navbar />
         <h1>{category} Products</h1>
-
-
       {filtered.length === 0 && <p>No products in this category</p>}
 
       <div className="product-grid">

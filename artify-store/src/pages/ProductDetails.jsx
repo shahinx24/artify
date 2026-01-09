@@ -10,7 +10,6 @@ export default function ProductDetails() {
     axios.get(`http://localhost:3000/products/${id}`)
       .then(res => setProduct(res.data));
   }, [id]);
-
   if (!product) return <h2>Loading...</h2>;
 
   return (

@@ -43,7 +43,6 @@
       "image": "/images/brushes/brush6.jpg"
     },
 
-
     {
       "id": 7,
       "name": "Acrylic Color Pack",
@@ -86,7 +85,6 @@
       "category": "Colors",
       "image": "/images/colors/colors6.jpg"
     },
-
 
     {
       "id": 13,
@@ -131,7 +129,6 @@
       "image": "/images/canvas/canvas6.jpg"
     },
 
-
     {
       "id": 19,
       "name": "A4 Sketchbook",
@@ -175,7 +172,6 @@
       "image": "/images/sketchbooks/sketch6.jpg"
     },
 
-
     {
       "id": 25,
       "name": "Dual Tip Marker Set",
@@ -193,7 +189,7 @@
     {
       "id": 27,
       "name": "Brush Marker Set",
-           "price": 350,
+      "price": 350,
       "category": "Markers",
       "image": "/images/markers/marker3.jpg"
     },
@@ -218,6 +214,7 @@
       "category": "Markers",
       "image": "/images/markers/marker6.jpg"
     },
+
     {
       "id": 31,
       "name": "Craft Scissors",
@@ -259,132 +256,6 @@
       "price": 60,
       "category": "Craft Supplies",
       "image": "/images/craft/craft6.jpg"
-    },
-    {
-      "id": 37,
-      "name": "Art Masking Tape",
-      "price": 70,
-      "category": "Craft Supplies",
-      "image": "/images/craft/craft7.jpg"
-    },
-    {
-      "id": 38,
-      "name": "Beads & Thread Kit",
-      "price": 200,
-      "category": "Craft Supplies",
-      "image": "/images/craft/craft8.jpg"
-    },
-    {
-      "id": 39,
-      "name": "Ready-Mix Craft Paint Set",
-      "price": 180,
-      "category": "Craft Supplies",
-      "image": "/images/craft/craft9.jpg"
-    },
-    {
-      "id": 40,
-      "name": "Angular Brush",
-      "price": 140,
-      "category": "Brushes",
-      "image": "/images/brushes/brush7.jpg"
-    },
-    {
-      "id": 41,
-      "name": "Synthetic Hair Brush",
-      "price": 200,
-      "category": "Brushes",
-      "image": "/images/brushes/brush8.jpg"
-    },
-    {
-      "id": 42,
-      "name": "Extra Fine Detail Brush",
-      "price": 180,
-      "category": "Brushes",
-      "image": "/images/brushes/brush9.jpg"
-    },
-    {
-      "id": 43,
-      "name": "Alcohol Ink Pack",
-      "price": 220,
-      "category": "Colors",
-      "image": "/images/colors/colors7.jpg"
-    },
-    {
-      "id": 44,
-      "name": "Gouache Paint Tubes",
-      "price": 260,
-      "category": "Colors",
-      "image": "/images/colors/colors8.jpg"
-    },
-    {
-      "id": 45,
-      "name": "Mini Paint Bottle Set",
-      "price": 130,
-      "category": "Colors",
-      "image": "/images/colors/colors9.jpg"
-    },
-    {
-      "id": 46,
-      "name": "Circular Canvas Board",
-      "price": 240,
-      "category": "Canvas",
-      "image": "/images/canvas/canvas7.jpg"
-    },
-    {
-      "id": 47,
-      "name": "Mega Canvas Roll",
-      "price": 520,
-      "category": "Canvas",
-      "image": "/images/canvas/canvas8.jpg"
-    },
-    {
-      "id": 48,
-      "name": "Triangle Shape Canvas",
-      "price": 300,
-      "category": "Canvas",
-      "image": "/images/canvas/canvas9.jpg"
-    },
-    {
-      "id": 49,
-      "name": "Calligraphy Practice Pad",
-      "price": 170,
-      "category": "Sketchbooks",
-      "image": "/images/sketchbooks/sketch7.jpg"
-    },
-    {
-      "id": 50,
-      "name": "Dotted Art Journal",
-      "price": 190,
-      "category": "Sketchbooks",
-      "image": "/images/sketchbooks/sketch8.jpg"
-    },
-    {
-      "id": 51,
-      "name": "Travel Pocket Sketchbook",
-      "price": 110,
-      "category": "Sketchbooks",
-      "image": "/images/sketchbooks/sketch9.jpg"
-    },
-    {
-      "id": 52,
-      "name": "Dual Tone Marker Set",
-      "price": 350,
-      "category": "Markers",
-      "image": "/images/markers/marker7.jpg"
-    },
-    {
-      "id": 53,
-      "name": "Graphic Comic Marker Kit",
-      "price": 280,
-      "category": "Markers",
-      "image": "/images/markers/marker8.jpg"
-    },
-    {
-      "id": 54,
-      "name": "Waterproof Drawing Marker",
-      "price": 160,
-      "category": "Markers",
-      "image": "/images/markers/marker9.jpg"
     }
   ]
 }

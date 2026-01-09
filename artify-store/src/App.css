@@ -91,18 +91,6 @@ button {
   gap: 2rem;
 }
 
-.top-nav nav a {
-  font-size: 1rem;
-  padding: .4rem 1rem;
-  border-radius: 20px;
-  color: #ffffff;
-}
-
-.top-nav nav a:hover {
-  background: rgba(255,255,255,0.2);
-  color: #000000;
-}
-
 /* Active page look if needed */
 .nav-active {
   background: #d100a3;
@@ -139,12 +127,17 @@ button {
   cursor: pointer;
   position: relative;
 }
+.cart-button:hover {
+  background: #000000;
+  transform: scale(1.05);
+}
 
 .cart-icon {
   width: 22px !important;
   height: 22px !important;
   object-fit: contain;
   flex-shrink: 0;
+  filter: brightness(0) invert(1);
 }
 
 .cart-badge {
@@ -169,6 +162,12 @@ button {
   background: #ffff;
   color: #d100a3;
   transform: scale(1.05);
+}
+
+.page-content {
+  padding-top: 100px;   /* gap – adjust if needed */
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .hero {

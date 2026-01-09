@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
-import CartButton from "../components/CartButton.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -23,16 +23,7 @@ export default function HomePage() {
 
   return (
     <>
-      <header className="top-nav">
-        <nav>
-          <button onClick={() => scrollTo("hero")} className="nav-btn">Home</button>
-          <button onClick={() => scrollTo("categories")} className="nav-btn">Category</button>
-          <button onClick={() => scrollTo("about")} className="nav-btn">About</button>
-          <button onClick={() => scrollTo("contact")} className="nav-btn">Contact</button>
-        </nav>
-        <CartButton />
-      </header>
-
+      <Navbar scrollTo={scrollTo} />
       <section id="hero" className="hero">
         <div className="hero-text">
           <h1 className="logo">Artify</h1>
