@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar.jsx";
+import { categories } from "../data/categories.js";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,8 @@ export default function HomePage() {
       .then(res => setProducts(res.data));
   }, []);
 
-  const categories = [...new Set(products.map(p => p.category))];
+  // const categories = [...new Set(products.map(p => p.category))];
+  const availableCategories = [...new Set(products.map(p => p.category))];
 
   const scrollTo = (id) => {
     const section = document.getElementById(id);
@@ -24,6 +26,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar scrollTo={scrollTo} />
+      <div className="page-content">
       <section id="hero" className="hero">
         <div className="hero-text">
           <h1 className="logo">Artify</h1>
@@ -36,8 +39,14 @@ export default function HomePage() {
         <h2 className="section-title">Shop by Category</h2>
         <div className="product-grid">
           {categories.map(cat => (
-            <Link key={cat} to={`/products/${cat}`} className="product-card">
-              <h3>{cat}</h3>
+            <Link
+              key={cat.id}
+              to={`/products/${cat.id}`}
+              className="category-card"
+              style={{ backgroundImage: `url(${cat.image})` }}
+            >
+              <div className="category-overlay"></div>
+              <h3>{cat.name}</h3>
             </Link>
           ))}
         </div>
@@ -55,6 +64,7 @@ export default function HomePage() {
           At Artify, we believe art should be accessible, empowering, and limitless — and we’re here to help you turn imagination into reality.
         </p>
       </section>
+      </div>
     </>
   );
 }

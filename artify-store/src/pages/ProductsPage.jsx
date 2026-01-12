@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
+import { WishlistContext } from "../context/WishlistContext.jsx";
 
 export default function ProductsPage() {
   const { category } = useParams();  // read category from URL
   const [products, setProducts] = useState([]);
   const { addToCart } = useContext(CartContext);
+  const { toggleWishlist, isWishlisted } = useContext(WishlistContext);
 
 
   useEffect(() => {
@@ -16,7 +18,9 @@ export default function ProductsPage() {
       .then(res => setProducts(res.data));
   }, []);
 
-  const filtered = products.filter(p => p.category === category);
+  const filtered = products.filter(
+    p => p.category.toLowerCase() === category.toLowerCase()
+  );
   return (
     <div className="page-content">
       <Navbar scrollTo={scrollTo} />
@@ -25,12 +29,20 @@ export default function ProductsPage() {
 
       <div className="product-grid">
         {filtered.map(p => (
-          <div className="product-card" key={p.id}>
-            <img src={p.image} alt={p.name} />
-            <h4>{p.name}</h4>
-            <p>₹{p.price}</p>
-            <button onClick={() => addToCart(p)}>Add to Cart</button>
-          </div>
+        <div className="product-card" key={p.id}>
+          <img src={p.image} alt={p.name} />
+          <h4>{p.name}</h4>
+          <p>₹{p.price}</p>
+        <div className="btn-group">
+          <button onClick={() => addToCart(p)}>Add to Cart</button>
+          <button
+            className={`wishlist-btn ${isWishlisted(p.id) ? "wishlisted" : ""}`}
+            onClick={() => toggleWishlist(p)}
+          >
+            {isWishlisted(p.id) ? "❤️" : "🤍"}
+          </button>
+        </div>
+        </div>
         ))}
       </div>
     </div>
