@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
-import { Link } from "react-router-dom";
 
 export default function Navbar({ scrollTo }) {
   const location = useLocation();

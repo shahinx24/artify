@@ -4,13 +4,13 @@ import { useContext } from "react";
 import { WishlistContext } from "../context/WishlistContext";
 
 export default function Wishlist() {
-  const { displayCount } = useContext(WishlistContext);
+  const { displayWishlistCount } = useContext(WishlistContext);
 
   return (
-    <Link to="/wishlist" className="wishlist-icon">
-      <img src={wishlist} alt="wishlist" className="wishlist-icon" />
-      {displayCount > 0 && (
-        <span className="wishlist-badge">{displayCount}</span>
+     <Link to="/wishlist" className="wishlist-button">
+      <img src={wishlist} alt="Wishlist" className="wishlist-icon" />
+      {displayWishlistCount > 0 && (
+        <span className="wishlist-badge">{displayWishlistCount}</span>
       )}
     </Link>
   );
