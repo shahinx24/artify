@@ -1,11 +1,14 @@
 import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
 
 export default function Navbar({ scrollTo }) {
   const location = useLocation();
   const isHome = location.pathname === "/";
-
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  
   return (
     <header className="top-nav">
       <nav>
@@ -19,6 +22,9 @@ export default function Navbar({ scrollTo }) {
         )}
       </nav>
       <div className="nav-icons">
+        <button onClick={toggleTheme} className="theme-btn">
+          {theme === "dark" ? "🌕" : "🌑"}
+        </button>
         <WishlistButton />
         <CartButton />
       </div>
