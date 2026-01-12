@@ -19,7 +19,7 @@ export default function ProductsPage() {
   const filtered = products.filter(p => p.category === category);
   return (
     <div className="page-content">
-      <Navbar />
+      <Navbar scrollTo={scrollTo} />
         <h1>{category} Products</h1>
       {filtered.length === 0 && <p>No products in this category</p>}
 

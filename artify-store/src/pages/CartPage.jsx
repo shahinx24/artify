@@ -5,26 +5,32 @@ export default function CartPage() {
   const { cart, increase, decrease, removeFromCart, total } = useContext(CartContext);
 
   return (
-    <div>
+    <div className="cart-page">
       <h1>Your Cart</h1>
-      {cart.length === 0 && <p>No items in cart</p>}
-      {cart.map(item => (
-        <div key={item.id} style={{ marginBottom: "20px" }}>
-          <h3>{item.name}</h3>
-          <p>₹{item.price}</p>
+      
+      {cart.length === 0 && <p className="empty-cart">Your cart is empty.</p>}
 
-          <button onClick={() => decrease(item.id)}>-</button>
-          <span style={{ margin: "0 10px" }}>{item.qty}</span>
-          <button onClick={() => increase(item.id)}>+</button>
+      <div className="cart-list">
+        {cart.map(item => (
+          <div key={item.id} className="cart-item">
+            <h3>{item.name}</h3>
+            <p className="price">₹{item.price}</p>
 
-          <button style={{ marginLeft: "10px", color: "red" }}
-            onClick={() => removeFromCart(item.id)}>
-            Remove
-          </button>
-        </div>
-      ))}
+            <div className="qty-box">
+              <button onClick={() => decrease(item.id)}>-</button>
+              <span>{item.qty}</span>
+              <button onClick={() => increase(item.id)}>+</button>
+            </div>
+
+            <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+
       {cart.length > 0 && (
-        <h2>Total: ₹{total}</h2>
+        <h2 className="cart-total">Total: ₹{total}</h2>
       )}
     </div>
   );
