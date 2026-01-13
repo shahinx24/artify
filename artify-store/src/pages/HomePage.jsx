@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
-import Navbar from "../components/Navbar.jsx";
+// import Navbar from "../components/Navbar.jsx";
 import { categories } from "../data/categories.js";
-import { useState } from "react";
 import AuthPanel from "../components/AuthPanel";
 
 export default function HomePage({ authMode, setAuthMode }) {
@@ -15,7 +14,6 @@ export default function HomePage({ authMode, setAuthMode }) {
       .then(res => setProducts(res.data));
   }, []);
 
-  // const categories = [...new Set(products.map(p => p.category))];
   const availableCategories = [...new Set(products.map(p => p.category))];
 
   const scrollTo = (id) => {
@@ -27,18 +25,19 @@ export default function HomePage({ authMode, setAuthMode }) {
 
   return (
     <>
-      <Navbar scrollTo={scrollTo} />
+      {/* <Navbar scrollTo={scrollTo} /> */}
       <div className="page-content">
-      <section id="hero" className="hero">
-        <div className="home">
-          <div className="hero-text">
-            <h1 className="logo">Artify</h1>
-            <h2>Create, Imagine, Artify!</h2>
-            <p>Unlock premium supplies for every artist.</p>
+        <section id="hero" className="hero">
+          <div className="home">
+            <div className="hero-text">
+              <h1 className="logo">Artify</h1>
+              <h2>Create, Imagine, Artify!</h2>
+              <p>Unlock premium supplies for every artist.</p>
+            </div>
+            {/* Auth popup */}
+            <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
           </div>
-          <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
-        </div>
-      </section>
+        </section>
 
       <section id="categories" className="category-section">
         <h2 className="section-title">Shop by Category</h2>

@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
-import ThemeButton from "./ThemeButton.jsx";
 
 export default function Navbar({ scrollTo, setAuthMode }) {
   const location = useLocation();
@@ -21,7 +20,6 @@ export default function Navbar({ scrollTo, setAuthMode }) {
       </nav>
 
       <div className="nav-icons">
-        <ThemeButton />
         <WishlistButton />
         <CartButton />
         <button onClick={() => setAuthMode("login")} className="nav-btn">

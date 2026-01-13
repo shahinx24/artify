@@ -14,10 +14,14 @@ export default function App() {
 
   return (
     <CartProvider>
+      {/* Global nav always visible */}
+      <Navbar setAuthMode={setAuthMode} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <HomePage authMode={authMode} setAuthMode={setAuthMode} />
-        <Navbar setAuthMode={setAuthMode} />
+        <Route
+          path="/"
+          element={<HomePage authMode={authMode} setAuthMode={setAuthMode} />}
+        />
+
         <Route path="/products/:category" element={<ProductsPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/cart" element={<CartPage />} />
