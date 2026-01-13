@@ -2,10 +2,13 @@ import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
 import ThemeButton from "./ThemeButton.jsx";
+import { useState } from "react";
 
 export default function Navbar({ scrollTo }) {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const [authMode, setAuthMode] = useState(null); 
+// null | "login" | "register" | "forgot" | "otp" | "reset"
   
   return (
     <header className="top-nav">
@@ -23,6 +26,7 @@ export default function Navbar({ scrollTo }) {
         <ThemeButton />
         <WishlistButton />
         <CartButton />
+        <button onClick={() => setAuthMode("login")}>LOGIN</button>
       </div>
     </header>
   );
