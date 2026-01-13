@@ -4,7 +4,7 @@ import WishlistButton from "./WhishlistButton.jsx";
 import ThemeButton from "./ThemeButton.jsx";
 import { useState } from "react";
 
-export default function Navbar({ scrollTo }) {
+export default function Navbar({ scrollTo },{ setAuthMode }) {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const [authMode, setAuthMode] = useState(null); 

@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar.jsx";
 import { categories } from "../data/categories.js";
+import { useState } from "react";
+import AuthPanel from "../components/AuthPanel";
 
-export default function HomePage() {
+export default function HomePage({ authMode, setAuthMode }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -28,10 +30,13 @@ export default function HomePage() {
       <Navbar scrollTo={scrollTo} />
       <div className="page-content">
       <section id="hero" className="hero">
-        <div className="hero-text">
-          <h1 className="logo">Artify</h1>
-          <h2>Create, Imagine, Artify!</h2>
-          <p>Unlock premium supplies for every artist.</p>
+        <div className="home">
+          <div className="hero-text">
+            <h1 className="logo">Artify</h1>
+            <h2>Create, Imagine, Artify!</h2>
+            <p>Unlock premium supplies for every artist.</p>
+          </div>
+          <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
         </div>
       </section>
 
