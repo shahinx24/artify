@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "../App.css";
 // import Navbar from "../components/Navbar.jsx";
 import { categories } from "../data/categories.js";
-import AuthPanel from "../components/AuthPanel";
+// import AuthPanel from "../components/AuthPanel";
 
 export default function HomePage({ authMode, setAuthMode }) {
   const [products, setProducts] = useState([]);
@@ -28,15 +28,16 @@ export default function HomePage({ authMode, setAuthMode }) {
       {/* <Navbar scrollTo={scrollTo} /> */}
       <div className="page-content">
         <section id="hero" className="hero">
-          <div className="home">
+          {/* <div className="home"> */}
             <div className="hero-text">
               <h1 className="logo">Artify</h1>
               <h2>Create, Imagine, Artify!</h2>
               <p>Unlock premium supplies for every artist.</p>
             </div>
-            {/* Auth popup */}
-            <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
-          </div>
+             {/* {!localStorage.getItem("user") && (
+                <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
+            )}
+          </div> */}
         </section>
 
       <section id="categories" className="category-section">

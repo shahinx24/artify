@@ -1,17 +1,17 @@
+import { getUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
-import cart from "../assets/icons/cart.svg";
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import cartIcon from "../assets/icons/cart.svg";
 
 export default function CartButton() {
-  const { displayCount } = useContext(CartContext);
+  const user = getUser();
+  const count = user?.cart?.reduce((sum, item) => sum + (item.qty || 1), 0) || 0;
 
   return (
-    <Link to="/cart" className="cart-button">
-      <img src={cart} alt="Cart" className="cart-icon" />
-      {displayCount > 0 && (
-        <span className="cart-badge">{displayCount}</span>
-      )}
+    <Link to="/cart">
+      <button className="cart-button">
+        <img src={cartIcon} alt="cart" className="cart-icon" />
+        {count > 0 && <span className="cart-badge">{count}</span>}
+      </button>
     </Link>
   );
 }

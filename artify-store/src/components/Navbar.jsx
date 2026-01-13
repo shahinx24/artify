@@ -3,6 +3,12 @@ import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
 
 export default function Navbar({ scrollTo, setAuthMode }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
   const location = useLocation();
   const isHome = location.pathname === "/";
 
@@ -22,9 +28,17 @@ export default function Navbar({ scrollTo, setAuthMode }) {
       <div className="nav-icons">
         <WishlistButton />
         <CartButton />
-        <button onClick={() => setAuthMode("login")} className="nav-btn">
-          LOGIN
-        </button>
+        {user ? (
+          <>
+            <span>{user.email}</span>
+            <button onClick={()=>{
+              localStorage.removeItem("user");
+              window.location.reload();
+            }}>LOGOUT</button>
+          </>
+        ) : (
+          <button onClick={()=>setAuthMode("login")}>LOGIN</button>
+        )}
       </div>
     </header>
   );

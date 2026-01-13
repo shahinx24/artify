@@ -1,48 +1,92 @@
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext.jsx";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
-import { WishlistContext } from "../context/WishlistContext.jsx";
+import { getUser, saveUser } from "../utils/userHelpers";
 
 export default function ProductsPage() {
-  const { category } = useParams();  // read category from URL
+  const { category } = useParams();
   const [products, setProducts] = useState([]);
-  const { addToCart } = useContext(CartContext);
-  const { toggleWishlist, isWishlisted } = useContext(WishlistContext);
-
+  const [user, setUser] = useState(getUser());
 
   useEffect(() => {
     axios.get("http://localhost:3000/products")
-      .then(res => setProducts(res.data));
-  }, []);
+      .then(res => setProducts(res.data.filter(p => p.category === category)));
+  }, [category]);
 
-  const filtered = products.filter(
-    p => p.category.toLowerCase() === category.toLowerCase()
-  );
+  // ADD TO CART
+  const addToCart = async (product) => {
+    if (!user) return alert("Please login");
+
+    const updated = { ...user };
+    
+    const exist = updated.cart.find(item => item.id === product.id);
+
+    if (exist) {
+      exist.qty = (exist.qty || 1) + 1;
+    } else {
+      updated.cart.push({ ...product, qty: 1 });
+    }
+
+    await saveUser(updated);
+    setUser(updated);
+    alert("Added to cart!");
+  };
+
+  // TOGGLE WISHLIST
+  const toggleWishlist = async (id) => {
+    if (!user) return alert("Please login");
+
+    const updated = { ...user };
+
+    if (updated.wishlist.includes(id)) {
+      updated.wishlist = updated.wishlist.filter(pid => pid !== id);
+    } else {
+      updated.wishlist.push(id);
+    }
+
+    await saveUser(updated);
+    setUser(updated);
+  };
+
+  const isLiked = (id) => user && user.wishlist.includes(id);
+
   return (
     <div className="page-content">
-      <Navbar scrollTo={scrollTo} />
-        <h1>{category} Products</h1>
-      {filtered.length === 0 && <p>No products in this category</p>}
+      <h2 className="section-title" style={{ marginTop: "6rem", textTransform: "capitalize" }}>
+        {category} Items
+      </h2>
 
       <div className="product-grid">
-        {filtered.map(p => (
-        <div className="product-card" key={p.id}>
-          <img src={p.image} alt={p.name} />
-          <h4>{p.name}</h4>
-          <p>₹{p.price}</p>
-        <div className="btn-group">
-          <button onClick={() => addToCart(p)}>Add to Cart</button>
-          <button
-            className={`wishlist-btn ${isWishlisted(p.id) ? "wishlisted" : ""}`}
-            onClick={() => toggleWishlist(p)}
-          >
-            {isWishlisted(p.id) ? "❤️" : "🤍"}
-          </button>
-        </div>
-        </div>
+        {products.map(p => (
+          <div className="product-card" key={p.id}>
+            <img
+              src={p.image}
+              alt={p.name}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "cover"
+              }}
+            />
+            <div style={{ padding: "1rem" }}>
+              <h3>{p.name}</h3>
+              <p>₹{p.price}</p>
+
+              <div className="btn-group">
+                <button onClick={() => addToCart(p)}>
+                  Add to Cart
+                </button>
+
+                <button
+                  className={`wishlist-btn ${isLiked(p.id) ? "wishlisted" : ""}`}
+                  onClick={() => toggleWishlist(p.id)}
+                  title="Add to Wishlist"
+                >
+                  ♥
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
