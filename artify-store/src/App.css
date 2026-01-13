@@ -314,6 +314,24 @@ button {
   line-height: 1.5;
 }
 
+.auth-box {
+  position: absolute;
+  right: 5%;
+  top: 20%;
+  width: 300px;
+  padding:20px;
+  background:#fff;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.auth-box form p {
+  cursor:pointer;
+  color:blue;
+}
+
 .about-section{
   margin-top: -40px;
   background: var(--surface);

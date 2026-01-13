@@ -7,8 +7,7 @@ import NotFound from "./pages/NotFound.jsx";
 import { CartProvider } from "./context/CartContext";
 import WishlistPage from "./pages/WishlistPage.jsx";
 import { useState } from "react";
-import HomePage from "./pages/HomePage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar.jsx";
 
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
