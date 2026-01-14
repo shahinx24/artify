@@ -20,7 +20,6 @@ export default function App() {
                 <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
             )}
       </div>
-
       <Routes>
         <Route path="/" element={
           <HomePage authMode={authMode} setAuthMode={setAuthMode} />
@@ -30,7 +29,6 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      
       <Footer />
     </>
   );
