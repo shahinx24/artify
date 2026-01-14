@@ -13,6 +13,7 @@ import Toast from "./components/Toast";
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
   const [toast, setToast] = useState("");
+
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(""), 2500);
@@ -20,23 +21,30 @@ export default function App() {
 
   return (
     <>
-      <Navbar setAuthMode={setAuthMode} />
-      <div className="home">
-        {!localStorage.getItem("user") && (
-                <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
-            )}
-      </div>
+      {authMode && (
+        <>
+          <div className="auth-overlay" onClick={() => setAuthMode(null)}></div>
+            <span className="auth-close" onClick={() => setAuthMode(null)}>✖</span>
+            <AuthPanel
+                authMode={authMode}
+                setAuthMode={setAuthMode}
+                showToast={showToast}
+              />
+        </>
+      )}
+      <Navbar setAuthMode={setAuthMode} showToast={showToast} />
+
       <Routes>
         <Route path="/" element={
-          <HomePage authMode={authMode} setAuthMode={setAuthMode} />
-        } />
+          <HomePage authMode={authMode} setAuthMode={setAuthMode} showToast={showToast} /> } 
+        />
         <Route path="/products/:category" element={<ProductsPage showToast={showToast} />} />
+        <Route path="/wishlist" element={<WishlistPage showToast={showToast} />}/>
         <Route path="/cart" element={<CartPage showToast={showToast} />} />
-        <Route path="/wishlist" element={<WishlistPage showToast={showToast} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-    <Toast message={toast} />
+      <Toast message={toast} />
     </>
   );
 }

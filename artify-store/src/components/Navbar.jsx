@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
+import { Link } from "react-router-dom";
 
-export default function Navbar({ scrollTo, setAuthMode }) {
+export default function Navbar({ setAuthMode }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const logout = () => {
@@ -15,12 +16,12 @@ export default function Navbar({ scrollTo, setAuthMode }) {
   return (
     <header className="top-nav">
       <nav>
+           <button><Link className="nav-btn" to="/">Home</Link></button>
         {isHome && (
           <>
-            <button onClick={() => scrollTo("hero")} className="nav-btn">Home</button>
-            <button onClick={() => scrollTo("categories")} className="nav-btn">Category</button>
-            <button onClick={() => scrollTo("about")} className="nav-btn">About</button>
-            <button onClick={() => scrollTo("about")} className="nav-btn">Contact</button>
+            <button onClick={() => document.getElementById("categories")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Category</button>
+            <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">About</button>
+            <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Contact</button>
           </>
         )}
       </nav>
@@ -30,7 +31,7 @@ export default function Navbar({ scrollTo, setAuthMode }) {
         <CartButton />
         {user ? (
           <>
-            <span>{user.email.split("@")[0]}</span>
+            <span className="username-tag">{user.email.split("@")[0]}</span>
             <button onClick={()=>{
               localStorage.removeItem("user");
               window.location.reload();

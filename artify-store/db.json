@@ -1,5 +1,13 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "5af0",
+      "email": "shahin@gmail.com",
+      "password": "123456",
+      "cart": [],
+      "wishlist": []
+    }
+  ],
   "products": [
     {
       "id": "1",

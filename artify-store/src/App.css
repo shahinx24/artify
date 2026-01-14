@@ -71,7 +71,7 @@ button {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 1.4rem 3rem;
+  padding: 1.0rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -195,6 +195,16 @@ button {
   transform: scale(1.05);
 }
 
+.username-tag {
+  background: #cecaca;
+  color: #222;
+  padding: 10px 18px;
+  /* border-radius: 20px; */
+  font-size: 1rem;
+  font-weight: 720;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
 .page-content {
   padding-top: 100px;
   padding-left: 2rem;
@@ -253,90 +263,99 @@ button {
   line-height: 1.5;
 }
 
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1500;
+  backdrop-filter: blur(2px);
+}
+
 .auth-box {
   position: absolute;
   right: 5%;
-  top: 16%;
-  width: 360px;
-  padding: 26px;
-  background: rgba(255,255,255,0.92);
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
+  top: 15%;
+  width: 340px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
   z-index: 2000;
   animation: fadeIn 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
 }
 
+/* Close button */
+.auth-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+  user-select: none;
+  transition: transform .2s ease;
+}
+.auth-close:hover {
+  transform: scale(1.15);
+}
+
+/* Form styling */
 .auth-box form {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
+/* Title */
 .auth-box h3 {
   font-family: "Playfair Display", serif;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
+  margin-bottom: 4px;
   text-align: center;
-  margin-bottom: 6px;
+  font-weight: 600;
 }
 
+/* Inputs */
 .auth-box input {
-  padding: 12px 16px;
+  padding: 12px;
   font-size: 14px;
   border-radius: 8px;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #ddd;
   background: #fafafa;
-  transition: border-color .2s ease;
+  transition: border-color .25s;
 }
-
 .auth-box input:focus {
   border-color: #000;
   outline: none;
 }
 
+/* Buttons */
 .auth-box button {
   padding: 12px;
   background: #000;
-  border-radius: 8px;
-  border: none;
   color: #fff;
+  border: none;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.25s;
+  transition: background .2s ease;
 }
-
 .auth-box button:hover {
-  background: #1a1919bb;
+  background: #222;
 }
 
+/* Mode switch links */
 .auth-box form p {
+  margin-top: 2px;
   font-size: 0.9rem;
   text-align: center;
-  color: #085ba4;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.auth-box form p:hover {
-  opacity: 0.8;
-}
-
-.auth-close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 12px;
   color: #000;
   cursor: pointer;
-  line-height: 1;
-  transition: .2s;
+  opacity: .7;
+  transition: opacity .2s ease;
 }
-
-.auth-close:hover {
-  transform: scale(1.1);
+.auth-box form p:hover {
+  opacity: 1;
 }
 
 .about-section{
@@ -718,6 +737,11 @@ button {
   
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 }

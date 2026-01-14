@@ -1,45 +1,62 @@
 import { useState } from "react";
-import axios from "axios";
 
-export default function Register({ setAuthMode }) {
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const [confirm,setConfirm] = useState("");
-
-  const register = async(e)=>{
+export default function Register({ setAuthMode, showToast }) {
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const register = async (e) => {
     e.preventDefault();
 
-    if(password !== confirm) return showToast("Passwords don't match");
+    if (!email || !pass || !confirm) {
+      showToast("All fields required");
+      return;
+    }
 
-    const {data:users} = await axios.get("http://localhost:3000/users");
-    if(users.find(u=>u.email === email)) return showToast("Email already exists");
+    if (pass !== confirm) {
+      showToast("Passwords do not match");
+      return;
+    }
 
-    await axios.post("http://localhost:3000/users",{
-      email,
-      password,
-      cart: [],
-      wishlist: []
-    });
+    const savedUsers = JSON.parse(localStorage.getItem("users") || "[]");
+    const exists = savedUsers.find(u => u.email === email);
+    
+    if (exists) {
+      showToast("User already exists");
+      return;
+    }
+    const newUser = { email, pass };
 
-    showToast("Account created!");
+    // save account to users list
+    localStorage.setItem("users", JSON.stringify([...savedUsers, newUser]));
+
+    showToast("Registration successful! Now login.");
     setAuthMode("login");
   };
 
   return (
-    <form onSubmit={register}>
+    <>
       <h3>Create Account</h3>
-      <input type="email" placeholder="Email"
-        value={email} onChange={e=>setEmail(e.target.value)} required />
-
-      <input type="password" placeholder="Password"
-        value={password} onChange={e=>setPassword(e.target.value)} required />
-
-      <input type="password" placeholder="Confirm Password"
-        value={confirm} onChange={e=>setConfirm(e.target.value)} required />
-
-      <button type="submit">Register</button>
-
-      <p onClick={()=>setAuthMode("login")}>Already have account?</p>
-    </form>
+      <form onSubmit={register}>
+        <input
+          type="email"
+          placeholder="Email address"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPass(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          onChange={(e) => setConfirm(e.target.value)}
+        />
+        <button type="submit">REGISTER</button>
+        <p onClick={() => setAuthMode("login")}>
+          Already have an account? Login
+        </p>
+      </form>
+    </>
   );
 }
