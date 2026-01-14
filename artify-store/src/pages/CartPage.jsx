@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
 
-export default function CartPage() {
+export default function CartPage({ showToast }) {
   const [user, setUser] = useState(getUser());
 
   if (!user) return <h2 style={{ textAlign: "center", marginTop: "8rem" }}>Please login to view your cart</h2>;
@@ -11,6 +11,7 @@ export default function CartPage() {
     const updated = { ...user, cart: user.cart.filter(item => item.id !== id) };
     await saveUser(updated);
     setUser(updated);
+    return showToast("Item removed from cart");
   };
 
   const updateQty = async (id, change) => {

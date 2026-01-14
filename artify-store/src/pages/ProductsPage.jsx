@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
 
-export default function ProductsPage() {
+export default function ProductsPage({ showToast }) {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(getUser());
@@ -15,7 +15,7 @@ export default function ProductsPage() {
 
   // ADD TO CART
   const addToCart = async (product) => {
-    if (!user) return alert("Please login");
+    if (!user) return showToast("Login required");
 
     const updated = { ...user };
     
@@ -29,12 +29,12 @@ export default function ProductsPage() {
 
     await saveUser(updated);
     setUser(updated);
-    alert("Added to cart!");
+    showToast("Added to cart!");
   };
 
   // TOGGLE WISHLIST
   const toggleWishlist = async (id) => {
-    if (!user) return alert("Please login");
+    if (!user) return showToast("Login required");
 
     const updated = { ...user };
 

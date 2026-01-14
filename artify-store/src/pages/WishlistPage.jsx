@@ -3,7 +3,7 @@ import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
 
-export default function WishlistPage() {
+export default function WishlistPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [products, setProducts] = useState([]);
 
@@ -17,6 +17,7 @@ export default function WishlistPage() {
     const updated = { ...user, wishlist: user.wishlist.filter(pid => pid !== id) };
     await saveUser(updated);
     setUser(updated);
+    return showToast("Item removed from wishlist");
   };
 
   const wished = products.filter(p => user.wishlist.includes(p.id));

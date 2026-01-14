@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
-// import Navbar from "../components/Navbar.jsx";
+import Navbar from "../components/Navbar.jsx";
 import { categories } from "../data/categories.js";
-// import AuthPanel from "../components/AuthPanel";
 
-export default function HomePage({ authMode, setAuthMode }) {
+export default function HomePage({ authMode, setAuthMode, showToast }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -25,19 +24,14 @@ export default function HomePage({ authMode, setAuthMode }) {
 
   return (
     <>
-      {/* <Navbar scrollTo={scrollTo} /> */}
+      <Navbar scrollTo={scrollTo} />
       <div className="page-content">
         <section id="hero" className="hero">
-          {/* <div className="home"> */}
             <div className="hero-text">
               <h1 className="logo">Artify</h1>
               <h2>Create, Imagine, Artify!</h2>
               <p>Unlock premium supplies for every artist.</p>
             </div>
-             {/* {!localStorage.getItem("user") && (
-                <AuthPanel authMode={authMode} setAuthMode={setAuthMode} />
-            )}
-          </div> */}
         </section>
 
       <section id="categories" className="category-section">

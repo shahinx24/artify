@@ -9,10 +9,10 @@ export default function Register({ setAuthMode }) {
   const register = async(e)=>{
     e.preventDefault();
 
-    if(password !== confirm) return alert("Passwords don't match");
+    if(password !== confirm) return showToast("Passwords don't match");
 
     const {data:users} = await axios.get("http://localhost:3000/users");
-    if(users.find(u=>u.email === email)) return alert("Email already exists");
+    if(users.find(u=>u.email === email)) return showToast("Email already exists");
 
     await axios.post("http://localhost:3000/users",{
       email,
@@ -21,7 +21,7 @@ export default function Register({ setAuthMode }) {
       wishlist: []
     });
 
-    alert("Account created!");
+    showToast("Account created!");
     setAuthMode("login");
   };
 

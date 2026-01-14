@@ -13,10 +13,13 @@ import Toast from "./components/Toast";
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
   const [toast, setToast] = useState("");
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2500);
+  };
 
   return (
     <>
-    <Toast message={toast} />
       <Navbar setAuthMode={setAuthMode} />
       <div className="home">
         {!localStorage.getItem("user") && (
@@ -27,12 +30,13 @@ export default function App() {
         <Route path="/" element={
           <HomePage authMode={authMode} setAuthMode={setAuthMode} />
         } />
-        <Route path="/products/:category" element={<ProductsPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/cart" element={<CartPage />} />
+        <Route path="/products/:category" element={<ProductsPage showToast={showToast} />} />
+        <Route path="/cart" element={<CartPage showToast={showToast} />} />
+        <Route path="/wishlist" element={<WishlistPage showToast={showToast} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
+    <Toast message={toast} />
     </>
   );
 }

@@ -11,8 +11,8 @@ export default function Login({ setAuthMode }) {
     const {data:users} = await axios.get("http://localhost:3000/users");
     const user = users.find(u=>u.email===email);
 
-    if(!user) return alert("User not found");
-    if(user.password !== password) return alert("Wrong password");
+    if(!user) return showToast("User not found");
+    if(user.password !== password) return showToast("Incorrect password");
 
     localStorage.setItem("user", JSON.stringify(user));
     window.location.reload();
