@@ -30,7 +30,7 @@ export default function Navbar({ scrollTo, setAuthMode }) {
         <CartButton />
         {user ? (
           <>
-            <span>{user.email}</span>
+            <span>{user.email.split("@")[0]}</span>
             <button onClick={()=>{
               localStorage.removeItem("user");
               window.location.reload();

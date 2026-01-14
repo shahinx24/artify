@@ -4,26 +4,33 @@
       "id": "1",
       "email": "test@gmail.com",
       "password": "123456",
-      "cart": [],
+      "cart": [
+        {
+          "id": "1",
+          "name": "Round Brush",
+          "price": 120,
+          "image": "/images/brushes/brush1.jpg",
+          "category": "brushes",
+          "qty": 1
+        }
+      ],
       "wishlist": []
     },
     {
-      "id": "5dbb",
+      "id": "615c",
       "email": "shahin@gmail.com",
       "password": "123456",
       "cart": [
         {
-          "id": 14,
-          "name": "Stretched Rectangular Canvas",
-          "price": 220,
-          "image": "/images/canvas/canvas2.jpg",
-          "category": "canvas",
-          "qty": 2
+          "id": "8",
+          "name": "Oil Paint Starter",
+          "price": 350,
+          "image": "/images/colors/colors2.jpg",
+          "category": "colors",
+          "qty": 1
         }
       ],
-      "wishlist": [
-        14
-      ]
+      "wishlist": []
     }
   ],
   "products": [
