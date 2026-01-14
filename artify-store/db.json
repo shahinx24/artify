@@ -1,35 +1,11 @@
 {
-  "users": [
-    {
-      "id": "1",
-      "email": "test@gmail.com",
-      "password": "123456",
-      "cart": [
-        {
-          "id": "1",
-          "name": "Round Brush",
-          "price": 120,
-          "image": "/images/brushes/brush1.jpg",
-          "category": "brushes",
-          "qty": 1
-        }
-      ],
-      "wishlist": []
-    },
-    {
-      "id": "615c",
-      "email": "shahin@gmail.com",
-      "password": "123456",
-      "cart": [],
-      "wishlist": []
-    }
-  ],
+  "users": [],
   "products": [
     {
       "id": "1",
       "name": "Round Brush",
       "price": 120,
-      "image": "/images/brushes/brush1.jpg",
+      "image": "/images/brushes/brush1.webp",
       "category": "brushes"
     },
     {
@@ -113,7 +89,7 @@
       "id": "13",
       "name": "Canvas Board",
       "price": 180,
-      "image": "/images/canvas/canvas1.jpg",
+      "image": "/images/canvas/canvas1.webp",
       "category": "canvas"
     },
     {

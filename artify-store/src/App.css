@@ -224,7 +224,7 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(39, 39, 39, 0.315);
   z-index: 0;
 }
 
@@ -235,7 +235,6 @@ button {
   max-width: 500px;
   animation: slideUp 0.6s ease forwards;
   opacity: 0;
-  /* background: rgba( var(--bg-r), var(--bg-g), var(--bg-b), 0.55 ); */
   padding: 1.8rem 2rem;
 }
 
@@ -537,11 +536,13 @@ button {
 }
 
 .wishlist-btn.wishlisted {
-  color: wheat;
+  color: rgb(218, 52, 27);
+  font-size: 28px;
 }
 
 .wishlist-btn:not(.wishlisted) {
-  color: black;
+  color: rgb(255, 255, 255);
+  font-size: 30px;
 }
 
 .wishlist-btn:hover {
