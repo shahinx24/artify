@@ -8,12 +8,15 @@ import NotFound from "./pages/NotFound.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import AuthPanel from "./components/AuthPanel.jsx";
+import Toast from "./components/Toast";
 
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
+  const [toast, setToast] = useState("");
 
   return (
     <>
+    <Toast message={toast} />
       <Navbar setAuthMode={setAuthMode} />
       <div className="home">
         {!localStorage.getItem("user") && (
