@@ -4,7 +4,16 @@
       "id": "b9e8",
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "cart": [],
+      "cart": [
+        {
+          "id": "8",
+          "name": "Oil Paint Starter",
+          "price": 350,
+          "image": "/images/colors/colors2.jpg",
+          "category": "colors",
+          "qty": 1
+        }
+      ],
       "wishlist": []
     }
   ],
