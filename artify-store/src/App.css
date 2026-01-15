@@ -869,102 +869,69 @@ button {
 .pay-summary p {
   margin: .25rem 0;
 }
+
 .orders-page {
   flex: 1;
-  display: flex;
-  gap: 2rem;
-  padding-top: 120px;
-  padding-bottom: 2rem;
+  padding: 120px 2rem 3rem;
   width: 100%;
-  min-height: calc(100vh - 200px);
 }
 
-/* LEFT SIDE (scrollable) */
-.order-left {
-  flex: 2;
-  max-height: calc(100vh - 180px); /* under navbar */
-  overflow-y: auto;
-  padding-right: 10px; /* avoids hiding behind scrollbar */
+.orders-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* left wide, right narrow */
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
-/* Optional nicer scroll */
-.order-left::-webkit-scrollbar {
-  width: 8px;
-}
-.order-left::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 6px;
-}
-.order-left::-webkit-scrollbar-thumb:hover {
-  background: #bbb;
+.orders-left {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
 }
 
-/* RIGHT SIDE stays fixed */
-.cancelled-section {
-  flex: 1;
-  min-height: 400px;
-}
-
-/* EACH ORDER BOX */
-.order-box {
-  padding: 1rem 1.2rem;
-  background: #f7f7f7;
+.order-card {
+  background: #fff;
+  padding: 1rem;
   border-radius: 12px;
-  margin-bottom: 1rem;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  box-shadow: 0px 5px 18px rgba(0,0,0,0.12);
 }
 
-/* CANCEL BUTTON */
-.order-cancel-btn {
-  width: 100%;
-  padding: .7rem;
-  border: none;
-  background: #c7c7c7;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: .6rem;
-  transition: .3s;
-}
-.order-cancel-btn:hover {
-  background: #b5b5b5;
-}
-
-.cancelled-section h3 {
-  font-size: 1.4rem;
-  margin-bottom: .8rem;
+.orders-right {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0px 5px 18px rgba(0,0,0,0.12);
+  position: sticky;
+  top: 120px;
 }
 
 .cancelled-list {
+  margin-top: .5rem;
   display: flex;
   flex-direction: column;
-  gap: .7rem;
+  gap: .5rem;
 }
 
 .cancelled-item {
-  padding: .7rem .9rem;
-  border-radius: 10px;
-  background: #f6f6f6;
+  background: #ffecec;
+  padding: .8rem;
+  border-radius: 8px;
+  border: 1px solid #ff7777;
+  color: #222;
+  font-size: .9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.cancelled-item span {
-  font-size: 1.1rem;
-  color: #c33;
-  cursor: pointer;
-  font-weight: 700;
-}
-.cancelled-item span:hover {
-  transform: scale(1.2);
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
+@media(max-width: 900px) {
   .orders-page {
     flex-direction: column;
+  }
+  .cancelled-section {
+    position: static;
+    width: 100%;
+    margin-top: 1.5rem;
   }
 }
 
