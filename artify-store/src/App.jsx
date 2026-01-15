@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import AuthPanel from "./components/AuthPanel.jsx";
 import Toast from "./components/Toast";
+import PaymentPage from "./pages/PaymentPage.jsx";
 
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/products/:category" element={<ProductsPage showToast={showToast} />} />
         <Route path="/wishlist" element={<WishlistPage showToast={showToast} />}/>
         <Route path="/cart" element={<CartPage showToast={showToast} />} />
+        <Route path="/checkout" element={<PaymentPage showToast={showToast} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -4,17 +4,34 @@
       "id": "b9e8",
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "cart": [
+      "cart": [],
+      "wishlist": [],
+      "orders": [],
+      "cancelledOrders": [
         {
-          "id": "8",
-          "name": "Oil Paint Starter",
-          "price": 350,
-          "image": "/images/colors/colors2.jpg",
-          "category": "colors",
-          "qty": 1
+          "id": 1768454008081,
+          "items": [
+            {
+              "id": "8",
+              "name": "Oil Paint Starter",
+              "price": 350,
+              "image": "/images/colors/colors2.jpg",
+              "category": "colors",
+              "qty": 1
+            }
+          ],
+          "total": 350,
+          "method": "gpay",
+          "status": "active"
+        },
+        {
+          "id": 1768454014746,
+          "items": [],
+          "total": 0,
+          "method": "cod",
+          "status": "active"
         }
-      ],
-      "wishlist": []
+      ]
     }
   ],
   "products": [

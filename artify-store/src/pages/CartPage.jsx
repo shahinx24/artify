@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) setProducts(user.cart);
@@ -80,7 +82,6 @@ export default function CartPage({ showToast }) {
 
       <div className="cart-summary">
         <h2>Order Summary</h2>
-
         <div className="summary-line">
           <span>Total Items:</span>
           <span>{products.length}</span>
@@ -97,16 +98,14 @@ export default function CartPage({ showToast }) {
         </div>
 
         <hr style={{ margin: "1rem 0" }} />
-
         <div className="summary-line" style={{ fontWeight: "bold" }}>
           <span>Total:</span>
           <span>₹{total}</span>
         </div>
 
-        <button className="checkout-btn">
+        <button className="checkout-btn" onClick={() => navigate("/checkout")}>
           Proceed to Checkout
         </button>
-
         <Link to="/" style={{ display: "block", marginTop: "1rem", textAlign: "center" }}>
           ← Continue Shopping
         </Link>
