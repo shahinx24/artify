@@ -761,123 +761,211 @@ button {
 .remove-btn:hover {
   background: #bbb;
 }
-
-/* PAYMENT PAGE LAYOUT */
 .payment-page {
-  margin-top: 100px;
-  padding: 1rem 2rem 3rem;
+  padding-top: 120px;
+  padding-bottom: 2rem;
+  min-height: calc(100vh - 150px);
+}
+
+.payment-page h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.payment-warning {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.payment-container {
   display: flex;
   gap: 2rem;
-  min-height: calc(120vh - 150px);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* LEFT BOX */
-.payment-options {
+/* LEFT: Methods */
+.pay-left, .pay-right {
   flex: 1;
-  background: #fff;
+  background: #fafafa;
   padding: 1.4rem;
   border-radius: 14px;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.12);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  height: fit-content;
-  position: sticky;
-  top: 100px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
 }
 
-.pay-option {
-  font-size: 1rem;
+.method-box {
   display: flex;
   align-items: center;
   gap: .6rem;
+  padding: .6rem .8rem;
+  background: #e8e8e8;
+  border-radius: 8px;
+  margin-bottom: .8rem;
+  cursor: pointer;
+  transition: .2s;
+}
+.method-box.active {
+  background: #000;
+  color: white;
+}
+
+.upi-input {
+  width: 100%;
+  padding: .7rem .9rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: .5rem;
+  font-size: .9rem;
+}
+
+/* RIGHT: Address & Buttons */
+.pay-right input {
+  width: 100%;
+  padding: .7rem .9rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: .8rem;
+  font-size: .9rem;
+}
+
+.place-btn,
+.cancel-btn {
+  width: 100%;
+  padding: .9rem;
+  border-radius: 10px;
+  margin-top: .4rem;
+  font-weight: 600;
+  border: none;
   cursor: pointer;
 }
 
-.confirm-btn {
-  padding: .9rem;
-  border: none;
-  border-radius: 10px;
+.place-btn {
   background: #000;
-  color: #fff;
-  font-weight: 600;
+  color: white;
 }
-
-.confirm-btn:hover {
+.place-btn:hover {
   background: #222;
 }
 
-/* RIGHT BOX */
-.order-status {
-  flex: 1.2;
-  background: #fff;
-  padding: 1.4rem;
-  border-radius: 14px;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.12);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* LIST SCROLL */
-.order-list,
-.cancelled-list {
-  max-height: 160vh;
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-/* ORDER CARD */
-.order-card {
-  background: #fafafa;
-  padding: .9rem;
-  border-radius: 12px;
-  margin-bottom: .7rem;
-  border: 1px solid #ddd;
-}
-
 .cancel-btn {
-  margin-top: .4rem;
-  background: #d8d8d8;
-  border: none;
-  padding: .4rem .7rem;
-  border-radius: 8px;
+  background: #eee;
+  color: #000;
 }
 .cancel-btn:hover {
-  background: #c4c4c4;
+  background: #ccc;
 }
 
-/* CANCELLED */
-.cancelled-item {
-  font-size: .9rem;
-  color: rgb(214, 44, 44);
-}
-
-/* LOGIN MSG */
-.payment-login-msg {
-  padding-top: 120px;
-  font-size: 1.3rem;
-  text-align: center;
-}
-
-.upi-input,
-.inp {
-  width: 100%;
-  padding: .6rem;
+.pay-summary {
+  margin-top: 1rem;
+  padding: .8rem;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fafafa;
-  margin-top: .3rem;
+  background: #fff;
+  font-size: .95rem;
+  box-shadow: inset 0px 0px 6px rgba(0,0,0,0.12);
 }
 
-.upi-input:focus,
-.inp:focus {
-  border-color: #000;
+.pay-summary p {
+  margin: .25rem 0;
+}
+.orders-page {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  padding-top: 120px;
+  padding-bottom: 2rem;
+  width: 100%;
+  min-height: calc(100vh - 200px);
 }
 
-.payment-options h3 {
+/* LEFT SIDE (scrollable) */
+.order-left {
+  flex: 2;
+  max-height: calc(100vh - 180px); /* under navbar */
+  overflow-y: auto;
+  padding-right: 10px; /* avoids hiding behind scrollbar */
+}
+
+/* Optional nicer scroll */
+.order-left::-webkit-scrollbar {
+  width: 8px;
+}
+.order-left::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 6px;
+}
+.order-left::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* RIGHT SIDE stays fixed */
+.cancelled-section {
+  flex: 1;
+  min-height: 400px;
+}
+
+/* EACH ORDER BOX */
+.order-box {
+  padding: 1rem 1.2rem;
+  background: #f7f7f7;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+/* CANCEL BUTTON */
+.order-cancel-btn {
+  width: 100%;
+  padding: .7rem;
+  border: none;
+  background: #c7c7c7;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: .6rem;
+  transition: .3s;
+}
+.order-cancel-btn:hover {
+  background: #b5b5b5;
+}
+
+.cancelled-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: .8rem;
+}
+
+.cancelled-list {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.cancelled-item {
+  padding: .7rem .9rem;
+  border-radius: 10px;
+  background: #f6f6f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.cancelled-item span {
   font-size: 1.1rem;
-  margin-top: .5rem;
+  color: #c33;
+  cursor: pointer;
+  font-weight: 700;
+}
+.cancelled-item span:hover {
+  transform: scale(1.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .orders-page {
+    flex-direction: column;
+  }
 }
 
 .scroll-badge {
@@ -993,6 +1081,12 @@ button {
   .cart-items,
   .wishlist-items {
     max-height: unset;
+  }
+}
+
+@media(max-width: 900px) {
+  .payment-container {
+    flex-direction: column;
   }
 }
 }

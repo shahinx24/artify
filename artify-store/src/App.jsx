@@ -10,6 +10,7 @@ import Footer from "./components/Footer.jsx";
 import AuthPanel from "./components/AuthPanel.jsx";
 import Toast from "./components/Toast";
 import PaymentPage from "./pages/PaymentPage.jsx";
+import OrdersPage from "./pages/OrdersPage.jsx";
 
 export default function App() {
   const [authMode, setAuthMode] = useState(null);
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/wishlist" element={<WishlistPage showToast={showToast} />}/>
         <Route path="/cart" element={<CartPage showToast={showToast} />} />
         <Route path="/checkout" element={<PaymentPage showToast={showToast} />} />
+        < Route path="/orders" element={<OrdersPage showToast={showToast} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

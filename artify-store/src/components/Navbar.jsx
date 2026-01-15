@@ -2,9 +2,11 @@ import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WhishlistButton.jsx";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ setAuthMode }) {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("user");

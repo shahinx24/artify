@@ -7,6 +7,11 @@ export default function CartPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const goToPayment = () => {
+    if (cart.length === 0) return showToast("Cart is empty");
+    navigate("/payment");
+  };
+
 
   useEffect(() => {
     if (user) setProducts(user.cart);
