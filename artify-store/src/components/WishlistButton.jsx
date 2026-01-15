@@ -4,7 +4,7 @@ import wishlist from "../assets/icons/wishlist.svg";
 
 export default function WishlistButton() {
   const user = getUser();
-  const count = user?.wishlist?.length || 0;
+  const count = user?.wishlist?.reduce((sum, item) => sum + (item.qty || 1), 0) || 0;
 
   return (
     <Link to="/wishlist">

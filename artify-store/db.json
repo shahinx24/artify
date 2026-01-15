@@ -4,32 +4,7 @@
       "id": "b9e8",
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "cart": [
-        {
-          "id": "1",
-          "name": "Round Brush",
-          "price": 120,
-          "image": "/images/brushes/brush1.webp",
-          "category": "brushes",
-          "qty": 2
-        },
-        {
-          "id": "26",
-          "name": "Fine Liner Pen Pack",
-          "price": 180,
-          "image": "/images/markers/marker2.jpg",
-          "category": "markers",
-          "qty": 2
-        },
-        {
-          "id": "27",
-          "name": "Brush Marker Set",
-          "price": 350,
-          "image": "/images/markers/marker3.jpg",
-          "category": "markers",
-          "qty": 2
-        }
-      ],
+      "cart": [],
       "wishlist": [
         "26"
       ],
@@ -165,81 +140,28 @@
           "date": "15/01/2026, 14:33:07"
         },
         {
-          "id": 1768476238018,
+          "id": 1768496869397,
           "items": [
             {
-              "id": "31",
-              "name": "Craft Scissors",
-              "price": 120,
-              "image": "/images/craft/craft1.jpg",
-              "category": "craft",
+              "id": "27",
+              "name": "Brush Marker Set",
+              "price": 350,
+              "image": "/images/markers/marker3.jpg",
+              "category": "markers",
               "qty": 2
-            },
-            {
-              "id": "32",
-              "name": "Glue Gun",
-              "price": 240,
-              "image": "/images/craft/craft2.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "33",
-              "name": "Hot Glue Sticks Pack",
-              "price": 100,
-              "image": "/images/craft/craft3.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "34",
-              "name": "Sparkle Glitter Jars",
-              "price": 150,
-              "image": "/images/craft/craft4.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "35",
-              "name": "Foam Sheet Pack",
-              "price": 90,
-              "image": "/images/craft/craft5.jpg",
-              "category": "craft",
-              "qty": 1
             }
           ],
-          "total": 820,
-          "date": "15/01/2026, 16:53:58",
-          "method": "cod",
+          "total": 700,
+          "date": "15/01/2026, 22:37:49",
+          "method": "gpay",
           "address": {
-            "city": "ds",
-            "street": "ds",
+            "city": "s",
+            "street": "s",
             "pin": "2"
           }
         }
       ],
       "cancelledOrders": [
-        {
-          "id": 1768474111017,
-          "items": [
-            {
-              "id": "7",
-              "name": "Acrylic Color Pack",
-              "price": 250,
-              "image": "/images/colors/colors1.jpg",
-              "category": "colors",
-              "qty": 1
-            }
-          ],
-          "total": 250,
-          "date": "15/01/2026, 16:18:31",
-          "method": "cod",
-          "address": {
-            "city": "s",
-            "street": "s",
-            "pin": "1"
-          }
-        },
         {
           "id": 1768467747615,
           "items": [
@@ -357,6 +279,59 @@
             "pin": "111"
           },
           "date": "15/01/2026, 14:32:27"
+        },
+        {
+          "id": 1768476238018,
+          "items": [
+            {
+              "id": "31",
+              "name": "Craft Scissors",
+              "price": 120,
+              "image": "/images/craft/craft1.jpg",
+              "category": "craft",
+              "qty": 2
+            },
+            {
+              "id": "32",
+              "name": "Glue Gun",
+              "price": 240,
+              "image": "/images/craft/craft2.jpg",
+              "category": "craft",
+              "qty": 1
+            },
+            {
+              "id": "33",
+              "name": "Hot Glue Sticks Pack",
+              "price": 100,
+              "image": "/images/craft/craft3.jpg",
+              "category": "craft",
+              "qty": 1
+            },
+            {
+              "id": "34",
+              "name": "Sparkle Glitter Jars",
+              "price": 150,
+              "image": "/images/craft/craft4.jpg",
+              "category": "craft",
+              "qty": 1
+            },
+            {
+              "id": "35",
+              "name": "Foam Sheet Pack",
+              "price": 90,
+              "image": "/images/craft/craft5.jpg",
+              "category": "craft",
+              "qty": 1
+            }
+          ],
+          "total": 820,
+          "date": "15/01/2026, 16:53:58",
+          "method": "cod",
+          "address": {
+            "city": "ds",
+            "street": "ds",
+            "pin": "2"
+          }
         }
       ]
     }
