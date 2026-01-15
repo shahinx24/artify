@@ -1,10 +1,24 @@
 import axios from "axios";
 
-export const getUser = () =>
-  JSON.parse(localStorage.getItem("user"));
+const API = "http://localhost:3000/users";
 
-export const saveUser = async(updatedUser) => {
-  await axios.put(`http://localhost:3000/users/${updatedUser.id}`, updatedUser);
-  localStorage.setItem("user", JSON.stringify(updatedUser));
+// GET LOGGED IN USER (from local)
+export const getUser = () => {
+  const u = JSON.parse(localStorage.getItem("user"));
+  if (!u) return null;
+
+  return {
+    ...u, // ensure cart and wishlist are at least empty arrays
+    cart: u.cart || [],
+    wishlist: u.wishlist || []
+  };
 };
-//This keeps everything in one place
+
+// SAVE UPDATED USER
+export const saveUser = async (user) => {
+  // Update in DB
+  await axios.put(`${API}/${user.id}`, user);
+
+  // Update currently logged in user
+  localStorage.setItem("user", JSON.stringify(user));
+};

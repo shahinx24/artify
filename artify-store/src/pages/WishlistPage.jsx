@@ -1,53 +1,93 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
-import { Link } from "react-router-dom";
 
 export default function WishlistPage({ showToast }) {
-  const [user, setUser] = useState(getUser());
   const [products, setProducts] = useState([]);
-
-  if (!user) return <h2 style={{ textAlign: "center", marginTop: "8rem" }}>Please login to view your wishlist</h2>;
+  const [user, setUser] = useState(getUser());
 
   useEffect(() => {
-    axios.get("http://localhost:3000/products").then(res => setProducts(res.data));
-  }, []);
+    if (user?.wishlist.length) {
+      axios.get("http://localhost:3000/products")
+        .then(res => {
+          const filtered = res.data.filter(p => user.wishlist.includes(p.id));
+          setProducts(filtered);
+        });
+    } else {
+      setProducts([]);
+    }
+  }, [user]);
 
-  const remove = async (id) => {
-    const updated = { ...user, wishlist: user.wishlist.filter(pid => pid !== id) };
+  const removeFromWishlist = async (id) => {
+    if (!user) return;
+  const updated = { ...user };
+    updated.wishlist = updated.wishlist.filter(pid => pid !== id);
+
+    setProducts(prev => prev.filter(p => p.id !== id));
+
     await saveUser(updated);
     setUser(updated);
-    return showToast("Item removed from wishlist");
+    showToast("Removed from wishlist");
   };
 
-  const wished = products.filter(p => user.wishlist.includes(p.id));
+  const addToCart = async (product) => {
+    if (!user) return showToast("Login required");
+  const updated = { ...user };
+
+    updated.wishlist = updated.wishlist.filter(pid => pid !== product.id);
+
+    // add to cart
+    const exist = updated.cart.find(item => item.id === product.id);
+    if (exist) {
+      exist.qty = (exist.qty || 1) + 1;
+    } else {
+      updated.cart.push({ ...product, qty: 1 });
+    }
+
+    setProducts(prev => prev.filter(p => p.id !== product.id));
+    await saveUser(updated);
+    setUser(updated);
+    showToast("Moved to Cart");
+  };
+
+  if (!user) return <p className="empty-cart">Login required</p>;
 
   return (
-    <div className="cart-page">
-      <h1>Your Wishlist</h1>
+  <div className="wishlist-page">
+    <div className="wishlist-items">
+      {products.map(p => (
+        <div className="wishlist-item" key={p.id}>
+          <img src={p.image} alt={p.name} />
 
-      {wished.length === 0 ? (
-        <p className="empty-cart">No items saved.</p>
-      ) : (
-        <div className="cart-list">
-          {wished.map(item => (
-            <div className="cart-item" key={item.id}>
-              <h3>{item.name}</h3>
-              <p className="price">₹{item.price}</p>
+          <div className="wishlist-info">
+            <h3>{p.name}</h3>
+            <p>₹{p.price}</p>
+          </div>
 
-              <div className="btn-group">
-                <Link to={`/products/${item.category}`}>
-                  <button>View</button>
-                </Link>
+          <div className="wishlist-actions">
+            <button
+              className="move-btn"
+              onClick={() => addToCart(p)}
+            >
+              Add to Cart
+            </button>
 
-                <button className="remove-btn" onClick={() => remove(item.id)}>
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
+            <button
+              className="remove-btn"
+              onClick={() => removeFromWishlist(p.id)}
+            >
+              Remove
+            </button>
+          </div>
         </div>
+      ))}
+
+      {products.length === 0 && (
+        <p className="empty-cart" style={{ gridColumn: "1 / -1" }}>
+          No wishlist items yet
+        </p>
       )}
     </div>
-  );
+  </div>
+);
 }
