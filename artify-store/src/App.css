@@ -768,7 +768,7 @@ button {
   padding: 1rem 2rem 3rem;
   display: flex;
   gap: 2rem;
-  min-height: calc(88vh - 150px);
+  min-height: calc(120vh - 150px);
 }
 
 /* LEFT BOX */
@@ -822,7 +822,7 @@ button {
 /* LIST SCROLL */
 .order-list,
 .cancelled-list {
-  max-height: 60vh;
+  max-height: 160vh;
   overflow-y: auto;
   padding-right: 6px;
 }

@@ -22,6 +22,11 @@ export default function Navbar({ setAuthMode }) {
             <button onClick={() => document.getElementById("categories")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Category</button>
             <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">About</button>
             <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Contact</button>
+            {user && (
+              <button onClick={() => navigate("/orders")}>
+                Orders
+              </button>
+            )}
           </>
         )}
       </nav>

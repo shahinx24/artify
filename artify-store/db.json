@@ -6,7 +6,30 @@
       "pass": "Hanan@12",
       "cart": [],
       "wishlist": [],
-      "orders": [],
+      "orders": [
+        {
+          "id": 1768462065165,
+          "items": [
+            {
+              "id": "2",
+              "name": "Flat Brush",
+              "price": 150,
+              "image": "/images/brushes/brush2.jpg",
+              "category": "brushes",
+              "qty": 1
+            }
+          ],
+          "total": 150,
+          "method": "cod",
+          "address": {
+            "city": "g",
+            "street": "hghg",
+            "location": "hgh"
+          },
+          "upi": null,
+          "status": "active"
+        }
+      ],
       "cancelledOrders": [
         {
           "id": 1768454008081,
@@ -29,6 +52,54 @@
           "items": [],
           "total": 0,
           "method": "cod",
+          "status": "active"
+        },
+        {
+          "id": 1768455184389,
+          "items": [],
+          "total": 0,
+          "method": "cod",
+          "address": {
+            "city": "palakal",
+            "street": "malp",
+            "location": "palli"
+          },
+          "upi": null,
+          "status": "active"
+        },
+        {
+          "id": 1768455176917,
+          "items": [
+            {
+              "id": "8",
+              "name": "Oil Paint Starter",
+              "price": 350,
+              "image": "/images/colors/colors2.jpg",
+              "category": "colors",
+              "qty": 1
+            }
+          ],
+          "total": 350,
+          "method": "gpay",
+          "address": {
+            "city": "palakal",
+            "street": "malp",
+            "location": "palli"
+          },
+          "upi": "shahin@oksbi",
+          "status": "active"
+        },
+        {
+          "id": 1768462210145,
+          "items": [],
+          "total": 0,
+          "method": "cod",
+          "address": {
+            "city": "ghhg",
+            "street": "hgg",
+            "location": "gg"
+          },
+          "upi": null,
           "status": "active"
         }
       ]
