@@ -4,9 +4,34 @@
       "id": "b9e8",
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "cart": [],
+      "cart": [
+        {
+          "id": "1",
+          "name": "Round Brush",
+          "price": 120,
+          "image": "/images/brushes/brush1.webp",
+          "category": "brushes",
+          "qty": 2
+        },
+        {
+          "id": "26",
+          "name": "Fine Liner Pen Pack",
+          "price": 180,
+          "image": "/images/markers/marker2.jpg",
+          "category": "markers",
+          "qty": 2
+        },
+        {
+          "id": "27",
+          "name": "Brush Marker Set",
+          "price": 350,
+          "image": "/images/markers/marker3.jpg",
+          "category": "markers",
+          "qty": 2
+        }
+      ],
       "wishlist": [
-        "36"
+        "26"
       ],
       "orders": [
         {
@@ -194,284 +219,6 @@
         }
       ],
       "cancelledOrders": [
-        {
-          "id": 1768454008081,
-          "items": [
-            {
-              "id": "8",
-              "name": "Oil Paint Starter",
-              "price": 350,
-              "image": "/images/colors/colors2.jpg",
-              "category": "colors",
-              "qty": 1
-            }
-          ],
-          "total": 350,
-          "method": "gpay",
-          "status": "active"
-        },
-        {
-          "id": 1768454014746,
-          "items": [],
-          "total": 0,
-          "method": "cod",
-          "status": "active"
-        },
-        {
-          "id": 1768455184389,
-          "items": [],
-          "total": 0,
-          "method": "cod",
-          "address": {
-            "city": "palakal",
-            "street": "malp",
-            "location": "palli"
-          },
-          "upi": null,
-          "status": "active"
-        },
-        {
-          "id": 1768455176917,
-          "items": [
-            {
-              "id": "8",
-              "name": "Oil Paint Starter",
-              "price": 350,
-              "image": "/images/colors/colors2.jpg",
-              "category": "colors",
-              "qty": 1
-            }
-          ],
-          "total": 350,
-          "method": "gpay",
-          "address": {
-            "city": "palakal",
-            "street": "malp",
-            "location": "palli"
-          },
-          "upi": "shahin@oksbi",
-          "status": "active"
-        },
-        {
-          "id": 1768462210145,
-          "items": [],
-          "total": 0,
-          "method": "cod",
-          "address": {
-            "city": "ghhg",
-            "street": "hgg",
-            "location": "gg"
-          },
-          "upi": null,
-          "status": "active"
-        },
-        {
-          "id": 1768470943998,
-          "items": [
-            {
-              "id": "26",
-              "name": "Fine Liner Pen Pack",
-              "price": 180,
-              "image": "/images/markers/marker2.jpg",
-              "category": "markers",
-              "qty": 1
-            },
-            {
-              "id": "28",
-              "name": "Permanent Marker Pack",
-              "price": 150,
-              "image": "/images/markers/marker4.jpg",
-              "category": "markers",
-              "qty": 6
-            },
-            {
-              "id": "30",
-              "name": "Metallic Marker Set",
-              "price": 250,
-              "image": "/images/markers/marker6.jpg",
-              "category": "markers",
-              "qty": 1
-            }
-          ],
-          "total": 1330,
-          "date": "15/01/2026, 15:25:43",
-          "method": "cod",
-          "address": {
-            "city": "pop",
-            "street": "music",
-            "pin": "676317"
-          }
-        },
-        {
-          "id": 1768474734410,
-          "items": [
-            {
-              "id": "1",
-              "name": "Round Brush",
-              "price": 120,
-              "image": "/images/brushes/brush1.webp",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "2",
-              "name": "Flat Brush",
-              "price": 150,
-              "image": "/images/brushes/brush2.jpg",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "3",
-              "name": "Fan Brush",
-              "price": 160,
-              "image": "/images/brushes/brush3.jpg",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "4",
-              "name": "Detail Brush Set",
-              "price": 200,
-              "image": "/images/brushes/brush4.jpg",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "5",
-              "name": "Artist Filbert Brush",
-              "price": 180,
-              "image": "/images/brushes/brush5.jpg",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "6",
-              "name": "Professional Brush Kit",
-              "price": 350,
-              "image": "/images/brushes/brush6.jpg",
-              "category": "brushes",
-              "qty": 1
-            },
-            {
-              "id": "19",
-              "name": "A4 Sketchbook",
-              "price": 90,
-              "image": "/images/sketchbooks/sketch1.jpg",
-              "category": "sketchbooks",
-              "qty": 1
-            },
-            {
-              "id": "21",
-              "name": "Watercolor Paper Pad",
-              "price": 160,
-              "image": "/images/sketchbooks/sketch3.jpg",
-              "category": "sketchbooks",
-              "qty": 1
-            },
-            {
-              "id": "22",
-              "name": "Newsprint Rough Pad",
-              "price": 80,
-              "image": "/images/sketchbooks/sketch4.jpg",
-              "category": "sketchbooks",
-              "qty": 1
-            },
-            {
-              "id": "23",
-              "name": "Hardbound Drawing Book",
-              "price": 200,
-              "image": "/images/sketchbooks/sketch5.jpg",
-              "category": "sketchbooks",
-              "qty": 3
-            },
-            {
-              "id": "24",
-              "name": "Mixed Media Pad",
-              "price": 220,
-              "image": "/images/sketchbooks/sketch6.jpg",
-              "category": "sketchbooks",
-              "qty": 1
-            }
-          ],
-          "total": 2310,
-          "date": "15/01/2026, 16:28:54",
-          "method": "gpay",
-          "address": {
-            "city": "s",
-            "street": "s",
-            "pin": "2"
-          }
-        },
-        {
-          "id": 1768470290711,
-          "items": [
-            {
-              "id": "7",
-              "name": "Acrylic Color Pack",
-              "price": 250,
-              "image": "/images/colors/colors1.jpg",
-              "category": "colors",
-              "qty": 2
-            },
-            {
-              "id": "8",
-              "name": "Oil Paint Starter",
-              "price": 350,
-              "image": "/images/colors/colors2.jpg",
-              "category": "colors",
-              "qty": 1
-            },
-            {
-              "id": "9",
-              "name": "Watercolor Cakes",
-              "price": 180,
-              "image": "/images/colors/colors3.jpg",
-              "category": "colors",
-              "qty": 3
-            },
-            {
-              "id": "10",
-              "name": "Poster Color Set",
-              "price": 100,
-              "image": "/images/colors/colors4.jpg",
-              "category": "colors",
-              "qty": 1
-            },
-            {
-              "id": "11",
-              "name": "Fabric Paint Kit",
-              "price": 200,
-              "image": "/images/colors/colors5.webp",
-              "category": "colors",
-              "qty": 1
-            },
-            {
-              "id": "12",
-              "name": "Premium Paint Box",
-              "price": 450,
-              "image": "/images/colors/colors6.jpg",
-              "category": "colors",
-              "qty": 1
-            },
-            {
-              "id": "25",
-              "name": "Dual Tip Marker Set",
-              "price": 300,
-              "image": "/images/markers/marker1.jpg",
-              "category": "markers",
-              "qty": 1
-            }
-          ],
-          "total": 2440,
-          "date": "15/01/2026, 15:14:50",
-          "method": "cod",
-          "address": {
-            "city": "ss",
-            "street": "s",
-            "pin": "3"
-          }
-        },
         {
           "id": 1768474111017,
           "items": [

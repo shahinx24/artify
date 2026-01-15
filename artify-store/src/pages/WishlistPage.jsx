@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
+import { Link } from "react-router-dom";
 
 export default function WishlistPage({ showToast }) {
   const [products, setProducts] = useState([]);
@@ -49,8 +50,17 @@ export default function WishlistPage({ showToast }) {
     setUser(updated);
     showToast("Moved to Cart");
   };
-
-  if (!user) return <p className="empty-cart">Login required</p>;
+  
+    if (!user) {
+      return (
+        <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
+          <h2>Please login to view your wishlist</h2>
+          <Link to="/" className="checkout-btn" style={{ display: "inline-block", marginTop: "1rem" }}>
+            Go Home
+          </Link>
+        </div>
+      );
+    }
 
   return (
   <div className="wishlist-page">

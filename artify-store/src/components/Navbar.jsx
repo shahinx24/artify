@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
-import WishlistButton from "./WhishlistButton.jsx";
+import WishlistButton from "./WishlistButton.jsx";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export default function Navbar({ setAuthMode }) {
   return (
     <header className="top-nav">
       <nav>
-           <button><Link className="nav-btn" to="/">Home</Link></button>
+        <Link className="nav-btn" to="/"> Home </Link>
         {isHome && (
           <>
             <button onClick={() => document.getElementById("categories")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Category</button>

@@ -67,7 +67,7 @@ export default function OrdersPage({ showToast }) {
             <div className="cancelled-list">
               {cancelled.map(c => (
                 <p key={c.id} className="cancelled-item">
-                  Order #{c.id} ❌
+                  Order #{c.id} 
                   <button
                     className="delete-x"
                     onClick={() => dlt(c.id)}
