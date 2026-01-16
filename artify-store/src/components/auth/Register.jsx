@@ -42,7 +42,7 @@ const register = async (e) => {
     cart: [],
     wishlist: []
   };
-
+  // push the new user into db.json
   const res = await axios.post("http://localhost:3000/users", newUser);
 
   showToast("Registered! Login now");
