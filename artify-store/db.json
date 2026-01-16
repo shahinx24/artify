@@ -6,7 +6,34 @@
       "pass": "Hanan@12",
       "cart": [],
       "wishlist": [
-        "26"
+        "26",
+        "9",
+        "12",
+        "10",
+        {
+          "id": "5",
+          "name": "Artist Filbert Brush",
+          "price": 180,
+          "image": "/images/brushes/brush5.jpg",
+          "category": "brushes",
+          "qty": 1
+        },
+        {
+          "id": "3",
+          "name": "Fan Brush",
+          "price": 160,
+          "image": "/images/brushes/brush3.jpg",
+          "category": "brushes",
+          "qty": 1
+        },
+        {
+          "id": "6",
+          "name": "Professional Brush Kit",
+          "price": 350,
+          "image": "/images/brushes/brush6.jpg",
+          "category": "brushes",
+          "qty": 1
+        }
       ],
       "orders": [
         {
@@ -279,59 +306,6 @@
             "pin": "111"
           },
           "date": "15/01/2026, 14:32:27"
-        },
-        {
-          "id": 1768476238018,
-          "items": [
-            {
-              "id": "31",
-              "name": "Craft Scissors",
-              "price": 120,
-              "image": "/images/craft/craft1.jpg",
-              "category": "craft",
-              "qty": 2
-            },
-            {
-              "id": "32",
-              "name": "Glue Gun",
-              "price": 240,
-              "image": "/images/craft/craft2.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "33",
-              "name": "Hot Glue Sticks Pack",
-              "price": 100,
-              "image": "/images/craft/craft3.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "34",
-              "name": "Sparkle Glitter Jars",
-              "price": 150,
-              "image": "/images/craft/craft4.jpg",
-              "category": "craft",
-              "qty": 1
-            },
-            {
-              "id": "35",
-              "name": "Foam Sheet Pack",
-              "price": 90,
-              "image": "/images/craft/craft5.jpg",
-              "category": "craft",
-              "qty": 1
-            }
-          ],
-          "total": 820,
-          "date": "15/01/2026, 16:53:58",
-          "method": "cod",
-          "address": {
-            "city": "ds",
-            "street": "ds",
-            "pin": "2"
-          }
         }
       ]
     }
