@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "../pages/HomePage.jsx";
 import ProductsPage from "../pages/ProductsPage.jsx";
 import CartPage from "../pages/CartPage.jsx";
@@ -31,11 +31,11 @@ export default function Connect() {
       localStorage.removeItem("wishlist");
       localStorage.removeItem("orders");
 
-      // OPTIONAL: redirect to homepage
+      // redirect to homepage
       window.location.href = "/";
     }
   };
-
+  // checking localStorage changes in any browser tab
   window.addEventListener("storage", syncLogout);
   return () => window.removeEventListener("storage", syncLogout);
 }, []);
@@ -68,7 +68,7 @@ export default function Connect() {
         <Route path="/products/:category" element={<ProductsPage showToast={showToast} />} />
         <Route path="/wishlist" element={<WishlistPage showToast={showToast} />} />
         <Route path="/cart" element={<CartPage showToast={showToast} />} />
-        <Route path="/checkout" element={<PaymentPage showToast={showToast} />} />
+        <Route path="/checkout" element={user ? <PaymentPage /> : <Navigate to="/" />} />
         <Route path="/orders" element={<OrdersPage showToast={showToast} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

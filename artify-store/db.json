@@ -323,7 +323,48 @@
     {
       "email": "sample@gmail.com",
       "pass": "Sample@12",
-      "cart": [],
+      "cart": [
+        {
+          "id": "1",
+          "name": "Round Brush",
+          "price": 120,
+          "image": "/images/brushes/brush1.webp",
+          "category": "brushes",
+          "qty": 1
+        },
+        {
+          "id": "5",
+          "name": "Artist Filbert Brush",
+          "price": 180,
+          "image": "/images/brushes/brush5.jpg",
+          "category": "brushes",
+          "qty": 1
+        },
+        {
+          "id": "3",
+          "name": "Fan Brush",
+          "price": 160,
+          "image": "/images/brushes/brush3.jpg",
+          "category": "brushes",
+          "qty": 2
+        },
+        {
+          "id": "2",
+          "name": "Flat Brush",
+          "price": 150,
+          "image": "/images/brushes/brush2.jpg",
+          "category": "brushes",
+          "qty": 1
+        },
+        {
+          "id": "6",
+          "name": "Professional Brush Kit",
+          "price": 350,
+          "image": "/images/brushes/brush6.jpg",
+          "category": "brushes",
+          "qty": 1
+        }
+      ],
       "wishlist": [],
       "id": "O4-YOXN",
       "orders": [

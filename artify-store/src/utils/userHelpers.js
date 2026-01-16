@@ -6,9 +6,9 @@ const API = "http://localhost:3000/users";
 export const getUser = () => {
   const u = JSON.parse(localStorage.getItem("user"));
   if (!u) return null;
-
-  return {
-    ...u, // ensure cart and wishlist are at least empty arrays
+ // ensure cart and wishlist are at least empty arrays 
+  return { 
+    ...u, // Makes a new object copying all fields (name, email, etc.)
     cart: u.cart || [],
     wishlist: u.wishlist || []
   };
