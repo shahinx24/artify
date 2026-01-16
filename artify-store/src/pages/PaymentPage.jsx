@@ -32,40 +32,34 @@ useEffect(() => {
     );
   }
 
-const placeOrder = async () => {
-  if (!method) return showToast("Choose a payment method");
-  if (!address.city || !address.street || !address.pin) return showToast("Fill address");
+  const placeOrder = async () => {
+    if (!method) return showToast("Choose a payment method");
+    if (!address.city || !address.street || !address.pin)
+      return showToast("Fill address");
+    if (method === "gpay" && !upi) return showToast("Enter UPI ID");
 
-  if (method === "gpay" && !upi) return showToast("Enter UPI ID");
+    const newOrder = {
+      id: Date.now(),
+      items: user.cart,
+      total: cartTotal,
+      date: new Date().toLocaleString(),
+      method,
+      address
+    };
 
-  // Create new order
-  const newOrder = {
-    id: Date.now(),
-    items: user.cart,
-    total: cartTotal,
-    date: new Date().toLocaleString(),
-    method,
-    address: address
-  };
-
-  // Update user
-  const updated = {
-    ...user,
-    orders: [...(user.orders || []), newOrder],
-    cart: []  // CLEAR CART
-  };
-
-  await saveUser(updated);
-
-  showToast("Order placed!");
-  navigate("/"); // redirect to home
+    const updated = {
+      ...user,
+      orders: [...(user.orders || []), newOrder],
+      cart: []
+    };
 
     await saveUser(updated);
-        setUser(updated);
+    setUser(updated);
 
-        showToast("Order placed!");
-        navigate("/orders");
-    };
+    showToast("Order placed!");
+    navigate("/");
+  };
+
 
   return (
     <div className="payment-page">

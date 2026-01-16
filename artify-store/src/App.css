@@ -771,8 +771,9 @@ button {
 .remove-btn:hover {
   background: #bbb;
 }
+
 .payment-page {
-  padding-top: 120px;
+  padding-top: 80px;
   padding-bottom: 2rem;
   min-height: calc(100vh - 150px);
 }
