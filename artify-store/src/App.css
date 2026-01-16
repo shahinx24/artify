@@ -106,9 +106,9 @@ button {
 .nav-btn {
   color: #222;
   padding: 10px 18px;
-  font-size: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   border-radius: 6px;
+  font-size: 1rem;
   border: none;
   background: var(--surface);
   font-weight: 600;
@@ -189,7 +189,7 @@ button {
 }
 
 .page-content {
-  padding-top: 10;
+  padding-top: 20;
   padding-left: 2rem;
   padding-right: 2rem;
 }
@@ -207,7 +207,7 @@ button {
   box-shadow: 0 2 20px rgba(2, 0, 0, 0.18);
   position: relative;
   z-index: 1;
-  margin-top: -28px;
+  margin-top: 70px;
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
   overflow: hidden;
@@ -237,11 +237,13 @@ button {
 }
 
 .hero-text h2 {
+  background: #ffffff30;
   font-size: 3rem;
   margin-bottom: 1rem;
 }
 
 .hero-text p {
+  background: #ffffff30;
   font-size: 1.2rem;
   line-height: 1.5;
 }

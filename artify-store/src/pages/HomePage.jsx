@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../App.css";
 import { categories } from "../data/categories.js";
-// import AuthPanel from "../components/AuthPanel.jsx";
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const [products, setProducts] = useState([]);
@@ -22,16 +21,6 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
             <h2>Create, Imagine, Artify!</h2>
             <p>Unlock premium supplies for every artist.</p>
           </div>
-
-          {/* {authMode && (
-            <div className="auth-box">
-              <AuthPanel
-                authMode={authMode}
-                setAuthMode={setAuthMode}
-                showToast={showToast}
-              />
-            </div>
-          )} */}
         </section>
 
         <section id="categories" className="category-section">
@@ -54,9 +43,9 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
         <section id="about" className="about-section">
           <h2 className="section-title">About Artify</h2>
           <p className="about-text">
-            Artify is more than a supply store — it's a creative movement.
+            Artify is more than a supply store — it’s a creative movement.
             We provide premium, thoughtfully crafted art materials designed to elevate every artist’s imagination.
-            Whether you're a beginner exploring your first sketchbook or a seasoned creator shaping your next masterpiece,
+            Whether you’re a beginner exploring your first sketchbook or a seasoned creator shaping your next masterpiece,
             Artify brings you tools that feel luxurious, perform beautifully, and inspire bold expression.
           </p>
         </section>
