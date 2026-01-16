@@ -8,10 +8,11 @@ export default function CartPage({ showToast }) {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const goToPayment = () => {
-    if (cart.length === 0) return showToast("Cart is empty");
-    navigate("/payment");
+    if (!products || products.length === 0) {
+      return showToast("Cart is empty");
+    }
+    navigate("/checkout");
   };
-
 
   useEffect(() => {
     if (user) setProducts(user.cart);
@@ -108,7 +109,7 @@ export default function CartPage({ showToast }) {
           <span>₹{total}</span>
         </div>
 
-        <button className="checkout-btn" onClick={() => navigate("/checkout")}>
+        <button className="checkout-btn" onClick={goToPayment}>
           Proceed to Checkout
         </button>
         <Link to="/" style={{ display: "block", marginTop: "1rem", textAlign: "center" }}>
