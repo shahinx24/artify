@@ -21,7 +21,7 @@ export default function Login({ setAuthMode, showToast }) {
     localStorage.setItem("user", JSON.stringify(found));
 
     showToast("Logged in!");
-    setAuthMode(null);   // CLOSE BOX 🎯
+    setAuthMode(null); 
     window.location.reload(); // FORCE UI update (temporary)
   };
 

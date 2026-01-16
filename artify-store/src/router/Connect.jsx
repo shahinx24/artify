@@ -18,14 +18,27 @@ export default function Connect() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
-    const syncLogout = () => {
-      const u = JSON.parse(localStorage.getItem("user"));
-      setUser(u);
-    };
+  const syncLogout = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    
+    // Update user
+    setUser(storedUser);
 
-    window.addEventListener("storage", syncLogout);
-    return () => window.removeEventListener("storage", syncLogout);
-  }, []);
+    // If user logged out in another tab
+    if (!storedUser) {
+      // Clear cached data in current tab too
+      localStorage.removeItem("cart");
+      localStorage.removeItem("wishlist");
+      localStorage.removeItem("orders");
+
+      // OPTIONAL: redirect to homepage
+      window.location.href = "/";
+    }
+  };
+
+  window.addEventListener("storage", syncLogout);
+  return () => window.removeEventListener("storage", syncLogout);
+}, []);
 
   const showToast = (msg) => {
     setToast(msg);
