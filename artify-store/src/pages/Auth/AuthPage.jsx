@@ -9,14 +9,21 @@ export default function AuthPage({ showToast }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // decide mode from URL
+  // Decide mode from URL
   const isLogin = location.pathname === ROUTES.LOGIN;
 
-  const { handleChange, login, register } =
-    useAuth(showToast);
+  const { handleChange, login, register } = useAuth(showToast);
 
   return (
-    <>
+    <div className="auth-box">
+      {/* Close button → go back to home */}
+      <button
+        className="auth-close"
+        onClick={() => navigate(ROUTES.HOME)}
+      >
+        ✖
+      </button>
+
       <AuthForm
         title={isLogin ? "Welcome Back" : "Create Account"}
         buttonText={isLogin ? "LOGIN" : "REGISTER"}
@@ -44,6 +51,6 @@ export default function AuthPage({ showToast }) {
           navigate(isLogin ? ROUTES.REGISTER : ROUTES.LOGIN)
         }
       />
-    </>
+    </div>
   );
 }

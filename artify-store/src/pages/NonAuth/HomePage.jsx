@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "../App.css";
-import { categories } from "../data/categories.js";
+import "../../App.css";
+import { categories } from "../../data/categories.js";
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const [products, setProducts] = useState([]);

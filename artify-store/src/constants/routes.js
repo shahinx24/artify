@@ -3,6 +3,7 @@ export const ROUTES = {
   PRODUCTS: "/products",
   PRODUCT_CATEGORY: "/products/:category",
   LOGIN: "/login",
+  REGISTER: "/register",
 
   CART: "/cart",
   ORDERS: "/orders",
