@@ -1,66 +1,83 @@
 import { useNavigate } from "react-router-dom";
-import { getUser, saveUser } from "../utils/userHelpers";
 import { useState, useEffect } from "react";
 
-export default function PaymentPage({showToast}) {
-    const [user, setUser] = useState(getUser());
-    const cartTotal = user.cart.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const cartCount = user.cart.reduce((acc, item) => acc + item.qty, 0);
-    const [method, setMethod] = useState("");
-    const [upi, setUpi] = useState("");
-    const [address, setAddress] = useState({ city:"", street:"", pin:"" });
-    const navigate = useNavigate();
+import { ENV } from "../constants/env";
+import { ROUTES } from "../constants/routes";
+import { ORDER_STATUS } from "../constants/orderStatus";
+import { PAYMENT_STATUS } from "../constants/paymentStatus";
+import { DELIVERY_STATUS } from "../constants/deliveryStatus";
 
-useEffect(() => {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
-  if (!user.cart || user.cart.length === 0) {
-    navigate("/cart");
-    return;
-  }
-}, [user, navigate]);
+import { getCart, clearCart } from "../utils/cartHelpers";
+import { getUser } from "../utils/userHelpers";
 
-  // if no user or no cart items
-  if (!user || user.cart.length === 0) {
+export default function PaymentPage({ showToast }) {
+  const navigate = useNavigate();
+
+  const user = getUser();
+  const cart = getCart();
+
+  const cartTotal = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
+
+  const [method, setMethod] = useState("");
+  const [upi, setUpi] = useState("");
+  const [address, setAddress] = useState({ city: "", street: "", pin: "" });
+
+  /* ---------- GUARDS ---------- */
+  useEffect(() => {
+    if (!user) {
+      navigate(ROUTES.HOME);
+      return;
+    }
+    if (!cart || cart.length === 0) {
+      navigate(ROUTES.CART);
+    }
+  }, [user, cart, navigate]);
+
+  if (!user || cart.length === 0) {
     return (
       <div className="payment-page">
         <h2>Payment</h2>
-        <p className="payment-warning">Cart is empty. Add items first.</p>
+        <p className="payment-warning">
+          Cart is empty. Add items first.
+        </p>
       </div>
     );
   }
 
+  /* ---------- PLACE ORDER ---------- */
   const placeOrder = async () => {
-    if (!method) return showToast("Choose a payment method");
+    if (!method) return showToast?.("Choose a payment method");
     if (!address.city || !address.street || !address.pin)
-      return showToast("Fill address");
-    if (method === "gpay" && !upi) return showToast("Enter UPI ID");
+      return showToast?.("Fill delivery address");
+    if (method === "gpay" && !upi)
+      return showToast?.("Enter UPI ID");
 
-    const newOrder = {
-      id: Date.now(),
-      items: user.cart,
+    const order = {
+      userId: user.id,
       total: cartTotal,
-      date: new Date().toLocaleString(),
-      method,
-      address
+      status: ORDER_STATUS.PENDING,
+      paymentStatus:
+        method === "cod"
+          ? PAYMENT_STATUS.PENDING
+          : PAYMENT_STATUS.SUCCESS,
+      deliveryStatus: DELIVERY_STATUS.NOT_DISPATCHED,
+      address,
+      createdAt: new Date().toISOString()
     };
 
-    const updated = {
-      ...user,
-      orders: [...(user.orders || []), newOrder],
-      cart: []
-    };
+    await fetch(`${ENV.API_BASE_URL}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order)
+    });
 
-    await saveUser(updated);
-    setUser(updated);
-
-    showToast("Order placed!");
-    navigate("/");
+    clearCart();
+    showToast?.("Order placed successfully!");
+    navigate(ROUTES.ORDERS);
   };
 
-
+  /* ---------- UI ---------- */
   return (
     <div className="payment-page">
       <h2>Checkout</h2>
@@ -71,7 +88,7 @@ useEffect(() => {
         <div className="pay-left">
           <h3>Choose Payment</h3>
 
-          <label className={`method-box ${method==="gpay"?"active":""}`}>
+          <label className={`method-box ${method === "gpay" ? "active" : ""}`}>
             <input
               type="radio"
               name="pay"
@@ -81,7 +98,7 @@ useEffect(() => {
             Google Pay (UPI)
           </label>
 
-          <label className={`method-box ${method==="cod"?"active":""}`}>
+          <label className={`method-box ${method === "cod" ? "active" : ""}`}>
             <input
               type="radio"
               name="pay"
@@ -101,33 +118,40 @@ useEffect(() => {
             />
           )}
 
-        {/* TOTAL BOX */}
-        <div className="pay-summary">
+          {/* TOTAL BOX */}
+          <div className="pay-summary">
             <p><strong>Items:</strong> {cartCount}</p>
             <p><strong>Total:</strong> ₹{cartTotal}</p>
-        </div>
+          </div>
         </div>
 
         {/* RIGHT */}
         <div className="pay-right">
           <h3>Delivery Address</h3>
+
           <input
             type="text"
             placeholder="City"
             value={address.city}
-            onChange={e => setAddress({ ...address, city: e.target.value })}
+            onChange={(e) =>
+              setAddress({ ...address, city: e.target.value })
+            }
           />
           <input
             type="text"
             placeholder="Street / Location"
             value={address.street}
-            onChange={e => setAddress({ ...address, street: e.target.value })}
+            onChange={(e) =>
+              setAddress({ ...address, street: e.target.value })
+            }
           />
           <input
             type="number"
             placeholder="PIN Code"
             value={address.pin}
-            onChange={e => setAddress({ ...address, pin: e.target.value })}
+            onChange={(e) =>
+              setAddress({ ...address, pin: e.target.value })
+            }
           />
 
           <button className="place-btn" onClick={placeOrder}>
@@ -135,7 +159,7 @@ useEffect(() => {
           </button>
           <button
             className="cancel-btn"
-            onClick={() => navigate("/cart")}
+            onClick={() => navigate(ROUTES.CART)}
           >
             Cancel
           </button>

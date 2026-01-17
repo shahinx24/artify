@@ -1,10 +1,11 @@
-import Connect from "./router/Connect.jsx";
+import Navbar from "./components/Navbar";
+import AppRoutes from "./routes/AppRoutes";
 
 export default function App() {
-
   return (
     <>
-    <Connect />
+      <Navbar />
+      <AppRoutes />
     </>
   );
 }

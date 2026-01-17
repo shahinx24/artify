@@ -1,57 +1,47 @@
-import { useEffect, useState } from "react";
-import { getUser, saveUser } from "../utils/userHelpers";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import useCart from "../hooks/useCart";
+import { getUser } from "../utils/userHelpers";
+import { ROUTES } from "../constants/routes";
 
 export default function CartPage({ showToast }) {
-  const [user, setUser] = useState(getUser());
-  const [products, setProducts] = useState([]);
+  const { cart, removeFromCart, updateQty } = useCart();
   const navigate = useNavigate();
-  const goToPayment = () => {
-    if (!products || products.length === 0) {
-      return showToast("Cart is empty");
-    }
-    navigate("/checkout");
-  };
+  const user = getUser();
 
+  /* ---------- GUARDS ---------- */
   useEffect(() => {
-    if (user) setProducts(user.cart);
-  }, [user]);
+    if (!user) {
+      navigate(ROUTES.HOME);
+    }
+  }, [user, navigate]);
 
-  const updateUser = async (updated) => {
-    await saveUser(updated);
-    setUser(updated);
-    setProducts(updated.cart);
+  const total = useMemo(
+    () => cart.reduce((acc, item) => acc + item.price * item.qty, 0),
+    [cart]
+  );
+
+  const goToPayment = () => {
+    if (!cart || cart.length === 0) {
+      showToast?.("Cart is empty");
+      return;
+    }
+    navigate("/checkout"); // or ROUTES.CHECKOUT if you have it
   };
-
-  const increaseQty = (id) => {
-    const updated = { ...user };
-    const item = updated.cart.find(p => p.id === id);
-    item.qty++;
-    updateUser(updated);
-  };
-
-  const decreaseQty = (id) => {
-    const updated = { ...user };
-    const item = updated.cart.find(p => p.id === id);
-    if (item.qty > 1) item.qty--;
-    updateUser(updated);
-  };
-
-  const removeItem = (id) => {
-    const updated = { ...user };
-    updated.cart = updated.cart.filter(p => p.id !== id);
-    updateUser(updated);
-    showToast("Removed from cart");
-  };
-
-  const total = products.reduce((acc, item) => acc + item.price * item.qty, 0);
 
   if (!user) {
     return (
-      <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
+      <div
+        className="page-content"
+        style={{ marginTop: "6rem", textAlign: "center" }}
+      >
         <h2>Please login to view your cart</h2>
-        <Link to="/" className="checkout-btn" style={{ display: "inline-block", marginTop: "1rem" }}>
+        <Link
+          to={ROUTES.HOME}
+          className="checkout-btn"
+          style={{ display: "inline-block", marginTop: "1rem" }}
+        >
           Go Home
         </Link>
       </div>
@@ -61,25 +51,48 @@ export default function CartPage({ showToast }) {
   return (
     <div className="cart-page">
       <div className="cart-items">
-        {products.length === 0 && (
-          <p style={{ paddingTop: "2rem", textAlign: "center" }}>Cart is Empty!</p>
+        {cart.length === 0 && (
+          <p style={{ paddingTop: "2rem", textAlign: "center" }}>
+            Cart is Empty!
+          </p>
         )}
 
-        {products.map(p => (
+        {cart.map((p) => (
           <div className="cart-item" key={p.id}>
-            <img src={p.image} alt={p.name} />
+            <img src={p.image} alt={p.title} />
+
             <div className="item-info">
-              <h3>{p.name}</h3>
+              <h3>{p.title}</h3>
               <p>₹{p.price}</p>
             </div>
 
             <div className="qty-btns">
-              <button onClick={() => decreaseQty(p.id)}>-</button>
+              <button
+                onClick={() =>
+                  updateQty(p.id, Math.max(1, p.qty - 1))
+                }
+              >
+                -
+              </button>
+
               <span>{p.qty}</span>
-              <button onClick={() => increaseQty(p.id)}>+</button>
+
+              <button
+                onClick={() =>
+                  updateQty(p.id, Math.min(p.stock, p.qty + 1))
+                }
+              >
+                +
+              </button>
             </div>
 
-            <button className="remove-btn" onClick={() => removeItem(p.id)}>
+            <button
+              className="remove-btn"
+              onClick={() => {
+                removeFromCart(p.id);
+                showToast?.("Removed from cart");
+              }}
+            >
               Remove
             </button>
           </div>
@@ -88,9 +101,10 @@ export default function CartPage({ showToast }) {
 
       <div className="cart-summary">
         <h2>Order Summary</h2>
+
         <div className="summary-line">
           <span>Total Items:</span>
-          <span>{products.length}</span>
+          <span>{cart.length}</span>
         </div>
 
         <div className="summary-line">
@@ -104,6 +118,7 @@ export default function CartPage({ showToast }) {
         </div>
 
         <hr style={{ margin: "1rem 0" }} />
+
         <div className="summary-line" style={{ fontWeight: "bold" }}>
           <span>Total:</span>
           <span>₹{total}</span>
@@ -112,7 +127,11 @@ export default function CartPage({ showToast }) {
         <button className="checkout-btn" onClick={goToPayment}>
           Proceed to Checkout
         </button>
-        <Link to="/" style={{ display: "block", marginTop: "1rem", textAlign: "center" }}>
+
+        <Link
+          to={ROUTES.HOME}
+          style={{ display: "block", marginTop: "1rem", textAlign: "center" }}
+        >
           ← Continue Shopping
         </Link>
       </div>

@@ -1,31 +1,63 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import useCart from "../hooks/useCart";
+import { getUser, logoutUser } from "../utils/userHelpers";
+import { ROUTES } from "../constants/routes";
 
-export default function Navbar({ setAuthMode }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+export default function Navbar() {
+  const user = getUser();
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
-  };
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === ROUTES.HOME;
+
+  const { cart } = useCart();
+  const count = cart.reduce((sum, p) => sum + p.qty, 0);
 
   return (
     <header className="top-nav">
       <nav>
-        <Link className="nav-btn" to="/"> Home </Link>
+        <span>Cart ({count})</span>
+
+        <Link className="nav-btn" to={ROUTES.HOME}> Home </Link>
+
         {isHome && (
           <>
-            <button onClick={() => document.getElementById("categories")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Category</button>
-            <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">About</button>
-            <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Contact</button>
+            <button
+              className="nav-btn"
+              onClick={() =>
+                document
+                  .getElementById("categories")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Category
+            </button>
+
+            <button
+              className="nav-btn"
+              onClick={() =>
+                document
+                  .getElementById("about")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              About
+            </button>
+
+            <button
+              className="nav-btn"
+              onClick={() =>
+                document
+                  .getElementById("about")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Contact
+            </button>
+
             {user && (
-              <button onClick={() => navigate("/orders")}>
+              <button onClick={() => navigate(ROUTES.ORDERS)}>
                 Orders
               </button>
             )}
@@ -36,16 +68,18 @@ export default function Navbar({ setAuthMode }) {
       <div className="nav-icons">
         <WishlistButton />
         <CartButton />
+
         {user ? (
           <>
-            <span className="username-tag">{user.email.split("@")[0]}</span>
-            <button onClick={()=>{
-              localStorage.removeItem("user");
-              window.location.reload();
-            }}>LOGOUT</button>
+            <span className="username-tag">
+              {user.email.split("@")[0]}
+            </span>
+            <button onClick={logoutUser}>LOGOUT</button>
           </>
         ) : (
-          <button onClick={()=>setAuthMode("login")}>LOGIN</button>
+          <button onClick={() => navigate(ROUTES.LOGIN)}>
+            LOGIN
+          </button>
         )}
       </div>
     </header>
