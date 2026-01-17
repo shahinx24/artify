@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ENV } from "../constants/env";
-import ProductCard from "../components/ProductCard";
+import { ENV } from "../../constants/env";
+import ProductCard from "../../components/ProductCard";
 
 export default function CategoryProductsPage() {
   const { category } = useParams();

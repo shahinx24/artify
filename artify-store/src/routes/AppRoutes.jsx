@@ -9,11 +9,11 @@ const LoginPage = lazy(() => import("../pages/LoginPage"));
 const HomePage = lazy(() => import("../pages/HomePage"));
 const ProductsPage = lazy(() => import("../pages/ProductsPage"));
 const CategoryProductsPage = lazy(() =>
-  import("../pages/CategoryProductsPage")
+  import("../pages/NonAuth/CategoryProductsPage")
 );
-const CartPage = lazy(() => import("../pages/CartPage"));
-const OrdersPage = lazy(() => import("../pages/OrdersPage"));
-const NotFound = lazy(() => import("../pages/NotFound"));
+const CartPage = lazy(() => import("../pages/UserAuth/CartPage"));
+const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage"));
+const NotFound = lazy(() => import("../pages/NonAuth/NotFound"));
 
 export default function AppRoutes() {
   return (

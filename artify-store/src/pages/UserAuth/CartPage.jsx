@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import useCart from "../hooks/useCart";
-import { getUser } from "../utils/userHelpers";
-import { ROUTES } from "../constants/routes";
+import useCart from "../../hooks/useCart";
+import { getUser } from "../../utils/userHelpers";
+import { ROUTES } from "../../constants/routes";
 
 export default function CartPage({ showToast }) {
   const { cart, removeFromCart, updateQty } = useCart();

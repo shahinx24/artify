@@ -85,8 +85,8 @@
 //   );
 // }
 
-import useOrders from "../hooks/useOrders";
-import { ORDER_STATUS_LABELS } from "../constants/statusLabels";
+import useOrders from "../../hooks/useOrders";
+import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 
 export default function OrdersPage() {
   const orders = useOrders();

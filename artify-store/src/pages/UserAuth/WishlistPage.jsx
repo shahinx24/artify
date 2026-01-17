@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getUser, saveUser } from "../utils/userHelpers";
+import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link } from "react-router-dom";
 
 export default function WishlistPage({ showToast }) {
