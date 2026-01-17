@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../constants/routes";
 import { ENV } from "../constants/env";
+import { ROUTES } from "../constants/routes";
 import { saveUser } from "../utils/userHelpers";
-import { showToast } from "../components/Toast"; // 👈 IMPORTANT
+import { showToast } from "../utils/toast";
 
 export function useAuth() {
   const [form, setForm] = useState({
@@ -72,10 +72,5 @@ export function useAuth() {
     navigate(ROUTES.LOGIN);
   };
 
-  return {
-    form,
-    handleChange,
-    login,
-    register
-  };
+  return { handleChange, login, register };
 }

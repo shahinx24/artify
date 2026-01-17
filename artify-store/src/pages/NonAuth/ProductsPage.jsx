@@ -1,16 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { getUser, saveUser } from "../utils/userHelpers";
+// import axios from "axios";
+import { getUser, saveUser } from "../../utils/userHelpers";
+import { ENV } from "../../constants/env";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(getUser());
 
-  useEffect(() => {
-    axios.get("http://localhost:3000/products")
-      .then(res => setProducts(res.data.filter(p => p.category === category)));
+    useEffect(() => {
+    fetch(`${ENV.API_BASE_URL}/products?category=${category}`)
+      .then(res => res.json())
+      .then(setProducts);
   }, [category]);
 
   const safeUser = user ? {

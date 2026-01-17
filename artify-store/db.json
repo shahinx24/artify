@@ -13,6 +13,13 @@
       "cart": [],
       "wishlist": [],
       "id": 2
+    },
+    {
+      "email": "shahin@gmail.com",
+      "pass": "Shahin@12",
+      "cart": [],
+      "wishlist": [],
+      "id": 3
     }
   ],
   "products": [

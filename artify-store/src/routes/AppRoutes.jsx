@@ -7,9 +7,9 @@ import AdminRoutes from "../admin/routes/AdminRoutes";
 
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
 const HomePage = lazy(() => import("../pages/NonAuth/HomePage"));
-const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage"));
-const CategoryProductsPage = lazy(() =>
-  import("../pages/NonAuth/CategoryProductsPage")
+// const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage"));
+const ProductsPage = lazy(() =>
+  import("../pages/NonAuth/ProductsPage")
 );
 const CartPage = lazy(() => import("../pages/UserAuth/CartPage"));
 const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage"));
@@ -25,7 +25,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.LOGIN} element={<AuthPage />} />
         <Route path={ROUTES.REGISTER} element={<AuthPage />} />
         <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
-        <Route path={ROUTES.PRODUCT_CATEGORY} element={<CategoryProductsPage />} />
+        <Route path={`${ROUTES.PRODUCTS}/:category`} element={<ProductsPage />} />
         <Route path={ROUTES.CART} element={<CartPage />} />
 
         {/* Protected */}

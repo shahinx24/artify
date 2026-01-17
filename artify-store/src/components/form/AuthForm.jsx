@@ -4,6 +4,7 @@ export default function AuthForm({
   buttonText,
   onSubmit,
   onChange,
+  values 
 }) {
   return (
     <>
@@ -15,10 +16,11 @@ export default function AuthForm({
             type={field.type}
             name={field.name}
             placeholder={field.placeholder}
+            value={values[field.name] || ""} 
             onChange={onChange}
           />
         ))}
-        <button type="submit">{buttonText}</button>
+        <button type="submit">{uttonText}</button>
       </form>
     </>
   );

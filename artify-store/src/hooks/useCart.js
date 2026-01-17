@@ -1,51 +1,47 @@
-import { useEffect, useState, useCallback } from "react";
-import { getCart, saveCart } from "../utils/cartHelpers";
+import { useEffect, useState } from "react";
+import { ENV } from "../constants/env";
 
 export default function useCart() {
-  const [cart, setCart] = useState(getCart());
+  const [cart, setCart] = useState(() => {
+    return JSON.parse(localStorage.getItem(ENV.CART_KEY)) || [];
+  });
 
+  // Sync across tabs & components
   useEffect(() => {
-    const syncCart = () => setCart(getCart());
+    const syncCart = () => {
+      const stored = JSON.parse(localStorage.getItem(ENV.CART_KEY)) || [];
+      setCart(stored);
+    };
+
     window.addEventListener("storage", syncCart);
     return () => window.removeEventListener("storage", syncCart);
   }, []);
 
-  const addToCart = useCallback((product) => {
-    setCart(prev => {
-      const exists = prev.find(p => p.id === product.id);
-      let updated;
+  // Save helper
+  const saveCart = (updatedCart) => {
+    localStorage.setItem(ENV.CART_KEY, JSON.stringify(updatedCart));
+    setCart(updatedCart);
+  };
 
-      if (exists) {
-        if (exists.qty >= product.stock) return prev;
-        updated = prev.map(p =>
-          p.id === product.id ? { ...p, qty: p.qty + 1 } : p
-        );
-      } else {
-        updated = [...prev, { ...product, qty: 1 }];
-      }
+  // REMOVE ITEM
+  const removeFromCart = (id) => {
+    const updated = cart.filter(item => item.id !== id);
+    saveCart(updated);
+  };
 
-      saveCart(updated);
-      return updated;
-    });
-  }, []);
+  // UPDATE QTY (🔥 THIS WAS THE BUG)
+  const updateQty = (id, qty) => {
+    const updated = cart.map(item =>
+      item.id === id
+        ? { ...item, qty } // ❗ immutable update
+        : item
+    );
+    saveCart(updated);
+  };
 
-  const removeFromCart = useCallback((id) => {
-    setCart(prev => {
-      const updated = prev.filter(p => p.id !== id);
-      saveCart(updated);
-      return updated;
-    });
-  }, []);
-
-  const updateQty = useCallback((id, qty) => {
-    setCart(prev => {
-      const updated = prev.map(p =>
-        p.id === id ? { ...p, qty } : p
-      );
-      saveCart(updated);
-      return updated;
-    });
-  }, []);
-
-  return { cart, addToCart, removeFromCart, updateQty };
+  return {
+    cart,
+    removeFromCart,
+    updateQty
+  };
 }

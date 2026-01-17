@@ -5,14 +5,14 @@ import AuthSwitch from "../../components/form/AuthSwitch";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../constants/routes";
 
-export default function AuthPage({ showToast }) {
+export default function AuthPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { handleChange, login, register, form } = useAuth();
+
 
   // Decide mode from URL
   const isLogin = location.pathname === ROUTES.LOGIN;
-
-  const { handleChange, login, register } = useAuth();
 
   return (
     <div className="auth-box">
@@ -29,6 +29,7 @@ export default function AuthPage({ showToast }) {
         buttonText={isLogin ? "LOGIN" : "REGISTER"}
         onSubmit={isLogin ? login : register}
         onChange={handleChange}
+        values={form}
         fields={[
           { name: "email", type: "email", placeholder: "Email" },
           { name: "pass", type: "password", placeholder: "Password" },
