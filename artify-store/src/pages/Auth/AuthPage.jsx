@@ -12,7 +12,7 @@ export default function AuthPage({ showToast }) {
   // Decide mode from URL
   const isLogin = location.pathname === ROUTES.LOGIN;
 
-  const { handleChange, login, register } = useAuth(showToast);
+  const { handleChange, login, register } = useAuth();
 
   return (
     <div className="auth-box">
