@@ -1,5 +1,20 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "hanan@gmail.com",
+      "pass": "Hanan@12",
+      "cart": [],
+      "wishlist": [],
+      "id": 1
+    },
+    {
+      "email": "shahin@gmail.com",
+      "pass": "Shahin@12",
+      "cart": [],
+      "wishlist": [],
+      "id": 2
+    }
+  ],
   "products": [
     {
       "id": "1",
