@@ -1,7 +1,6 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
-// import useCart from "../hooks/useCart";
 import { getUser, logoutUser } from "../utils/userHelpers";
 import { ROUTES } from "../constants/routes";
 
