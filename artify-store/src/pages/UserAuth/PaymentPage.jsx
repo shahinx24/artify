@@ -77,7 +77,6 @@ export default function PaymentPage({ showToast }) {
     navigate(ROUTES.ORDERS);
   };
 
-  /* ---------- UI ---------- */
   return (
     <div className="payment-page">
       <h2>Checkout</h2>
@@ -94,8 +93,7 @@ export default function PaymentPage({ showToast }) {
               name="pay"
               value="gpay"
               onChange={() => setMethod("gpay")}
-            />
-            Google Pay (UPI)
+            />  Google Pay (UPI)
           </label>
 
           <label className={`method-box ${method === "cod" ? "active" : ""}`}>
@@ -104,8 +102,7 @@ export default function PaymentPage({ showToast }) {
               name="pay"
               value="cod"
               onChange={() => setMethod("cod")}
-            />
-            Cash on Delivery
+            /> Cash on Delivery
           </label>
 
           {method === "gpay" && (
@@ -160,9 +157,7 @@ export default function PaymentPage({ showToast }) {
           <button
             className="cancel-btn"
             onClick={() => navigate(ROUTES.CART)}
-          >
-            Cancel
-          </button>
+          > Cancel </button>
         </div>
       </div>
     </div>

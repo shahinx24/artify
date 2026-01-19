@@ -20,9 +20,7 @@ export default function AuthPage() {
       <button
         className="auth-close"
         onClick={() => navigate(ROUTES.HOME)}
-      >
-        ✖
-      </button>
+      > ✖ </button>
 
       <AuthForm
         title={isLogin ? "Welcome Back" : "Create Account"}
