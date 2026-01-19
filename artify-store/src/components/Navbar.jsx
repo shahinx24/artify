@@ -11,7 +11,6 @@ export default function Navbar() {
   const location = useLocation();
   const isHome = location.pathname === ROUTES.HOME;
 
-
   return (
     <header className="top-nav">
       <nav>
