@@ -24,22 +24,14 @@ export default function Navbar() {
                 document
                   .getElementById("categories")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Category
-            </button>
-
+            }> Category </button>
             <button
               className="nav-btn"
               onClick={() =>
                 document
                   .getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              About
-            </button>
-
+              }> About </button>
             <button
               className="nav-btn"
               onClick={() =>
