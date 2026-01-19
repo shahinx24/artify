@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import { ENV } from "../../constants/env";
 import { ROUTES } from "../../constants/routes";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { PAYMENT_STATUS } from "../../constants/paymentStatus";
 import { DELIVERY_STATUS } from "../../constants/deliveryStatus";
-
 import { getCart, clearCart } from "../../utils/cartHelpers";
 import { getUser } from "../../utils/userHelpers";
 
