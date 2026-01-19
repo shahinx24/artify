@@ -20,7 +20,7 @@ export default function AuthForm({
             onChange={onChange}
           />
         ))}
-        <button type="submit">{uttonText}</button>
+        <button type="submit">{buttonText}</button>
       </form>
     </>
   );

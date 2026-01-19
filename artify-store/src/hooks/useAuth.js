@@ -72,5 +72,5 @@ export function useAuth() {
     navigate(ROUTES.LOGIN);
   };
 
-  return { handleChange, login, register };
+  return { handleChange, login, register,form };
 }

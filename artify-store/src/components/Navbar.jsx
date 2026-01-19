@@ -1,7 +1,7 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
-import useCart from "../hooks/useCart";
+// import useCart from "../hooks/useCart";
 import { getUser, logoutUser } from "../utils/userHelpers";
 import { ROUTES } from "../constants/routes";
 
@@ -11,13 +11,13 @@ export default function Navbar() {
   const location = useLocation();
   const isHome = location.pathname === ROUTES.HOME;
 
-  const { cart } = useCart();
-  const count = cart.reduce((sum, p) => sum + p.qty, 0);
+  // const { cart } = useCart();
+  // const count = cart.reduce((sum, p) => sum + p.qty, 0);
 
   return (
     <header className="top-nav">
       <nav>
-        <span>Cart ({count})</span>
+        {/* <span>Cart ({count})</span> */}
 
         <Link className="nav-btn" to={ROUTES.HOME}> Home </Link>
 

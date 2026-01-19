@@ -29,15 +29,18 @@ export default function useCart() {
     saveCart(updated);
   };
 
-  // UPDATE QTY (🔥 THIS WAS THE BUG)
   const updateQty = (id, qty) => {
-    const updated = cart.map(item =>
-      item.id === id
-        ? { ...item, qty } // ❗ immutable update
-        : item
+  const updated = cart.map(item =>
+    item.id === id
+      ? { 
+          ...item, 
+          qty: Number(qty) || 1,  
+          price: Number(item.price) || 0 
+        }
+      : item
     );
     saveCart(updated);
-  };
+    };
 
   return {
     cart,
