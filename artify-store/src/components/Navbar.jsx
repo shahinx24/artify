@@ -38,10 +38,7 @@ export default function Navbar() {
                 document
                   .getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Contact
-            </button>
+              }> Contact </button>
 
             {user && (
               <button onClick={() => navigate(ROUTES.ORDERS)}>
