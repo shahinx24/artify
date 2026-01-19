@@ -12,7 +12,6 @@ export default function Navbar() {
   const isHome = location.pathname === ROUTES.HOME;
 
   // const { cart } = useCart();
-  // const count = cart.reduce((sum, p) => sum + p.qty, 0);
 
   return (
     <header className="top-nav">
