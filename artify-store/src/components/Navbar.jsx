@@ -17,7 +17,6 @@ export default function Navbar() {
   return (
     <header className="top-nav">
       <nav>
-        {/* <span>Cart ({count})</span> */}
 
         <Link className="nav-btn" to={ROUTES.HOME}> Home </Link>
 
