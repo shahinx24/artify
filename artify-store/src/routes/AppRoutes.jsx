@@ -7,13 +7,14 @@ import AdminRoutes from "../admin/routes/AdminRoutes";
 
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
 const HomePage = lazy(() => import("../pages/NonAuth/HomePage"));
-// const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage"));
-const ProductsPage = lazy(() =>
-  import("../pages/NonAuth/ProductsPage")
-);
+const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage"));
 const CartPage = lazy(() => import("../pages/UserAuth/CartPage"));
 const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage"));
 const NotFound = lazy(() => import("../pages/NonAuth/NotFound"));
+const WishlistPage = lazy(()=> import("../pages/WishlistPage"));
+const PaymentPage = lazy(()=> import("../pages/PaymentPage"));
+// const Login = lazy(()=> import("../pages/Login"));
+// const Register = lazy(()=> import("../pages/Register"));
 
 export default function AppRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
         <Route path={`${ROUTES.PRODUCTS}/:category`} element={<ProductsPage />} />
         <Route path={ROUTES.CART} element={<CartPage />} />
+        <Route path={ROUTES.WishlistPage} element={<WishlistPage />} />
 
         {/* Protected */}
         <Route
@@ -47,6 +49,27 @@ export default function AppRoutes() {
             </AdminRoute>
           }
         />
+
+        {/* <Route
+        path={ROUTES.LOGIN}
+        element={<Login setAuthMode={setAuthMode} />}
+      />
+
+      <Route
+        path={ROUTES.REGISTER}
+        element={<Register setAuthMode={setAuthMode} />}
+      /> */}
+
+      {/* Protected */}
+      <Route
+        path="/checkout"
+        element={user ? <PaymentPage /> : <Navigate to={ROUTES.LOGIN} />}
+      />
+
+      <Route
+        path={ROUTES.ORDERS}
+        element={user ? <OrdersPage /> : <Navigate to={ROUTES.LOGIN} />}
+      />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
