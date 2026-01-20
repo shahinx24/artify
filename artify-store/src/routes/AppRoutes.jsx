@@ -1,9 +1,10 @@
-import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { Suspense, lazy, useState } from "react";
 import { ROUTES } from "../constants/routes";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminRoute from "../components/AdminRoute";
 import AdminRoutes from "../admin/routes/AdminRoutes";
+import {getUser} from "../utils/userHelpers"
 
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
 const HomePage = lazy(() => import("../pages/NonAuth/HomePage"));
@@ -11,12 +12,14 @@ const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage"));
 const CartPage = lazy(() => import("../pages/UserAuth/CartPage"));
 const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage"));
 const NotFound = lazy(() => import("../pages/NonAuth/NotFound"));
-const WishlistPage = lazy(()=> import("../pages/WishlistPage"));
-const PaymentPage = lazy(()=> import("../pages/PaymentPage"));
+const WishlistPage = lazy(()=> import("../pages/UserAuth/WishlistPage"));
+const PaymentPage = lazy(()=> import("../pages/UserAuth/PaymentPage"));
 // const Login = lazy(()=> import("../pages/Login"));
 // const Register = lazy(()=> import("../pages/Register"));
 
 export default function AppRoutes() {
+  const Navigate = useNavigate();
+  const [user, setUser] = useState(getUser());
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>

@@ -9,8 +9,6 @@ export default function AuthPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { handleChange, login, register, form } = useAuth();
-
-
   // Decide mode from URL
   const isLogin = location.pathname === ROUTES.LOGIN;
 
