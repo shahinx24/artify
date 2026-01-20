@@ -39,17 +39,17 @@ export default function Navbar() {
                   .getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
               }> Contact </button>
-
-            {user && (
-              <button onClick={() => navigate(ROUTES.ORDERS)}>
-                Orders
-              </button>
-            )}
           </>
         )}
       </nav>
 
       <div className="nav-icons">
+        {user && (
+              <button onClick={() => navigate(ROUTES.ORDERS)}>
+                Orders
+              </button>
+        )}
+
         <WishlistButton />
         <CartButton />
 

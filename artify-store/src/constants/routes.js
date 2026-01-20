@@ -5,6 +5,7 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
 
+  WISHLIST: "/wishlist",
   CART: "/cart",
   ORDERS: "/orders",
 
