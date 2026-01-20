@@ -14,10 +14,8 @@ const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage"));
 const NotFound = lazy(() => import("../pages/NonAuth/NotFound"));
 const WishlistPage = lazy(()=> import("../pages/UserAuth/WishlistPage"));
 const PaymentPage = lazy(()=> import("../pages/UserAuth/PaymentPage"));
-// const Login = lazy(()=> import("../pages/Login"));
-// const Register = lazy(()=> import("../pages/Register"));
 
-export default function AppRoutes() {
+export default function AppRoutes({showToast}) {
   const Navigate = useNavigate();
   const [user, setUser] = useState(getUser());
   return (
@@ -28,8 +26,9 @@ export default function AppRoutes() {
         <Route path={ROUTES.HOME} element={<HomePage />} />
         <Route path={ROUTES.LOGIN} element={<AuthPage />} />
         <Route path={ROUTES.REGISTER} element={<AuthPage />} />
-        <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
-        <Route path={`${ROUTES.PRODUCTS}/:category`} element={<ProductsPage />} />
+        <Route path={`${ROUTES.PRODUCTS}/:category?`} 
+                element={<ProductsPage showToast={showToast} />} 
+        />
         <Route path={ROUTES.CART} element={<CartPage />} />
         <Route path={ROUTES.WishlistPage} element={<WishlistPage />} />
 
@@ -53,28 +52,15 @@ export default function AppRoutes() {
           }
         />
 
-        {/* <Route
-        path={ROUTES.LOGIN}
-        element={<Login setAuthMode={setAuthMode} />}
-      />
-
-      <Route
-        path={ROUTES.REGISTER}
-        element={<Register setAuthMode={setAuthMode} />}
-      /> */}
-
       {/* Protected */}
       <Route
         path="/checkout"
         element={user ? <PaymentPage /> : <Navigate to={ROUTES.LOGIN} />}
       />
-
       <Route
-        path={ROUTES.ORDERS}
-        element={user ? <OrdersPage /> : <Navigate to={ROUTES.LOGIN} />}
+        path={ROUTES.ORDERS} element={user ? <OrdersPage /> : <Navigate to={ROUTES.LOGIN} />}
       />
-
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
   );
