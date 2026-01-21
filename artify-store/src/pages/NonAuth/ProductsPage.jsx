@@ -16,9 +16,7 @@ export default function ProductsPage({ showToast }) {
   }, [category]);
 
   const safeUser = user ? {
-    ...user,
-    cart: user.cart || [],
-    wishlist: user.wishlist || []
+    ...user, cart: user.cart || [], wishlist: user.wishlist || []
   } : null;
 
   const addToCart = async (product) => {
