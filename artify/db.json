@@ -5,12 +5,14 @@
       "pass": "Hanan@12",
       "cart": [
         {
-          "productId": "11",
+          "productId": "8",
           "qty": 1
         }
       ],
       "wishlist": [
-        "7"
+        "7",
+        "10",
+        "9"
       ],
       "id": 1
     }
