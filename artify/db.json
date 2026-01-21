@@ -3,18 +3,11 @@
     {
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "cart": [
-        {
-          "productId": "8",
-          "qty": 1
-        }
-      ],
-      "wishlist": [
-        "7",
-        "10",
-        "9"
-      ],
-      "id": 1
+      "cart": [],
+      "wishlist": [],
+      "id": 1,
+      "orders": [],
+      "cancelledOrders": []
     }
   ],
   "products": [

@@ -41,7 +41,6 @@ export default function Connect() {
         <>
           <div className="auth-overlay" onClick={() => setAuthMode(null)}></div>
           <span className="auth-close" onClick={() => setAuthMode(null)}>✖</span>
-
           <AuthPanel
             authMode={authMode}
             setAuthMode={setAuthMode}
@@ -50,16 +49,13 @@ export default function Connect() {
         </>
       )}
 
-      {/* NAVIGATION */}
       <Navbar setAuthMode={setAuthMode} showToast={showToast} />
-
-      {/* ROUTES MOVED TO SEPARATE FILE */}
       <AppRoutes 
         user={user} 
+        setUser={setUser}
         setAuthMode={setAuthMode}
         showToast={showToast} 
       />
-
       <Footer />
       <Toast message={toast} />
     </>

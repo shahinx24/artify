@@ -42,6 +42,7 @@ export default function ProductsPage({ showToast }) {
 
     await saveUser(updated);
     setUser(updated);
+    showToast("Added to wishlist!");
   };
 
   const isLiked = (id) => user?.wishlist?.includes(id);

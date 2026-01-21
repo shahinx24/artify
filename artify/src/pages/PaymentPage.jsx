@@ -4,33 +4,56 @@ import { useState, useEffect } from "react";
 
 export default function PaymentPage({showToast}) {
     const [user, setUser] = useState(getUser());
-    const cartTotal = user.cart.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const cartCount = user.cart.reduce((acc, item) => acc + item.qty, 0);
     const [method, setMethod] = useState("");
     const [upi, setUpi] = useState("");
     const [address, setAddress] = useState({ city:"", street:"", pin:"" });
     const navigate = useNavigate();
 
-useEffect(() => {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
-  if (!user.cart || user.cart.length === 0) {
-    navigate("/cart");
-    return;
-  }
-}, [user, navigate]);
+    const [products, setProducts] = useState([]);
 
-  // if no user or no cart items
-  if (!user || user.cart.length === 0) {
-    return (
-      <div className="payment-page">
-        <h2>Payment</h2>
-        <p className="payment-warning">Cart is empty. Add items first.</p>
-      </div>
-    );
-  }
+      useEffect(() => {
+        fetch("http://localhost:3000/products")
+          .then(res => res.json())
+          .then(setProducts);
+      }, []);
+
+      const cartItems = user.cart.map(item => {
+      const product = products.find(p => p.id === item.productId);
+      return product
+        ? { ...product, qty: item.qty }
+        : null;
+      }).filter(Boolean);
+
+      const cartTotal = cartItems.reduce(
+        (acc, item) => acc + item.price * item.qty,
+        0
+      );
+
+      const cartCount = cartItems.reduce(
+        (acc, item) => acc + item.qty,
+        0
+      );
+
+      useEffect(() => {
+        if (!user) {
+          navigate("/login");
+          return;
+        }
+        if (!user.cart || user.cart.length === 0) {
+          navigate("/cart");
+          return;
+        }
+      }, [user, navigate]);
+
+        // if no user or no cart items
+        if (!user || user.cart.length === 0) {
+          return (
+            <div className="payment-page">
+              <h2>Payment</h2>
+              <p className="payment-warning">Cart is empty. Add items first.</p>
+            </div>
+          );
+        }
 
   const placeOrder = async () => {
     if (!method) return showToast("Choose a payment method");
