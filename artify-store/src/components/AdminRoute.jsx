@@ -1,9 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
-import { getUser } from "../utils/userHelpers";
 
-export default function AdminRoute({ children }) {
-  const user = getUser();
+export default function AdminRoute({ children, user }) {
 
   if (!user || user.role !== "admin") {
     return <Navigate to={ROUTES.HOME} replace />;

@@ -6,71 +6,72 @@ import { ROUTES } from "../constants/routes";
 import { saveUser } from "../utils/userHelpers";
 import { showToast } from "../utils/toast";
 
-export function useAuth() {
-  const [form, setForm] = useState({
-    email: "",
-    pass: "",
-    confirm: ""
-  });
+export function useAuth(setUser) {
+      const [form, setForm] = useState({
+        email: "",
+        pass: "",
+        confirm: ""
+      });
 
-  const navigate = useNavigate();
+      const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+      const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+      };
 
-  const login = async (e) => {
-    e.preventDefault();
+      const login = async (e) => {
+      e.preventDefault();
 
-    const { email, pass } = form;
-    if (!email || !pass) {
-      showToast("All fields required");
-      return;
-    }
+      const { email, pass } = form;
+      if (!email || !pass) {
+        showToast("All fields required");
+        return;
+      }
 
-    const { data: users } = await axios.get(
-      `${ENV.API_BASE_URL}/users`
-    );
+      const { data: users } = await axios.get(
+        `${ENV.API_BASE_URL}/users`
+      );
 
-    const found = users.find(
-      (u) => u.email === email && u.pass === pass
-    );
+      const found = users.find(
+        (u) => u.email === email && u.pass === pass
+      );
 
-    if (!found) {
-      showToast("Invalid credentials");
-      return;
-    }
+      if (!found) {
+        showToast("Invalid credentials");
+        return;
+      }
 
-    await saveUser(found);
-    showToast("Logged in successfully");
-    navigate(ROUTES.HOME);
-  };
+      await saveUser(found);
+      setUser(found);     
+      showToast("Logged in successfully");
+      navigate(ROUTES.HOME);
+    };
 
-  const register = async (e) => {
-    e.preventDefault();
+      const register = async (e) => {
+        e.preventDefault();
 
-    const { email, pass, confirm } = form;
+        const { email, pass, confirm } = form;
 
-    if (!email || !pass || !confirm) {
-      showToast("All fields required");
-      return;
-    }
+        if (!email || !pass || !confirm) {
+          showToast("All fields required");
+          return;
+        }
 
-    if (pass !== confirm) {
-      showToast("Passwords do not match");
-      return;
-    }
+        if (pass !== confirm) {
+          showToast("Passwords do not match");
+          return;
+        }
 
-    await axios.post(`${ENV.API_BASE_URL}/users`, {
-      email,
-      pass,
-      cart: [],
-      wishlist: []
-    });
+        await axios.post(`${ENV.API_BASE_URL}/users`, {
+          email,
+          pass,
+          cart: [],
+          wishlist: []
+        });
 
-    showToast("Account created successfully");
-    navigate(ROUTES.LOGIN);
-  };
+        showToast("Account created successfully");
+        navigate(ROUTES.LOGIN);
+      };
 
-  return { handleChange, login, register,form };
+      return { handleChange, login, register,form };
 }

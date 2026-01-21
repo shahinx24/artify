@@ -1,11 +1,10 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
-import { getUser, logoutUser } from "../utils/userHelpers";
+import {  logoutUser } from "../utils/userHelpers";
 import { ROUTES } from "../constants/routes";
 
-export default function Navbar() {
-  const user = getUser();
+export default function Navbar({user}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === ROUTES.HOME;

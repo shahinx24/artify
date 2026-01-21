@@ -5,10 +5,10 @@ import AuthSwitch from "../../components/form/AuthSwitch";
 import { useAuth } from "../../hooks/useAuth";
 import { ROUTES } from "../../constants/routes";
 
-export default function AuthPage() {
+export default function AuthPage({ setUser }) {
+  const { handleChange, login, register, form } = useAuth(setUser);
   const location = useLocation();
   const navigate = useNavigate();
-  const { handleChange, login, register, form } = useAuth();
   // Decide mode from URL
   const isLogin = location.pathname === ROUTES.LOGIN;
 

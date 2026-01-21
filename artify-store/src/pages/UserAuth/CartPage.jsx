@@ -1,16 +1,12 @@
 import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import useCart from "../../hooks/useCart";
-import { getUser } from "../../utils/userHelpers";
 import { ROUTES } from "../../constants/routes";
 
-export default function CartPage({ showToast }) {
+export default function CartPage({ showToast,user }) {
   const { cart, removeFromCart, updateQty } = useCart();
   const navigate = useNavigate();
-  const user = getUser();
 
-  /* ---------- GUARDS ---------- */
   useEffect(() => {
     if (!user) {
       navigate(ROUTES.HOME);
@@ -27,7 +23,7 @@ export default function CartPage({ showToast }) {
       showToast?.("Cart is empty");
       return;
     }
-    navigate("/checkout"); // or ROUTES.CHECKOUT if you have it
+    navigate("/checkout");
   };
 
   if (!user) {

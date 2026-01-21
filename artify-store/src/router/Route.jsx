@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "../pages/HomePage.jsx";
-import ProductsPage from "../pages/ProductsPage.jsx";
-import CartPage from "../pages/CartPage.jsx";
-import WishlistPage from "../pages/WishlistPage.jsx";
-import NotFound from "../pages/NotFound.jsx";
-import PaymentPage from "../pages/PaymentPage.jsx";
-import OrdersPage from "../pages/OrdersPage.jsx";
+import HomePage from "../pages/NonAuth/HomePage.jsx";
+import ProductsPage from "../pages/NonAuth/ProductsPage.jsx";
+import CartPage from "../pages/UserAuth/CartPage.jsx";
+import WishlistPage from "../pages/UserAuth/WishlistPage.jsx";
+import NotFound from "../pages/NonAuth/NotFound.jsx";
+import PaymentPage from "../pages/UserAuth/PaymentPage.jsx";
+import OrdersPage from "../pages/UserAuth/OrdersPage.jsx";
 
 export default function AppRoutes({ user, setAuthMode, showToast }) {
   return (

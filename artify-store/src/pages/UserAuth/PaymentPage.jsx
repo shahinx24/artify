@@ -6,12 +6,9 @@ import { ORDER_STATUS } from "../../constants/orderStatus";
 import { PAYMENT_STATUS } from "../../constants/paymentStatus";
 import { DELIVERY_STATUS } from "../../constants/deliveryStatus";
 import { getCart, clearCart } from "../../utils/cartHelpers";
-import { getUser } from "../../utils/userHelpers";
 
-export default function PaymentPage({ showToast }) {
+export default function PaymentPage({ showToast,user }) {
   const navigate = useNavigate();
-
-  const user = getUser();
   const cart = getCart();
 
   const cartTotal = cart.reduce((acc, item) => acc + item.price * item.qty, 0);

@@ -1,0 +1,279 @@
+{
+  "users": [
+    {
+      "email": "hanan@gmail.com",
+      "pass": "Hanan@12",
+      "cart": [
+        {
+          "productId": {
+            "id": "8",
+            "name": "Oil Paint Starter",
+            "price": 350,
+            "image": "/images/colors/colors2.jpg",
+            "category": "colors"
+          },
+          "qty": 1
+        }
+      ],
+      "wishlist": [
+        "7",
+        "12"
+      ],
+      "id": 1
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Round Brush",
+      "price": 120,
+      "image": "/images/brushes/brush1.webp",
+      "category": "brushes"
+    },
+    {
+      "id": "2",
+      "name": "Flat Brush",
+      "price": 150,
+      "image": "/images/brushes/brush2.jpg",
+      "category": "brushes"
+    },
+    {
+      "id": "3",
+      "name": "Fan Brush",
+      "price": 160,
+      "image": "/images/brushes/brush3.jpg",
+      "category": "brushes"
+    },
+    {
+      "id": "4",
+      "name": "Detail Brush Set",
+      "price": 200,
+      "image": "/images/brushes/brush4.jpg",
+      "category": "brushes"
+    },
+    {
+      "id": "5",
+      "name": "Artist Filbert Brush",
+      "price": 180,
+      "image": "/images/brushes/brush5.jpg",
+      "category": "brushes"
+    },
+    {
+      "id": "6",
+      "name": "Professional Brush Kit",
+      "price": 350,
+      "image": "/images/brushes/brush6.jpg",
+      "category": "brushes"
+    },
+    {
+      "id": "7",
+      "name": "Acrylic Color Pack",
+      "price": 250,
+      "image": "/images/colors/colors1.jpg",
+      "category": "colors"
+    },
+    {
+      "id": "8",
+      "name": "Oil Paint Starter",
+      "price": 350,
+      "image": "/images/colors/colors2.jpg",
+      "category": "colors"
+    },
+    {
+      "id": "9",
+      "name": "Watercolor Cakes",
+      "price": 180,
+      "image": "/images/colors/colors3.jpg",
+      "category": "colors"
+    },
+    {
+      "id": "10",
+      "name": "Poster Color Set",
+      "price": 100,
+      "image": "/images/colors/colors4.jpg",
+      "category": "colors"
+    },
+    {
+      "id": "11",
+      "name": "Fabric Paint Kit",
+      "price": 200,
+      "image": "/images/colors/colors5.webp",
+      "category": "colors"
+    },
+    {
+      "id": "12",
+      "name": "Premium Paint Box",
+      "price": 450,
+      "image": "/images/colors/colors6.jpg",
+      "category": "colors"
+    },
+    {
+      "id": "13",
+      "name": "Canvas Board",
+      "price": 180,
+      "image": "/images/canvas/canvas1.webp",
+      "category": "canvas"
+    },
+    {
+      "id": "14",
+      "name": "Stretched Rectangular Canvas",
+      "price": 220,
+      "image": "/images/canvas/canvas2.jpg",
+      "category": "canvas"
+    },
+    {
+      "id": "15",
+      "name": "Mini Canvas Pack",
+      "price": 150,
+      "image": "/images/canvas/canvas3.jpg",
+      "category": "canvas"
+    },
+    {
+      "id": "16",
+      "name": "Large Canvas Sheet",
+      "price": 280,
+      "image": "/images/canvas/canvas4.jpg",
+      "category": "canvas"
+    },
+    {
+      "id": "17",
+      "name": "Stretched Square Canvas",
+      "price": 200,
+      "image": "/images/canvas/canvas5.jpg",
+      "category": "canvas"
+    },
+    {
+      "id": "18",
+      "name": "Pro Canvas Set",
+      "price": 450,
+      "image": "/images/canvas/canvas6.jpg",
+      "category": "canvas"
+    },
+    {
+      "id": "19",
+      "name": "A4 Sketchbook",
+      "price": 90,
+      "image": "/images/sketchbooks/sketch1.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "20",
+      "name": "Spiral Sketch Pad",
+      "price": 120,
+      "image": "/images/sketchbooks/sketch2.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "21",
+      "name": "Watercolor Paper Pad",
+      "price": 160,
+      "image": "/images/sketchbooks/sketch3.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "22",
+      "name": "Newsprint Rough Pad",
+      "price": 80,
+      "image": "/images/sketchbooks/sketch4.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "23",
+      "name": "Hardbound Drawing Book",
+      "price": 200,
+      "image": "/images/sketchbooks/sketch5.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "24",
+      "name": "Mixed Media Pad",
+      "price": 220,
+      "image": "/images/sketchbooks/sketch6.jpg",
+      "category": "sketchbooks"
+    },
+    {
+      "id": "25",
+      "name": "Dual Tip Marker Set",
+      "price": 300,
+      "image": "/images/markers/marker1.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "26",
+      "name": "Fine Liner Pen Pack",
+      "price": 180,
+      "image": "/images/markers/marker2.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "27",
+      "name": "Brush Marker Set",
+      "price": 350,
+      "image": "/images/markers/marker3.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "28",
+      "name": "Permanent Marker Pack",
+      "price": 150,
+      "image": "/images/markers/marker4.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "29",
+      "name": "Highlighter Marker Kit",
+      "price": 90,
+      "image": "/images/markers/marker5.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "30",
+      "name": "Metallic Marker Set",
+      "price": 250,
+      "image": "/images/markers/marker6.jpg",
+      "category": "markers"
+    },
+    {
+      "id": "31",
+      "name": "Craft Scissors",
+      "price": 120,
+      "image": "/images/craft/craft1.jpg",
+      "category": "craft"
+    },
+    {
+      "id": "32",
+      "name": "Glue Gun",
+      "price": 240,
+      "image": "/images/craft/craft2.jpg",
+      "category": "craft"
+    },
+    {
+      "id": "33",
+      "name": "Hot Glue Sticks Pack",
+      "price": 100,
+      "image": "/images/craft/craft3.jpg",
+      "category": "craft"
+    },
+    {
+      "id": "34",
+      "name": "Sparkle Glitter Jars",
+      "price": 150,
+      "image": "/images/craft/craft4.jpg",
+      "category": "craft"
+    },
+    {
+      "id": "35",
+      "name": "Foam Sheet Pack",
+      "price": 90,
+      "image": "/images/craft/craft5.jpg",
+      "category": "craft"
+    },
+    {
+      "id": "36",
+      "name": "Craft Stick Set",
+      "price": 60,
+      "image": "/images/craft/craft6.jpg",
+      "category": "craft"
+    }
+  ]
+}

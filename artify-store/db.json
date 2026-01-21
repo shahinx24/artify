@@ -6,32 +6,6 @@
       "cart": [],
       "wishlist": [],
       "id": 1
-    },
-    {
-      "email": "shahin@gmail.com",
-      "pass": "Shahin@12",
-      "cart": [
-        {
-          "id": "8",
-          "name": "Oil Paint Starter",
-          "price": 350,
-          "image": "/images/colors/colors2.jpg",
-          "category": "colors",
-          "qty": 1
-        },
-        {
-          "id": "11",
-          "name": "Fabric Paint Kit",
-          "price": 200,
-          "image": "/images/colors/colors5.webp",
-          "category": "colors",
-          "qty": 1
-        }
-      ],
-      "wishlist": [
-        "7"
-      ],
-      "id": 2
     }
   ],
   "products": [

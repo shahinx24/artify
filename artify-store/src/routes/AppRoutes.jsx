@@ -1,9 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 import { ROUTES } from "../constants/routes";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminRoute from "../components/AdminRoute";
 import AdminRoutes from "../admin/routes/AdminRoutes";
+import PublicOnlyRoute from "../components/PublicOnlyRoute";
+import {getUser} from "../utils/userHelpers"
 
 const AuthPage = lazy(() => import("../pages/Auth/AuthPage"));
 const HomePage = lazy(() => import("../pages/NonAuth/HomePage"));
@@ -14,15 +16,24 @@ const WishlistPage = lazy(() => import("../pages/UserAuth/WishlistPage"));
 const PaymentPage = lazy(() => import("../pages/UserAuth/PaymentPage"));
 const NotFound = lazy(() => import("../pages/NonAuth/NotFound"));
 
-export default function AppRoutes({ user, showToast }) {
+export default function AppRoutes({ showToast }) {
+    const [user, setUser] = useState(getUser());
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
 
         {/* Public */}
         <Route path={ROUTES.HOME} element={<HomePage />} />
-        <Route path={ROUTES.LOGIN} element={<AuthPage />} />
-        <Route path={ROUTES.REGISTER} element={<AuthPage />} />
+        <Route path={ROUTES.LOGIN}  element={
+                <PublicOnlyRoute user={user}>
+                  <AuthPage setUser={setUser} />
+                </PublicOnlyRoute>
+          }/>
+        <Route path={ROUTES.REGISTER} element={
+              <PublicOnlyRoute user={user}>
+                <AuthPage setUser={setUser} />
+              </PublicOnlyRoute>
+          }/>
         <Route
           path={`${ROUTES.PRODUCTS}/:category?`}
           element={<ProductsPage showToast={showToast} />}

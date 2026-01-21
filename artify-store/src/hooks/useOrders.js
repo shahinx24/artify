@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { ENV } from "../constants/env";
-import { getUser } from "../utils/userHelpers";
 
-export default function useOrders() {
+export default function useOrders({user}) {
   const [orders, setOrders] = useState([]);
-  const user = getUser();
 
   useEffect(() => {
     if (!user) return;
