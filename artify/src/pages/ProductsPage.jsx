@@ -14,9 +14,7 @@ export default function ProductsPage({ showToast }) {
   }, [category]);
 
   const safeUser = user ? {
-    ...user,
-    cart: user.cart || [],
-    wishlist: user.wishlist || []
+    ...user, cart: user.cart || [], wishlist: user.wishlist || []
   } : null;
 
   const addToCart = async (productId) => {
@@ -46,7 +44,7 @@ export default function ProductsPage({ showToast }) {
     setUser(updated);
   };
 
-  const isLiked = (id) => safeUser?.wishlist?.includes(id);
+  const isLiked = (id) => user?.wishlist?.includes(id);
 
   return (
     <div className="page-content">
