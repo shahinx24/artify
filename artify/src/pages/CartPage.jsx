@@ -67,8 +67,8 @@ export default function CartPage({ showToast }) {
   return (
     <div className="cart-page">
       <div className="cart-items">
-        {products.length === 0 && (
-          <p style={{ paddingTop: "2rem", textAlign: "center" }}>Cart is Empty!</p>
+        {cartItems.length === 0 && (
+          <p style={{ paddingTop: "2rem", textAlign: "center" }}> </p>
         )}
 
        {cartItems.map(p => (
@@ -96,7 +96,7 @@ export default function CartPage({ showToast }) {
         <h2>Order Summary</h2>
         <div className="summary-line">
           <span>Total Items:</span>
-          <span>{products.length}</span>
+          <span>{cartItems.length}</span>
         </div>
 
         <div className="summary-line">

@@ -5,19 +5,12 @@
       "pass": "Hanan@12",
       "cart": [
         {
-          "productId": {
-            "id": "8",
-            "name": "Oil Paint Starter",
-            "price": 350,
-            "image": "/images/colors/colors2.jpg",
-            "category": "colors"
-          },
+          "productId": "11",
           "qty": 1
         }
       ],
       "wishlist": [
-        "7",
-        "12"
+        "7"
       ],
       "id": 1
     }
