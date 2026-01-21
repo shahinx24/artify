@@ -30,6 +30,7 @@ export default function CartPage({ showToast }) {
   setUser(updated);
   };
 
+
   const increaseQty = (id) => {
     const updated = { ...user };
     const item = updated.cart.find(p => p.productId === id);
