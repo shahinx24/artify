@@ -7,33 +7,43 @@ export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`${ENV.API_BASE_URL}/orders`)
+    fetch(`${ENV.API_BASE_URL}/users`)
       .then(res => res.json())
-      .then(setOrders);
+      .then(users => {
+        const allOrders = users.flatMap(user =>
+          (user.orders || []).map(order => ({
+            ...order,
+            userId: user.id,
+            userEmail: user.email
+          }))
+        );
+
+        setOrders(allOrders);
+      });
   }, []);
 
   const updateStatus = useCallback((id, status) => {
-    fetch(`${ENV.API_BASE_URL}/orders/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status })
-    }).then(() =>
-      setOrders(prev =>
-        prev.map(o => o.id === id ? { ...o, status } : o)
-      )
+    setOrders(prev =>
+      prev.map(o => (o.id === id ? { ...o, status } : o))
     );
+
   }, []);
 
   return (
     <div>
       <h2>Admin Orders</h2>
 
+      {orders.length === 0 && <p>No orders found</p>}
+
       {orders.map(o => (
-        <div key={o.id}>
-          #{o.id} – {ORDER_STATUS_LABELS[o.status]}
+        <div key={o.id} style={{ marginBottom: "12px" }}>
+          <strong>#{o.id}</strong> – {o.userEmail} –{" "}
+          {ORDER_STATUS_LABELS[o.status]}
+
           <select
             value={o.status}
             onChange={e => updateStatus(o.id, e.target.value)}
+            style={{ marginLeft: "8px" }}
           >
             {Object.values(ORDER_STATUS).map(s => (
               <option key={s} value={s}>

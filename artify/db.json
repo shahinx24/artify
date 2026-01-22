@@ -1,8 +1,17 @@
 {
+   "admins": [
+    {
+      "id": 1,
+      "email": "shahin@gmail.com",
+      "password": "Shahin@12",
+      "role": "admin"
+    }
+  ],
   "users": [
     {
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
+      "role": "user",
       "cart": [],
       "wishlist": [],
       "id": 1,

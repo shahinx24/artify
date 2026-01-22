@@ -1,28 +1,48 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ setAuthMode, showToast }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const navigate = useNavigate();
+
+  const ADMIN_EMAIL = "shahin@gmail.com";
+  const ADMIN_PASS = "Shahin@12";
 
   const login = async (e) => {
     e.preventDefault();
 
-    if (!email || !pass) return showToast("All fields required");
+    //Admin
+    if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+      localStorage.setItem(
+        "admin",
+        JSON.stringify({ email: ADMIN_EMAIL, role: "admin" })
+      );
 
-    // Fetch all users from DB
+      setAuthMode(null);
+      navigate("/admin"); 
+      return;
+    }
+
     const { data: users } = await axios.get("http://localhost:3000/users");
 
-    const found = users.find(u => u.email === email && u.pass === pass);
+    const found = users.find(
+      (u) => u.email === email && u.pass === pass
+    );
 
     if (!found) return showToast("Invalid credentials");
 
-    // Save logged in user to localStorage
-    localStorage.setItem("user", JSON.stringify(found));
+    const authData = {
+      id: found.id,
+      email: found.email,
+      role: found.role,
+    };
 
-    showToast("Logged in!");
-    setAuthMode(null); 
-    window.location.reload(); // FORCE UI update (temporary)
+    localStorage.setItem("auth", JSON.stringify(authData));
+
+    setAuthMode(null);
+    window.location.reload();
   };
 
   return (
@@ -30,11 +50,19 @@ export default function Login({ setAuthMode, showToast }) {
       <h3>Welcome Back</h3>
 
       <form onSubmit={login}>
-        <input type="email" placeholder="Email" value={email}
-               onChange={e => setEmail(e.target.value)} />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <input type="password" placeholder="Password" value={pass}
-               onChange={e => setPass(e.target.value)} />
+        <input
+          type="password"
+          placeholder="Password"
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+        />
 
         <button type="submit">LOGIN</button>
 

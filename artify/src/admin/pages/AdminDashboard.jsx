@@ -6,33 +6,27 @@ import "../style/dashboard.css";
 import "../style/buttons.css";
 
 export default function AdminDashboard() {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
+  const [stats, setStats] = useState({ users: 0, products: 0 });
   const navigate = useNavigate();
-  const [stats, setStats] = useState({
-    users: 0,
-    products: 0,
-  });
 
   useEffect(() => {
     fetch(`${ENV.API_BASE_URL}/users`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-
+      .then(res => res.json())
+      .then(data => {
         const ordersCount = data.reduce(
           (sum, user) => sum + (user.orders?.length || 0),
           0
         );
-
         setTotalOrders(ordersCount);
       });
   }, []);
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:3000/users").then(res => res.json()),
-      fetch("http://localhost:3000/products").then(res => res.json()),
+      fetch(`${ENV.API_BASE_URL}/users`).then(res => res.json()),
+      fetch(`${ENV.API_BASE_URL}/products`).then(res => res.json()),
     ]).then(([users, products]) => {
       setStats({
         users: users.length,
@@ -42,14 +36,14 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="admin-page" style={{ padding: "2rem" }}>
+    <>
       <h1 className="admin-title">Admin Dashboard</h1>
 
       <div className="admin-grid">
         <div className="stat-card">
           <div className="dashboard-box">
-          <h3>Total Users</h3>
-          <p>{stats.users}</p>
+            <h3>Total Users</h3>
+            <p>{stats.users}</p>
           </div>
           <button className="btn btn-sec" onClick={() => navigate("/admin/users")}>
             Manage Users
@@ -58,8 +52,8 @@ export default function AdminDashboard() {
 
         <div className="stat-card">
           <div className="dashboard-box">
-          <h3>Total Products</h3>
-          <p>{stats.products}</p>
+            <h3>Total Products</h3>
+            <p>{stats.products}</p>
           </div>
           <button className="btn btn-sec" onClick={() => navigate("/admin/products")}>
             Manage Products
@@ -68,8 +62,8 @@ export default function AdminDashboard() {
 
         <div className="stat-card">
           <div className="dashboard-box">
-          <h3>Add New Product</h3>
-          <p>{stats.products}</p>
+            <h3>Add New Product</h3>
+            <p>{stats.products}</p>
           </div>
           <button className="btn btn-sec" onClick={() => navigate("/admin/add")}>
             Add Product
@@ -78,14 +72,14 @@ export default function AdminDashboard() {
 
         <div className="stat-card">
           <div className="dashboard-box">
-            <h2>Total Orders</h2>
+            <h3>Total Orders</h3>
             <p>{totalOrders}</p>
           </div>
           <button className="btn btn-sec" onClick={() => navigate("/admin/orders")}>
             Manage Orders
           </button>
         </div>
-        </div>
       </div>
+    </>
   );
 }

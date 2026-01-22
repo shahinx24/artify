@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import AdminRouteConfig from "../admin/routes/Route.jsx";
 
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
 const ProductsPage = lazy(() => import("../pages/ProductsPage.jsx"));
@@ -15,17 +16,17 @@ export default function AppRoutes({ user, setAuthMode, showToast }) {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
 
-        {/* ---------- ADMIN ---------- */}
+        {/*-ADMIN-*/}
         <Route
           path="/admin/*"
           element={
-            <Suspense fallback={<div>Loading Admin...</div>}>
-              <AdminRoutes />
-            </Suspense>
+            <AdminRoutes>
+              <AdminRouteConfig />
+            </AdminRoutes>
           }
         />
 
-        {/* ---------- PUBLIC ---------- */}
+        {/*-public-*/}
         <Route
           path="/"
           element={
@@ -41,7 +42,7 @@ export default function AppRoutes({ user, setAuthMode, showToast }) {
           element={<ProductsPage showToast={showToast} />}
         />
 
-        {/* ---------- PROTECTED USER ---------- */}
+        {/*-user-*/}
         <Route
           path="/wishlist"
           element={user ? <WishlistPage showToast={showToast} /> : <Navigate to="/" />}

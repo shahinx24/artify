@@ -38,7 +38,7 @@ export default function UsersManagement() {
       <table className="admin-table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Mail</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -47,7 +47,7 @@ export default function UsersManagement() {
         <tbody>
           {users.map((u) => (
             <tr key={u.id}>
-              <td>{u.name}</td>
+              <td>{u.email}</td>
               <td>
                 <span className={u.isActive ? "status-active" : "status-blocked"}>
                   {u.isActive ? "Active" : "Blocked"}

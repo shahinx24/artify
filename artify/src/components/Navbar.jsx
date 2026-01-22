@@ -8,11 +8,14 @@ import "./style/navbar.css"
 export default function Navbar({ setAuthMode }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const auth = JSON.parse(localStorage.getItem("auth"));
 
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("auth");
+    navigate("/"); 
     window.location.reload();
   };
+
   const location = useLocation();
   const isHome = location.pathname === "/";
 
@@ -25,7 +28,7 @@ export default function Navbar({ setAuthMode }) {
             <button onClick={() => document.getElementById("categories")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Category</button>
             <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">About</button>
             <button onClick={() => document.getElementById("about")?.scrollIntoView({behavior:"smooth"})} className="nav-btn">Contact</button>
-            {user && (
+            {auth?.role === "user" && (
               <button onClick={() => navigate("/orders")}>
                 Orders
               </button>
@@ -34,19 +37,23 @@ export default function Navbar({ setAuthMode }) {
         )}
       </nav>
 
+      
       <div className="nav-icons">
-        <WishlistButton />
-        <CartButton />
-        {user ? (
+         {auth?.role === "user" && (
           <>
-            <span className="username-tag">{user.email.split("@")[0]}</span>
-            <button onClick={()=>{
-              localStorage.removeItem("user");
-              window.location.reload();
-            }}>LOGOUT</button>
+            <WishlistButton />
+            <CartButton />
+          </>
+        )}
+        {auth ? (
+          <>
+            <span className="username-tag">
+              {auth.email.split("@")[0]} 
+            </span>
+            <button onClick={logout}>LOGOUT</button>
           </>
         ) : (
-          <button onClick={()=>setAuthMode("login")}>LOGIN</button>
+          <button onClick={() => setAuthMode("login")}>LOGIN</button>
         )}
       </div>
     </header>
