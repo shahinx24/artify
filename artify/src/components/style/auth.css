@@ -1,0 +1,89 @@
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1500;
+  backdrop-filter: blur(2px);
+}
+
+.auth-box {
+  position: absolute;
+  right: 5%;
+  top: 15%;
+  width: 340px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 2000;
+  animation: fadeIn 0.25s ease;
+}
+
+.auth-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+  user-select: none;
+  transition: transform .2s ease;
+}
+.auth-close:hover {
+  transform: scale(1.15);
+}
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-box h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.auth-box input {
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  transition: border-color .25s;
+}
+.auth-box input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.auth-box button {
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.auth-box button:hover {
+  background: #222;
+}
+
+.auth-box form p {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #000;
+  cursor: pointer;
+  opacity: .7;
+  transition: opacity .2s ease;
+}
+.auth-box form p:hover {
+  opacity: 1;
+}

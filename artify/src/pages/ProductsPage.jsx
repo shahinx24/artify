@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
+import "./style/product.css"
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();

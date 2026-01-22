@@ -7,6 +7,26 @@
   object-fit: contain;
 }
 
+.social-icons {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  font-size: 1.2rem;
+}
+
+.social-icon {
+   width: 28px;
+  height: 28px;
+  transition: transform .25s ease;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  transform: scale(1.15);
+}
+
 a {
   text-decoration: none;
   color: inherit;

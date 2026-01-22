@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import "./style/footer.css";
 import instagram from "../assets/icons/instagram.svg";
 import facebook from "../assets/icons/facebook.svg";
 import mail from "../assets/icons/mail.svg";
