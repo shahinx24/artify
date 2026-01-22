@@ -51,6 +51,14 @@ export default function AdminDashboard() {
         </div>
 
         <div className="stat-card">
+          <h3>Add New Product</h3>
+          <p>{stats.products}</p>
+          <button onClick={() => navigate("/admin/add")}>
+            Add Product
+          </button>
+        </div>
+
+        <div className="stat-card">
           <h3>Ordered Items</h3>
           <p>{stats.orderedItems}</p>
           <button onClick={() => navigate("/admin/orders")}>

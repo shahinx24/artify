@@ -5,6 +5,7 @@ const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const UsersManagement = lazy(() => import("../pages/UsersManagement"));
 const OrdersManagement = lazy(() => import("../pages/OrdersManagement"));
 const ProductsManagement = lazy(() => import("../pages/ProductsManagement"));
+const AddProduct = lazy(() => import("../pages/AddProduct"));
 
 export default function AdminRoutes() {
   return (
@@ -13,7 +14,7 @@ export default function AdminRoutes() {
         <Route path="users" element={<UsersManagement />} />
         <Route path="orders" element={<OrdersManagement />} />
         <Route path="products" element={<ProductsManagement />} />
-        {/* <Route path="edit" element={<ProductsManagement />} /> */}
+        <Route path="add" element={<AddProduct />} />
       </Routes>
   );
 }

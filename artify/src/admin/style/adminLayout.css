@@ -6,6 +6,14 @@
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
+.admin-page {
+  margin-top: 70px;
+  padding: 24px;
+  background-color: #f4f6f8;
+  min-height: calc(100vh - 90px);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
 .admin-title {
   font-size: 26px;
   font-weight: 600;

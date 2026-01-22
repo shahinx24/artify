@@ -8,8 +8,10 @@ export default function AddProduct() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
-  const [category, setCategory] = useState("");
   const [image, setImage] = useState("");
+  const [useNewCategory, setUseNewCategory] = useState(false);
+  const [category, setCategory] = useState("");
+  const [newCategory, setNewCategory] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ export default function AddProduct() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Round Brush"
+              placeholder="Name of the Product"
             />
           </div>
 
@@ -67,7 +69,7 @@ export default function AddProduct() {
               type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              placeholder="120"
+              placeholder="enter the price"
             />
           </div>
 
@@ -77,22 +79,57 @@ export default function AddProduct() {
               type="number"
               value={stock}
               onChange={(e) => setStock(e.target.value)}
-              placeholder="52"
+              placeholder="enter the stock"
             />
           </div>
 
           <div>
-            <label>Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="">Select Category</option>
-              <option value="brushes">Brushes</option>
-              <option value="paints">Paints</option>
-              <option value="canvas">Canvas</option>
-              <option value="tools">Tools</option>
-            </select>
+            <div>
+            <label>
+                <input
+                type="radio"
+                checked={!useNewCategory}
+                onChange={() => setUseNewCategory(false)}
+                />
+                Use Existing Category
+            </label>
+
+            <label style={{ marginLeft: "20px" }}>
+                <input
+                type="radio"
+                checked={useNewCategory}
+                onChange={() => setUseNewCategory(true)}
+                />
+                Add New Category
+            </label>
+            </div>
+            <br></br>
+            {!useNewCategory && (
+            <div>
+                <label>Category</label>
+                <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                >
+                <option value="">Select Category</option>
+                <option value="brushes">Brushes</option>
+                <option value="paints">Paints</option>
+                <option value="canvas">Canvas</option>
+                <option value="tools">Tools</option>
+                </select>
+            </div>
+            )}
+            {useNewCategory && (
+            <div>
+                <label>Add New Category</label>
+                <input
+                type="text"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="eg: watercolors"
+                />
+            </div>
+            )}
           </div>
 
           {/* Image Path */}
@@ -102,7 +139,7 @@ export default function AddProduct() {
               type="text"
               value={image}
               onChange={(e) => setImage(e.target.value)}
-              placeholder="/images/brushes/brush1.webp"
+              placeholder="eg: /images/brushes/brush1.webp"
             />
           </div>
 
