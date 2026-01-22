@@ -3,6 +3,7 @@ import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "./style/navbar.css"
 
 export default function Navbar({ setAuthMode }) {
   const user = JSON.parse(localStorage.getItem("user"));

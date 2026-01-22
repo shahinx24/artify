@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ENV } from "../../constants/env";
+import "../style/adminLayout.css";
+import "../style/dashboard.css";
+import "../style/buttons.css";
 
 export default function AdminDashboard() {
+  const [users, setUsers] = useState([]);
+  const [totalOrders, setTotalOrders] = useState(0);
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     users: 0,
     products: 0,
-    orderedItems: 0,
   });
+
+  useEffect(() => {
+    fetch(`${ENV.API_BASE_URL}/users`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+
+        const ordersCount = data.reduce(
+          (sum, user) => sum + (user.orders?.length || 0),
+          0
+        );
+
+        setTotalOrders(ordersCount);
+      });
+  }, []);
 
   useEffect(() => {
     Promise.all([
@@ -17,55 +37,55 @@ export default function AdminDashboard() {
       setStats({
         users: users.length,
         products: products.length,
-        orderedItems: 0, // ✅ order system not implemented yet
       });
     });
   }, []);
 
   return (
     <div className="admin-page" style={{ padding: "2rem" }}>
-      <h1>Admin Dashboard</h1>
+      <h1 className="admin-title">Admin Dashboard</h1>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "1.5rem",
-          marginTop: "2rem",
-        }}
-      >
+      <div className="admin-grid">
         <div className="stat-card">
+          <div className="dashboard-box">
           <h3>Total Users</h3>
           <p>{stats.users}</p>
-          <button onClick={() => navigate("/admin/users")}>
+          </div>
+          <button className="btn btn-sec" onClick={() => navigate("/admin/users")}>
             Manage Users
           </button>
         </div>
 
         <div className="stat-card">
+          <div className="dashboard-box">
           <h3>Total Products</h3>
           <p>{stats.products}</p>
-          <button onClick={() => navigate("/admin/products")}>
+          </div>
+          <button className="btn btn-sec" onClick={() => navigate("/admin/products")}>
             Manage Products
           </button>
         </div>
 
         <div className="stat-card">
+          <div className="dashboard-box">
           <h3>Add New Product</h3>
           <p>{stats.products}</p>
-          <button onClick={() => navigate("/admin/add")}>
+          </div>
+          <button className="btn btn-sec" onClick={() => navigate("/admin/add")}>
             Add Product
           </button>
         </div>
 
         <div className="stat-card">
-          <h3>Ordered Items</h3>
-          <p>{stats.orderedItems}</p>
-          <button onClick={() => navigate("/admin/orders")}>
+          <div className="dashboard-box">
+            <h2>Total Orders</h2>
+            <p>{totalOrders}</p>
+          </div>
+          <button className="btn btn-sec" onClick={() => navigate("/admin/orders")}>
             Manage Orders
           </button>
         </div>
+        </div>
       </div>
-    </div>
   );
 }

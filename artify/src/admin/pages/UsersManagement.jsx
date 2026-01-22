@@ -1,5 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { ENV } from "../../constants/env";
+import "../style/adminLayout.css";
+import "../style/table.css";
+import "../style/buttons.css";
 
 export default function UsersManagement() {
   const [users, setUsers] = useState([]);
@@ -28,17 +31,48 @@ export default function UsersManagement() {
   }, []);
 
   return (
-    <div>
-      <h2>Users</h2>
-      {users.map(u => (
-        <div key={u.id}>
-          {u.name} - {u.isActive ? "Active" : "Blocked"}
-          <button onClick={() => toggleUser(u.id, u.isActive)}>
-            Toggle
-          </button>
-          <button onClick={() => deleteUser(u.id)}>Delete</button>
-        </div>
-      ))}
+  <div className="admin-container">
+    <h1 className="admin-title">Users Management</h1>
+
+    <div className="admin-card">
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {users.map((u) => (
+            <tr key={u.id}>
+              <td>{u.name}</td>
+              <td>
+                <span className={u.isActive ? "status-active" : "status-blocked"}>
+                  {u.isActive ? "Active" : "Blocked"}
+                </span>
+              </td>
+              <td>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => toggleUser(u.id, u.isActive)}
+                >
+                  Toggle
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deleteUser(u.id)}
+                  style={{ marginLeft: "8px" }}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
 }

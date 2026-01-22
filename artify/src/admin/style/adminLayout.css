@@ -12,7 +12,18 @@
   background-color: #f4f6f8;
   min-height: calc(100vh - 90px);
   font-family: "Segoe UI", Tahoma, sans-serif;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
 }
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
 
 .admin-title {
   font-size: 26px;

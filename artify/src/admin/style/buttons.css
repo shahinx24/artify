@@ -16,6 +16,16 @@
   background-color: #1d4ed8;
 }
 
+
+.btn-sec {
+  background-color: #151515;
+  color: white;
+}
+
+.btn-sec:hover {
+  background-color: #3d3c3c;
+}
+
 .btn-danger {
   background-color: #dc2626;
   color: white;

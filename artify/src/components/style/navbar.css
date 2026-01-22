@@ -1,0 +1,241 @@
+.cart-icon,
+.wishlist-icon {
+  filter: var(--icon-filter);
+  transition: filter .2s ease, transform .25s ease;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.top-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.0rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background: rgba(134, 134, 134, 0.226);
+  color: #000;
+  z-index: 100;
+}
+
+.top-nav nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.top-nav button{
+  background: whitesmoke;
+  color: #000;
+  border-radius: 30px;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .6rem 1.6rem;
+  border: none;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+}
+
+.top-nav button:hover {
+  background: #ffff;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.nav-btn {
+  color: #222;
+  padding: 10px 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.nav-btn:hover {
+  background: var(--bg);
+  transform: scale(1.05);
+}
+
+.nav-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.username-tag {
+  background: #cecaca;
+  color: #222;
+  padding: 10px 18px;
+  /* border-radius: 20px; */
+  font-size: 1rem;
+  font-weight: 720;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.cart-button,
+.wishlist-button {
+  background: whitesmoke;
+  border: none;
+  padding: .5rem .9rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  width: 46px;
+  height: 46px;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+}
+
+.cart-button:hover,
+.wishlist-button:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.cart-badge,
+.wishlist-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #000;
+  color: #fff;
+  font-size: .7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 1px 5px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+}
+
+.cart-page,
+.wishlist-page {
+  flex: 1;
+}
+
+
+@media (max-width: 767px) {
+  .top-nav {
+    padding: 1rem 1.2rem;
+  }
+
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media(max-width: 900px) {
+    .cart-page,
+    .wishlist-page {
+      flex-direction: column;
+    }
+    .cart-items,
+    .wishlist-items {
+      max-height: unset;
+    }
+  }
+
+  
+  @media (max-width: 1024px) {
+    .top-nav {
+      padding: 0.8rem 1.2rem;
+    }
+
+    .top-nav nav {
+      gap: 1.2rem;
+    }
+
+    .nav-icons {
+      gap: 0.8rem;
+    }
+
+    .cart-button,
+    .wishlist-button {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .top-nav {
+      flex-wrap: wrap;
+      padding: 0.8rem 1rem;
+    }
+
+    .top-nav nav {
+      width: 100%;
+      justify-content: center;
+      margin-top: 8px;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-icons {
+      width: 100%;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .username-tag {
+      font-size: 0.85rem;
+      padding: 8px 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .top-nav nav {
+      gap: 0.6rem;
+    }
+
+    .nav-icons {
+      gap: 0.6rem;
+    }
+
+    .top-nav button {
+      padding: 0.45rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .cart-button,
+    .wishlist-button {
+      width: 36px;
+      height: 36px;
+    }
+
+    .cart-icon,
+    .wishlist-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
