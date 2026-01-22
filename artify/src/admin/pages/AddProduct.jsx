@@ -52,7 +52,7 @@ export default function AddProduct() {
 
       <div className="admin-card">
         <form className="admin-form" onSubmit={handleSubmit}>
-          {/* Product Name */}
+          
           <div>
             <label>Product Name</label>
             <input
@@ -63,7 +63,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* Price */}
           <div>
             <label>Price (₹)</label>
             <input
@@ -74,7 +73,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* Stock */}
           <div>
             <label>Stock</label>
             <input
@@ -85,7 +83,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* Category */}
           <div>
             <label>Category</label>
             <select
@@ -125,7 +122,6 @@ export default function AddProduct() {
             />
           )}
 
-          {/* Submit */}
           <button type="submit" className="btn btn-primary">
             Add Product
           </button>
