@@ -13,6 +13,7 @@ export default function AdminRoutes() {
         <Route path="users" element={<UsersManagement />} />
         <Route path="orders" element={<OrdersManagement />} />
         <Route path="products" element={<ProductsManagement />} />
+        {/* <Route path="edit" element={<ProductsManagement />} /> */}
       </Routes>
   );
 }
