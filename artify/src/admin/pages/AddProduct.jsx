@@ -14,7 +14,6 @@ export default function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // basic validation
     if (!name || !price || !stock || !category || !image) {
       alert("Please fill all fields");
       return;
@@ -25,7 +24,7 @@ export default function AddProduct() {
       price: Number(price),
       stock: Number(stock),
       category,
-      image, // path like /images/brushes/brush1.webp
+      image, // path
     };
 
     await fetch(`${ENV.API_BASE_URL}/products`, {
@@ -38,7 +37,6 @@ export default function AddProduct() {
 
     alert("Product added successfully ✅");
 
-    // reset form
     setName("");
     setPrice("");
     setStock("");
