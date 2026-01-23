@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./style/navbar.css"
 
 export default function Navbar({ setAuthMode }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
 
@@ -18,6 +18,7 @@ export default function Navbar({ setAuthMode }) {
 
   const location = useLocation();
   const isHome = location.pathname === "/";
+  if (auth?.role === "admin") return null;
 
   return (
     <header className="top-nav">

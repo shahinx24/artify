@@ -63,12 +63,15 @@ export default function PaymentPage({showToast}) {
 
     const newOrder = {
       id: Date.now(),
+      userEmail: user.email, 
       items: user.cart,
       total: cartTotal,
       date: new Date().toLocaleString(),
       method,
-      address
+      address,
+      status: "pending" 
     };
+
 
     const updated = {
       ...user,

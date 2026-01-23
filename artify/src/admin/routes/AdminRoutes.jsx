@@ -1,6 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route , Navigate, Outlet } from "react-router-dom";
 import { lazy } from "react";
-import { Navigate } from "react-router-dom";
 
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const UsersManagement = lazy(() => import("../pages/UsersManagement"));
@@ -8,16 +7,15 @@ const OrdersManagement = lazy(() => import("../pages/OrdersManagement"));
 const ProductsManagement = lazy(() => import("../pages/ProductsManagement"));
 const AddProduct = lazy(() => import("../pages/AddProduct"));
 
-export default function AdminRoutes({ children }) {
-  const admin = JSON.parse(localStorage.getItem("admin"));
+export default function AdminRoutes() {
+  const auth = JSON.parse(localStorage.getItem("auth"));
 
-  if (!admin) {
+  if (!auth || auth.role !== "admin") {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
-
 
 //   return (
 //       <Routes>

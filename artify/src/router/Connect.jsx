@@ -4,16 +4,20 @@ import Footer from "../components/Footer.jsx";
 import AuthPanel from "../components/AuthPanel.jsx";
 import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
+import AdminNavbar from "../admin/components/AdminNavbar";
 
 export default function Connect() {
   const [authMode, setAuthMode] = useState(null);
+  const auth = JSON.parse(localStorage.getItem("auth")) || null; //if auth is not found it return null
   const [toast, setToast] = useState("");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")
+));
 
   // Sync logout across tabs + clear cart/wishlist/orders
   useEffect(() => {
     const syncLogout = () => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedUser = JSON.parse(localStorage.getItem("auth")
+);
       setUser(storedUser);
 
       if (!storedUser) {
@@ -49,7 +53,10 @@ export default function Connect() {
         </>
       )}
 
-      <Navbar setAuthMode={setAuthMode} showToast={showToast} />
+      {!authMode && auth?.role === "admin" && <AdminNavbar />}
+      {!authMode && auth?.role !== "admin" && (
+        <Navbar setAuthMode={setAuthMode} showToast={showToast} /> )}
+
       <AppRoutes 
         user={user} 
         setUser={setUser}

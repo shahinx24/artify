@@ -2,57 +2,74 @@ import { useEffect, useState, useCallback } from "react";
 import { ENV } from "../../constants/env";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
+import "../style/table.css"
 
 export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`${ENV.API_BASE_URL}/users`)
+    fetch(`${ENV.API_BASE_URL}/orders`)
       .then(res => res.json())
-      .then(users => {
-        const allOrders = users.flatMap(user =>
-          (user.orders || []).map(order => ({
-            ...order,
-            userId: user.id,
-            userEmail: user.email
-          }))
-        );
+      .then(data => setOrders(data));
+  }, []);
 
-        setOrders(allOrders);
+  const updateStatus = useCallback(async (id, status) => {
+      await fetch(`${ENV.API_BASE_URL}/orders/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status })
       });
-  }, []);
 
-  const updateStatus = useCallback((id, status) => {
-    setOrders(prev =>
-      prev.map(o => (o.id === id ? { ...o, status } : o))
-    );
-
-  }, []);
+      setOrders(prev =>
+        prev.map(o => (o.id === id ? { ...o, status } : o))
+      );
+    }, []);
 
   return (
-    <div>
-      <h2>Admin Orders</h2>
+  <div className="admin-table-wrapper">
+    <h2 className="admin-page-title">All Orders</h2>
 
-      {orders.length === 0 && <p>No orders found</p>}
+    {orders.length === 0 ? (
+      <p className="empty-text">No orders found</p>
+    ) : (
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>User Email</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+        </thead>
 
-      {orders.map(o => (
-        <div key={o.id} style={{ marginBottom: "12px" }}>
-          <strong>#{o.id}</strong> – {o.userEmail} –{" "}
-          {ORDER_STATUS_LABELS[o.status]}
-
-          <select
-            value={o.status}
-            onChange={e => updateStatus(o.id, e.target.value)}
-            style={{ marginLeft: "8px" }}
-          >
-            {Object.values(ORDER_STATUS).map(s => (
-              <option key={s} value={s}>
-                {ORDER_STATUS_LABELS[s]}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
-    </div>
-  );
+        <tbody>
+          {orders.map(o => (
+            <tr key={o.id}>
+              <td>#{o.id}</td>
+              <td>{o.userEmail}</td>
+              <td>
+                <span className={`status-tag status-${o.status}`}>
+                  {ORDER_STATUS_LABELS[o.status]}
+                </span>
+              </td>
+              <td>
+                <select
+                  className="status-select"
+                  value={o.status}
+                  onChange={e => updateStatus(o.id, e.target.value)}
+                >
+                  {Object.values(ORDER_STATUS).map(s => (
+                    <option key={s} value={s}>
+                      {ORDER_STATUS_LABELS[s]}
+                    </option>
+                  ))}
+                </select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+);
 }

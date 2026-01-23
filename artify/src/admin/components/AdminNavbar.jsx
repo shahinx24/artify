@@ -1,32 +1,29 @@
-import { Link } from "react-router-dom";
-import "../style/navbar.css"
+import { Link, useNavigate } from "react-router-dom";
+import "../style/navbar.css";
 
-export default function Navbar({ setAuthMode }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+export default function AdminNavbar() {
+  const navigate = useNavigate();
+  const auth = JSON.parse(localStorage.getItem("auth"));
 
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("auth");
+    navigate("/");
     window.location.reload();
   };
 
   return (
-    <header className="navbar">
-        <div>
-      <nav>
-        <Link className="nav-btn" to="/"> Home </Link>
-      </nav>
+    <header className="admin-nav">
+      <div className="admin-left">
+        <h2>Admin Panel</h2>
+      </div>
 
-        {user ? (
-          <>
-            <span className="username-tag">{user.email.split("@")[0]}</span>
-            <button onClick={()=>{
-              localStorage.removeItem("admin");
-              window.location.reload();
-            }}>LOGOUT</button>
-          </>
-        ) : (
-          <button onClick={()=>setAuthMode("login")}>LOGIN</button>
-        )}
+      <div className="admin-center">
+        <span className="admin-email">
+          {auth.email.split("@")[0]} 
+        </span>
+        <button onClick={logout} className="admin-logout">
+          Logout
+        </button>
       </div>
     </header>
   );

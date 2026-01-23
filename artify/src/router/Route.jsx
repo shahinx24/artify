@@ -17,14 +17,9 @@ export default function AppRoutes({ user, setAuthMode, showToast }) {
       <Routes>
 
         {/*-ADMIN-*/}
-        <Route
-          path="/admin/*"
-          element={
-            <AdminRoutes>
-              <AdminRouteConfig />
-            </AdminRoutes>
-          }
-        />
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin/*" element={<AdminRouteConfig />} />
+        </Route>
 
         {/*-public-*/}
         <Route

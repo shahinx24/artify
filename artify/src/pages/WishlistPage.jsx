@@ -30,29 +30,38 @@ export default function WishlistPage({ showToast }) {
     setUser(updated);
     showToast("Removed from wishlist");
   };
-
+  
   const addToCart = async (productId) => {
-  if (!user) return showToast("Login required");
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (!auth) return showToast("Login required");
 
-  const updated = { ...user };
+    // fetch user from DB
+    const res = await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`);
+    const user = await res.json();
+    const updated = { ...user };
 
-  // remove from wishlist
-  updated.wishlist = updated.wishlist.filter(pid => pid !== productId);
+    // remove from wishlist
+    updated.wishlist = updated.wishlist.filter(pid => pid !== productId);
+    // add to cart
+    const exist = updated.cart.find(item => item.productId === productId);
 
-  // add to cart (ID-based)
-  const exist = updated.cart.find(item => item.productId === productId);
+    if (exist) {
+      exist.qty += 1;
+    } else {
+      updated.cart.push({ productId, qty: 1 });
+    }
 
-  if (exist) {
-    exist.qty++;
-  } else {
-    updated.cart.push({ productId, qty: 1 });
-  }
+    // save back to DB
+    await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated)
+    });
 
-  setProducts(prev => prev.filter(p => p.id !== productId));
-  await saveUser(updated);
-  setUser(updated);
-  showToast("Moved to Cart");
-};
+    setUser(updated);
+    setProducts(prev => prev.filter(p => p.id !== productId));
+    showToast("Moved to Cart");
+  };
   
     if (!user) {
       return (

@@ -1,13 +1,8 @@
-button {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.navbar {
+.admin-nav {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 1.0rem 3rem;
+  padding: 1rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,57 +12,38 @@ button {
   z-index: 100;
 }
 
-.navbar nav {
+.admin-center {
   display: flex;
   gap: 2rem;
 }
 
-.navbar button{
-  background: whitesmoke;
-  color: #000;
-  border-radius: 30px;
-  font-size: .9rem;
-  font-weight: 500;
-  padding: .6rem 1.6rem;
-  border: none;
-  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+.admin-left h2 {
+  background: #cecaca;
+  color: #222;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.navbar button:hover {
-  background: #ffff;
-  color: #000;
-  transform: scale(1.05);
-}
-
-.nav-btn {
+.admin-center .admin-email {
   color: #222;
   padding: 10px 18px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   border-radius: 6px;
   font-size: 1rem;
-  border: none;
-  background: var(--surface);
   font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--surface);
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.nav-btn:hover {
+.admin-center a:hover {
   background: var(--bg);
   transform: scale(1.05);
 }
 
-.nav-icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1.2rem;
-}
-
-.username-tag {
+.admin-email {
   background: #cecaca;
   color: #222;
   padding: 10px 18px;
@@ -76,77 +52,61 @@ button {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-
-@media (max-width: 767px) {
-  .navbar {
-    padding: 1rem 1.2rem;
-  }
-
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  
-  @media (max-width: 1024px) {
-    .navbar {
-      padding: 0.8rem 1.2rem;
-    }
-
-    .navbar nav {
-      gap: 1.2rem;
-    }
-
-    .nav-icons {
-      gap: 0.8rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .navbar {
-      flex-wrap: wrap;
-      padding: 0.8rem 1rem;
-    }
-
-    .navbar nav {
-      width: 100%;
-      justify-content: center;
-      margin-top: 8px;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-icons {
-      width: 100%;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .username-tag {
-      font-size: 0.85rem;
-      padding: 8px 14px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .navbar nav {
-      gap: 0.6rem;
-    }
-
-    .nav-icons {
-      gap: 0.6rem;
-    }
-
-    .navbar button {
-      padding: 0.45rem 1rem;
-      font-size: 0.8rem;
-    }
-
+.admin-logout {
+  background: whitesmoke;
+  color: #000;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1.6rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
 }
+
+.admin-logout:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .admin-nav {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .admin-center {
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-nav {
+    flex-wrap: wrap;
+    padding: 0.8rem 1rem;
+  }
+
+  .admin-center {
+    width: 100%;
+    justify-content: end;
+    margin-top: 8px;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-email {
+    font-size: 0.85rem;
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-center {
+    gap: 0.6rem;
+  }
+
+  .admin-logout {
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+  }
 }

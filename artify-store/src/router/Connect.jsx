@@ -8,12 +8,13 @@ import AppRoutes from "./Route.jsx";
 export default function Connect() {
   const [authMode, setAuthMode] = useState(null);
   const [toast, setToast] = useState("");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")
+));
 
   // Sync logout across tabs + clear cart/wishlist/orders
   useEffect(() => {
     const syncLogout = () => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const storedUser = JSON.parse(localStorage.getItem("auth"));
       setUser(storedUser);
 
       if (!storedUser) {

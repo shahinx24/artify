@@ -1,8 +1,13 @@
 export const ORDER_STATUS = {
-  PENDING: "PENDING",
-  CONFIRMED: "CONFIRMED",
-  PROCESSING: "PROCESSING",
-  OUT_FOR_DELIVERY: "OUT_FOR_DELIVERY",
-  DELIVERED: "DELIVERED",
-  CANCELLED: "CANCELLED"
+  PENDING: "pending",
+  PROCESSING: "processing",
+  SHIPPED: "shipped",
+  CANCELLED: "cancelled",
+};
+
+export const ORDER_STATUS_LABELS = {
+  pending: "Pending",
+  processing: "Processing",
+  shipped: "Shipped",
+  cancelled: "Cancelled",
 };

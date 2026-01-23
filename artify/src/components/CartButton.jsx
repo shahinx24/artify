@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/cart.svg";
 
 export default function CartButton() {
-  const user = getUser();
+  const [user, setUser] = useState(null);
+
+    useEffect(() => {
+      getUser().then(u => setUser(u));
+    }, []);
+
   const count = user?.cart?.length || 0;
 
   return (

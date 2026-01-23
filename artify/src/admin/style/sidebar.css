@@ -1,8 +1,13 @@
 .sidebar {
+  position: fixed;
+  top: 70px;    
+  left: 0;
+  height: calc(100vh - 70px);
   width: 220px;
   background: #111827;
   color: white;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .sidebar a {
@@ -17,4 +22,10 @@
 .sidebar a.active {
   background: #2563eb;
   color: white;
+}
+
+@media (max-width: 768px), (max-height: 533px) {
+  .sidebar {
+  margin-top: 40px;
+}
 }

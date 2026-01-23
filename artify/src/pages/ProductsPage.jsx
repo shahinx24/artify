@@ -18,19 +18,25 @@ export default function ProductsPage({ showToast }) {
     ...user, cart: user.cart || [], wishlist: user.wishlist || []
   } : null;
 
-  const addToCart = async (productId) => {
-  if (!safeUser) return showToast("Login required!");
+  const addToCart = async (product) => {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (!auth) return showToast("Login required");
 
-  const updated = { ...safeUser };
-  const exist = updated.cart.find(i => i.productId === productId);
+    const res = await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`);
+    const user = await res.json();
 
-  exist
-    ? exist.qty++
-    : updated.cart.push({ productId, qty: 1 });
+    const updatedUser = {
+      ...user,
+      cart: [...user.cart, { ...product, qty: 1 }]
+    };
 
-  await saveUser(updated);
-  setUser(updated);
-  showToast("Added to cart!");
+    await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedUser)
+    });
+
+    showToast("Added to cart");
   };
 
   const toggleWishlist = async (id) => {

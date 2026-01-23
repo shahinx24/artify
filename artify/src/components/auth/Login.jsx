@@ -6,25 +6,32 @@ export default function Login({ setAuthMode, showToast }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
-
-  const ADMIN_EMAIL = "shahin@gmail.com";
-  const ADMIN_PASS = "Shahin@12";
-
   const login = async (e) => {
-    e.preventDefault();
+   e.preventDefault();
 
-    //Admin
-    if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+    // ADMIN LOGIN
+    const { data: admins } = await axios.get("http://localhost:3000/admins");
+
+    const admin = admins.find(
+      (a) => a.email === email && a.password === pass
+    );
+
+    if (admin) {
       localStorage.setItem(
-        "admin",
-        JSON.stringify({ email: ADMIN_EMAIL, role: "admin" })
+        "auth",
+        JSON.stringify({
+          id: admin.id,
+          email: admin.email,
+          role: "admin",
+        })
       );
 
       setAuthMode(null);
-      navigate("/admin"); 
+      navigate("/admin");
       return;
     }
 
+    // USER LOGIN
     const { data: users } = await axios.get("http://localhost:3000/users");
 
     const found = users.find(
@@ -33,13 +40,14 @@ export default function Login({ setAuthMode, showToast }) {
 
     if (!found) return showToast("Invalid credentials");
 
-    const authData = {
-      id: found.id,
-      email: found.email,
-      role: found.role,
-    };
-
-    localStorage.setItem("auth", JSON.stringify(authData));
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({
+        id: found.id,
+        email: found.email,
+        role: found.role,
+      })
+    );
 
     setAuthMode(null);
     window.location.reload();
