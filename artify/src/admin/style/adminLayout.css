@@ -1,9 +1,24 @@
 .admin-container {
+  margin-top: 70px;
   padding: 24px;
   background-color: #f4f6f8;
   min-height: calc(100vh - 90px);
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
+
+.admin-layout {
+  margin-top: 68px;
+  display: flex;     
+  min-height: 100vh;
+  background: #f4f6f8;
+}
+
+.admin-main {
+  flex: 1;          
+  padding: 24px;
+  margin-left: 220px;
+}
+
 
 .admin-page {
   margin-top: 70px;
@@ -37,9 +52,7 @@
   padding: 20px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
-/* 
-footer,
-.cart-button,
-.wishlist-button{
+
+footer{
     display: none;
-} */
+}
