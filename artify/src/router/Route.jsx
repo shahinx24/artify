@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AdminRouteConfig from "../admin/routes/Route.jsx";
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const HomePage = lazy(() => import("../pages/NonAuth/HomePage.jsx"));
 const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage.jsx"));

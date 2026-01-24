@@ -5,7 +5,7 @@ import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
 import { authGuard } from "../utils/authGuard";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../context/AuthContext.jsx";
 import { useEffect, useState } from "react";
 
 export default function Connect() {
@@ -15,8 +15,8 @@ export default function Connect() {
     setTimeout(() => setToast(""), 2500);
   };
 
-  const { auth, loading, logout } = useAuth(showToast);
-  const authState = useAuth(showToast);
+  const authState = useAuth();
+  const { auth, loading, logout } = authState;
 
   useEffect(() => {
     if (loading) return;
