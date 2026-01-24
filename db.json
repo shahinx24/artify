@@ -1,0 +1,451 @@
+{
+  "admins": [
+    {
+      "id": 1,
+      "email": "shahin@gmail.com",
+      "pass": "Shahin@12", 
+      "role": "admin"
+    }
+  ],
+  "users": [
+    {
+      "email": "hanan@gmail.com",
+      "pass": "Hanan@12",
+      "role": "user",
+      "cart": [],
+      "wishlist": [],
+      "isActive": true,
+      "id": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": 1770017870424,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": 32,
+          "qty": 1
+        },
+        {
+          "productId": 33,
+          "qty": 1
+        },
+        {
+          "productId": 31,
+          "qty": 1
+        },
+        {
+          "productId": 28,
+          "qty": 1
+        },
+        {
+          "productId": 27,
+          "qty": 1
+        }
+      ],
+      "total": 960,
+      "createdAt": "2026-02-02T07:37:50.424Z",
+      "method": "cod",
+      "address": {
+        "city": "Malappuram ",
+        "street": "kakkenjeri ",
+        "pin": "124"
+      },
+      "status": "processing"
+    },
+    {
+      "id": 1770017905192,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": "25",
+          "qty": 1
+        },
+        {
+          "productId": "29",
+          "qty": 1
+        }
+      ],
+      "total": 390,
+      "createdAt": "2026-02-02T07:38:25.192Z",
+      "method": "gpay",
+      "address": {
+        "city": "malappuram ",
+        "street": "university ",
+        "pin": "676335"
+      },
+      "status": "delivered"
+    },
+    {
+      "id": 1770017943569,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": "30",
+          "qty": 1
+        },
+        {
+          "productId": "31",
+          "qty": 1
+        },
+        {
+          "productId": "34",
+          "qty": 1
+        },
+        {
+          "productId": "35",
+          "qty": 1
+        }
+      ],
+      "total": 610,
+      "createdAt": "2026-02-02T07:39:03.569Z",
+      "method": "cod",
+      "address": {
+        "city": "hooks",
+        "street": "oops",
+        "pin": "809"
+      },
+      "status": "pending"
+    },
+    {
+      "id": 1770456264923,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": 8,
+          "qty": 2
+        },
+        {
+          "productId": 7,
+          "qty": 2
+        },
+        {
+          "productId": "11",
+          "qty": 1
+        }
+      ],
+      "total": 1400,
+      "createdAt": "2026-02-07T09:24:24.923Z",
+      "method": "gpay",
+      "address": {
+        "city": "malappuram ",
+        "street": "kakkenjeri ",
+        "pin": "676317"
+      },
+      "status": "cancelled"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Round Brush",
+      "price": 120,
+      "image": "/images/brushes/brush1.webp",
+      "category": "brushes",
+      "stock": 50
+    },
+    {
+      "id": "2",
+      "name": "Flat Brush",
+      "price": 150,
+      "image": "/images/brushes/brush2.jpg",
+      "category": "brushes",
+      "stock": 52
+    },
+    {
+      "id": "3",
+      "name": "Fan Brush",
+      "price": 160,
+      "image": "/images/brushes/brush3.jpg",
+      "category": "brushes",
+      "stock": 50
+    },
+    {
+      "id": "4",
+      "name": "Detail Brush Set",
+      "price": 200,
+      "image": "/images/brushes/brush4.jpg",
+      "category": "brushes",
+      "stock": 48
+    },
+    {
+      "id": "5",
+      "name": "Artist Filbert Brush",
+      "price": 180,
+      "image": "/images/brushes/brush5.jpg",
+      "category": "brushes",
+      "stock": 50
+    },
+    {
+      "id": "6",
+      "name": "Professional Brush Kit",
+      "price": 350,
+      "image": "/images/brushes/brush6.jpg",
+      "category": "brushes",
+      "stock": 48
+    },
+    {
+      "id": "7",
+      "name": "Acrylic Color Pack",
+      "price": 250,
+      "image": "/images/colors/colors1.jpg",
+      "category": "colors",
+      "stock": 50
+    },
+    {
+      "id": "8",
+      "name": "Oil Paint Starter",
+      "price": 350,
+      "image": "/images/colors/colors2.jpg",
+      "category": "colors",
+      "stock": 50
+    },
+    {
+      "id": "9",
+      "name": "Watercolor Cakes",
+      "price": 180,
+      "image": "/images/colors/colors3.jpg",
+      "category": "colors",
+      "stock": 48
+    },
+    {
+      "id": "10",
+      "name": "Poster Color Set",
+      "price": 100,
+      "image": "/images/colors/colors4.jpg",
+      "category": "colors",
+      "stock": 49
+    },
+    {
+      "id": "11",
+      "name": "Fabric Paint Kit",
+      "price": 200,
+      "image": "/images/colors/colors5.webp",
+      "category": "colors",
+      "stock": 28
+    },
+    {
+      "id": "12",
+      "name": "Premium Paint Box",
+      "price": 450,
+      "image": "/images/colors/colors6.jpg",
+      "category": "colors",
+      "stock": 37
+    },
+    {
+      "id": "13",
+      "name": "Canvas Board",
+      "price": 180,
+      "image": "/images/canvas/canvas1.webp",
+      "category": "canvas",
+      "stock": 40
+    },
+    {
+      "id": "14",
+      "name": "Stretched Rectangular Canvas",
+      "price": 220,
+      "image": "/images/canvas/canvas2.jpg",
+      "category": "canvas",
+      "stock": 59
+    },
+    {
+      "id": "15",
+      "name": "Mini Canvas Pack",
+      "price": 150,
+      "image": "/images/canvas/canvas3.jpg",
+      "category": "canvas",
+      "stock": 58
+    },
+    {
+      "id": "16",
+      "name": "Large Canvas Sheet",
+      "price": 280,
+      "image": "/images/canvas/canvas4.jpg",
+      "category": "canvas",
+      "stock": 56
+    },
+    {
+      "id": "17",
+      "name": "Stretched Square Canvas",
+      "price": 200,
+      "image": "/images/canvas/canvas5.jpg",
+      "category": "canvas",
+      "stock": 56
+    },
+    {
+      "id": "18",
+      "name": "Pro Canvas Set",
+      "price": 450,
+      "image": "/images/canvas/canvas6.jpg",
+      "category": "canvas",
+      "stock": 65
+    },
+    {
+      "id": "19",
+      "name": "A4 Sketchbook",
+      "price": 90,
+      "image": "/images/sketchbooks/sketch1.jpg",
+      "category": "sketchbooks",
+      "stock": 65
+    },
+    {
+      "id": "20",
+      "name": "Spiral Sketch Pad",
+      "price": 120,
+      "image": "/images/sketchbooks/sketch2.jpg",
+      "category": "sketchbooks",
+      "stock": 76
+    },
+    {
+      "id": "21",
+      "name": "Watercolor Paper Pad",
+      "price": 160,
+      "image": "/images/sketchbooks/sketch3.jpg",
+      "category": "sketchbooks",
+      "stock": 56
+    },
+    {
+      "id": "22",
+      "name": "Newsprint Rough Pad",
+      "price": 80,
+      "image": "/images/sketchbooks/sketch4.jpg",
+      "category": "sketchbooks",
+      "stock": 55
+    },
+    {
+      "id": "23",
+      "name": "Hardbound Drawing Book",
+      "price": 200,
+      "image": "/images/sketchbooks/sketch5.jpg",
+      "category": "sketchbooks",
+      "stock": 68
+    },
+    {
+      "id": "24",
+      "name": "Mixed Media Pad",
+      "price": 220,
+      "image": "/images/sketchbooks/sketch6.jpg",
+      "category": "sketchbooks",
+      "stock": 77
+    },
+    {
+      "id": "25",
+      "name": "Dual Tip Marker Set",
+      "price": 300,
+      "image": "/images/markers/marker1.jpg",
+      "category": "markers",
+      "stock": 64
+    },
+    {
+      "id": "26",
+      "name": "Fine Liner Pen Pack",
+      "price": 180,
+      "image": "/images/markers/marker2.jpg",
+      "category": "markers",
+      "stock": 54
+    },
+    {
+      "id": "27",
+      "name": "Brush Marker Set",
+      "price": 350,
+      "image": "/images/markers/marker3.jpg",
+      "category": "markers",
+      "stock": 44
+    },
+    {
+      "id": "28",
+      "name": "Permanent Marker Pack",
+      "price": 150,
+      "image": "/images/markers/marker4.jpg",
+      "category": "markers",
+      "stock": 43
+    },
+    {
+      "id": "29",
+      "name": "Highlighter Marker Kit",
+      "price": 90,
+      "image": "/images/markers/marker5.jpg",
+      "category": "markers",
+      "stock": 49
+    },
+    {
+      "id": "30",
+      "name": "Metallic Marker Set",
+      "price": 250,
+      "image": "/images/markers/marker6.jpg",
+      "category": "markers",
+      "stock": 56
+    },
+    {
+      "id": "31",
+      "name": "Craft Scissors",
+      "price": 120,
+      "image": "/images/craft/craft1.jpg",
+      "category": "craft",
+      "stock": 45
+    },
+    {
+      "id": "32",
+      "name": "Glue Gun",
+      "price": 240,
+      "image": "/images/craft/craft2.jpg",
+      "category": "craft",
+      "stock": 43
+    },
+    {
+      "id": "33",
+      "name": "Hot Glue Sticks Pack",
+      "price": 100,
+      "image": "/images/craft/craft3.jpg",
+      "category": "craft",
+      "stock": 42
+    },
+    {
+      "id": "34",
+      "name": "Sparkle Glitter Jars",
+      "price": 150,
+      "image": "/images/craft/craft4.jpg",
+      "category": "craft",
+      "stock": 65
+    },
+    {
+      "id": "35",
+      "name": "Foam Sheet Pack",
+      "price": 90,
+      "image": "/images/craft/craft5.jpg",
+      "category": "craft",
+      "stock": 67
+    },
+    {
+      "id": "36",
+      "name": "Craft Stick Set",
+      "price": 60,
+      "image": "/images/craft/craft6.jpg",
+      "category": "craft",
+      "stock": 64
+    }
+  ],
+  
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
