@@ -15,7 +15,86 @@
       "cart": [],
       "wishlist": [],
       "id": 1,
-      "isActive": true
+      "isActive": true,
+      "orders": [
+        {
+          "id": 1769250428433,
+          "userEmail": "hanan@gmail.com",
+          "items": [
+            {
+              "productId": "7",
+              "qty": 1
+            },
+            {
+              "productId": "8",
+              "qty": 2
+            },
+            {
+              "productId": "11",
+              "qty": 2
+            },
+            {
+              "productId": "9",
+              "qty": 1
+            },
+            {
+              "productId": "1",
+              "qty": 1
+            }
+          ],
+          "total": 1650,
+          "date": "24/01/2026, 15:57:08",
+          "method": "cod",
+          "address": {
+            "city": "fsad",
+            "street": "fsda",
+            "pin": "5"
+          },
+          "status": "pending"
+        },
+        {
+          "id": 1769250486376,
+          "userEmail": "hanan@gmail.com",
+          "items": [
+            {
+              "productId": "3",
+              "qty": 1
+            }
+          ],
+          "total": 160,
+          "date": "24/01/2026, 15:58:06",
+          "method": "cod",
+          "address": {
+            "city": "ds",
+            "street": "ds",
+            "pin": "32"
+          },
+          "status": "pending"
+        },
+        {
+          "id": 1769251955420,
+          "userEmail": "hanan@gmail.com",
+          "items": [
+            {
+              "productId": "5",
+              "qty": 1
+            },
+            {
+              "productId": "8",
+              "qty": 1
+            }
+          ],
+          "total": 530,
+          "date": "24/01/2026, 16:22:35",
+          "method": "gpay",
+          "address": {
+            "city": "Malappuram",
+            "street": "palakkal",
+            "pin": "66317"
+          },
+          "status": "pending"
+        }
+      ]
     }
   ],
   "orders": [],

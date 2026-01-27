@@ -1,46 +1,68 @@
 import { useEffect, useState } from "react";
 import { getUser, saveUser } from "../utils/userHelpers";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CartPage({ showToast }) {
-  const [user, setUser] = useState(getUser());
+  const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const goToPayment = () => {
-    if (!products || products.length === 0) {
-      return showToast("Cart is empty");
-    }
-    navigate("/checkout");
-  };
+  const auth = JSON.parse(localStorage.getItem("auth"));
 
-  const cartItems = user?.cart.map(item => {
-  const product = products.find(p => p.id === item.productId);
-  return product ? { ...product, qty: item.qty } : null;
-  }).filter(Boolean);
-  
   useEffect(() => {
-  fetch("http://localhost:3000/products")
-    .then(res => res.json())
-    .then(data => setProducts(data));
+    const u = getUser();
+    if (u) {
+      setUser(u);
+    }
+
+    fetch("http://localhost:3000/products")
+      .then(res => res.json())
+      .then(data => setProducts(data));
   }, []);
 
+  if (!auth) {
+    return (
+      <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
+        <h2>Please login to view your cart</h2>
+        <Link to="/" className="checkout-btn">Go Home</Link>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  const cartItems = user.cart
+    .map(item => {
+      const product = products.find(p => p.id === item.productId);
+      return product ? { ...product, qty: item.qty } : null;
+    })
+    .filter(Boolean);
+
   const updateUser = async (updated) => {
-  await saveUser(updated);
-  setUser(updated);
+    await saveUser(updated);
+    setUser(updated);
   };
 
-  const increaseQty = (id) => {
-    const updated = { ...user };
-    const item = updated.cart.find(p => p.productId === id);
-    item.qty++;
+ const increaseQty = (id) => {
+    const updated = {
+      ...user,
+      cart: user.cart.map(item =>
+        item.productId === id
+          ? { ...item, qty: item.qty + 1 }
+          : item
+      )
+    };
     updateUser(updated);
   };
 
   const decreaseQty = (id) => {
-    const updated = { ...user };
-    const item = updated.cart.find(p => p.productId === id);
-    if (item.qty > 1) item.qty--;
+    const updated = {
+      ...user,
+      cart: user.cart.map(item =>
+        item.productId === id && item.qty > 1
+          ? { ...item, qty: item.qty - 1 }
+          : item
+      )
+    };
     updateUser(updated);
   };
 
@@ -51,27 +73,18 @@ export default function CartPage({ showToast }) {
     showToast("Removed from cart");
   };
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0 );
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const totalQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
-  if (!user) {
-    return (
-      <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
-        <h2>Please login to view your cart</h2>
-        <Link to="/" className="checkout-btn" style={{ display: "inline-block", marginTop: "1rem" }}>
-          Go Home
-        </Link>
-      </div>
-    );
-  }
+  const goToPayment = () => {
+    if (cartItems.length === 0) return showToast("Cart is empty");
+    navigate("/checkout");
+  };
 
   return (
     <div className="cart-page">
       <div className="cart-items">
-        {cartItems.length === 0 && (
-          <p style={{ paddingTop: "2rem", textAlign: "center" }}> </p>
-        )}
-
-       {cartItems.map(p => (
+        {cartItems.map(p => (
           <div className="cart-item" key={p.id}>
             <img src={p.image} alt={p.name} />
             <div className="item-info">
@@ -97,16 +110,17 @@ export default function CartPage({ showToast }) {
         <div className="summary-line">
           <span>Total Items:</span>
           <span>{cartItems.length}</span>
+          {/* <span>{cartItems.reduce((acc, i) => acc + i.qty, 0)}</span> */}
+        </div>
+
+        <div className="summary-line">
+          <span>Total Quantity:</span>
+          <span>{totalQty}</span>
         </div>
 
         <div className="summary-line">
           <span>Subtotal:</span>
           <span>₹{total}</span>
-        </div>
-
-        <div className="summary-line">
-          <span>Delivery:</span>
-          <span>₹0</span>
         </div>
 
         <hr style={{ margin: "1rem 0" }} />

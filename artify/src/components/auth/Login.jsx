@@ -40,14 +40,7 @@ export default function Login({ setAuthMode, showToast }) {
 
     if (!found) return showToast("Invalid credentials");
 
-    localStorage.setItem(
-      "auth",
-      JSON.stringify({
-        id: found.id,
-        email: found.email,
-        role: found.role,
-      })
-    );
+    localStorage.setItem("auth", JSON.stringify(found));
 
     setAuthMode(null);
     window.location.reload();

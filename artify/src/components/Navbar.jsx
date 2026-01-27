@@ -4,16 +4,15 @@ import WishlistButton from "./WishlistButton.jsx";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./style/navbar.css"
+import { getUser } from "../utils/userHelpers";
 
 export default function Navbar({ setAuthMode }) {
-  // const user = JSON.parse(localStorage.getItem("user"));
-  const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("auth");
-    navigate("/"); 
-    window.location.reload();
+    navigate("/");
   };
 
   const location = useLocation();

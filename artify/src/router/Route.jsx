@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AdminRouteConfig from "../admin/routes/Route.jsx";
+import { getUser } from "../utils/userHelpers";
 
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
 const ProductsPage = lazy(() => import("../pages/ProductsPage.jsx"));
@@ -12,6 +13,8 @@ const NotFound = lazy(() => import("../pages/NotFound.jsx"));
 const AdminRoutes = lazy(() => import("../admin/routes/AdminRoutes.jsx"));
 
 export default function AppRoutes({ user, setAuthMode, showToast }) {
+  const auth = JSON.parse(localStorage.getItem("auth"));
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -40,22 +43,22 @@ export default function AppRoutes({ user, setAuthMode, showToast }) {
         {/*-user-*/}
         <Route
           path="/wishlist"
-          element={user ? <WishlistPage showToast={showToast} /> : <Navigate to="/" />}
+          element={auth ? <WishlistPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/cart"
-          element={user ? <CartPage showToast={showToast} /> : <Navigate to="/" />}
+          element={auth ? <CartPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/checkout"
-          element={user ? <PaymentPage showToast={showToast} /> : <Navigate to="/" />}
+          element={getUser() ? <PaymentPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/orders"
-          element={user ? <OrdersPage showToast={showToast} /> : <Navigate to="/" />}
+          element={getUser() ? <OrdersPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route path="*" element={<NotFound />} />

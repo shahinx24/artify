@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
 import "./style/product.css"
+import { ENV } from "../constants/env";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
@@ -18,17 +19,30 @@ export default function ProductsPage({ showToast }) {
     ...user, cart: user.cart || [], wishlist: user.wishlist || []
   } : null;
 
-  const addToCart = async (product) => {
+  const addToCart = async (productId) => {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth) return showToast("Login required");
 
     const res = await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`);
     const user = await res.json();
+    const exists = user.cart.find(
+      item => item.productId === productId
+    );
+    let updatedCart;
 
-    const updatedUser = {
-      ...user,
-      cart: [...user.cart, { ...product, qty: 1 }]
-    };
+    if (exists) {
+      updatedCart = user.cart.map(item =>
+        item.productId === productId
+          ? { ...item, qty: item.qty + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [
+        ...user.cart,
+        { productId: String(productId), qty: 1 }
+      ];
+    }
+    const updatedUser = { ...user, cart: updatedCart };
 
     await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`, {
       method: "PUT",
@@ -36,6 +50,7 @@ export default function ProductsPage({ showToast }) {
       body: JSON.stringify(updatedUser)
     });
 
+    localStorage.setItem("auth", JSON.stringify(updatedUser));
     showToast("Added to cart");
   };
 

@@ -1,24 +1,25 @@
 import axios from "axios";
+import { ENV } from "../constants/env";
 
-const API = "http://localhost:3000/users";
+const API = `${ENV.API_BASE_URL}/users`;
 
-// GET LOGGED IN USER (from local)
-export const getUser = async () => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  if (!auth) return null;
- // ensure cart and wishlist are at least empty arrays 
-  return { 
-    ...auth, // Makes a new object copying all fields (name, email, etc.)
-    cart: auth.cart || [],
-    wishlist: auth.wishlist || []
+export const getUser = () => {
+  const u = JSON.parse(localStorage.getItem("auth"));
+  if (!u || !u.id) return null;
+
+  return {
+    ...u,
+    cart: u.cart ?? [],
+    wishlist: u.wishlist ?? []
   };
 };
 
-// SAVE UPDATED USER
 export const saveUser = async (user) => {
-  // Update in DB
-  await axios.put(`${API}/${user.id}`, user);
+  if (!user?.id) {
+    console.error("❌ Missing user.id", user);
+    return;
+  }
 
-  // Update currently logged in user
-  localStorage.setItem("user", JSON.stringify(user));
+  await axios.put(`${API}/${user.id}`, user);
+  localStorage.setItem("auth", JSON.stringify(user));
 };

@@ -1,15 +1,19 @@
 import { getUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/cart.svg";
+import { useEffect, useState } from "react";
 
 export default function CartButton() {
   const [user, setUser] = useState(null);
 
-    useEffect(() => {
-      getUser().then(u => setUser(u));
-    }, []);
+  useEffect(() => {
+    const u = getUser();
+    if (u) {
+      setUser(u);
+    }
+  }, []);
 
-  const count = user?.cart?.length || 0;
+  const count = user?.cart?.reduce((a, i) => a + i.qty, 0) || 0;
 
   return (
     <Link to="/cart">

@@ -1,86 +1,113 @@
 import { useState } from "react";
 import { getUser, saveUser } from "../utils/userHelpers";
+import "./style/orders.css"
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());
-  const [orders, setOrders] = useState(user?.orders || []);
-  const [cancelled, setCancelled] = useState(user?.cancelledOrders || []);
-  const cancelOrder = async (id) => {
-    const active = orders.filter(o => o.id !== id);
-    const cancelledOne = orders.find(o => o.id === id);
 
-    const updated = {
-      ...user,
-      orders: active,
-      cancelledOrders: [...cancelled, cancelledOne]
-    };
+  if (!user) {
+    return <p className="payment-login-msg">Login required</p>;
+  }
 
-    await saveUser(updated);
-    setUser(updated);
-    setOrders(active);
-    setCancelled(updated.cancelledOrders);
-    showToast("Order cancelled");
+  const orders = user.orders || [];
+
+  const updateStatus = async (id, status) => {
+    const updatedOrders = orders.map(o =>
+      o.id === id ? { ...o, status } : o
+    );
+
+    const updatedUser = { ...user, orders: updatedOrders };
+    await saveUser(updatedUser);
+    setUser(updatedUser);
+
+    showToast(`Order ${status}`);
   };
 
-  const dlt = async (id) => {
-    const remaining = cancelled.filter(o => o.id !== id);
+const getStatusColor = (status) => {
+  switch (status) {
+    case "pending": return "pending";
+    case "confirmed": return "confirmed";
+    case "shipped": return "shipped";
+    case "delivered": return "delivered";
+    case "cancelled": return "cancelled";
+    default: return "unknown";
+  }
+};
 
-    const updated = {
-      ...user,
-      cancelledOrders: remaining
-    };
 
-    await saveUser(updated);
-    setUser(updated);
-    setCancelled(remaining);
-    showToast("Deleted from history");
-  };
+  const activeOrders = orders.filter(o => o.status !== "cancelled");
+  const cancelledOrders = orders.filter(o => o.status === "cancelled");
+return (
+  <div className="orders-page">
+    <h2>My Orders</h2>
 
-  if (!user) return <p className="payment-login-msg">Login required</p>;
+    {orders.length === 0 && <p>No orders yet</p>}
 
-  return (
-    <div className="orders-page">
-      <h2>My Orders</h2>
+    <div className="orders-layout">
+      <div className="orders-left">
+        <h3>Active Orders</h3>
 
-      <div className="orders-layout">
+        {activeOrders.length === 0 && <p>No active orders</p>}
 
-        {/* LEFT: ACTIVE */}
-        <div className="orders-left">
-          {orders.length === 0 && <p>No active orders</p>}
-          {orders.map(o => (
-            <div className="order-card" key={o.id}>
-              <p>Order #{o.id}</p>
-              <p>Total: ₹{o.total}</p>
-              <p>Method: {o.method}</p>
-              <p>City: {o.address.city}</p>
-              <button className="cancel-btn" onClick={() => cancelOrder(o.id)}>
-                Cancel
+        {activeOrders.map(o => (
+          <div className={`order-card ${o.status}`} key={o.id}>
+            <div className="order-header">
+              <p><strong>Order #{o.id}</strong></p>
+              <span className={`order-status ${o.status}`}>
+                {o.status.toUpperCase()}
+              </span>
+            </div>
+
+            <p>Date: {o.date}</p>
+            <p>Total: ₹{o.total}</p>
+            <p>Payment: {o.method}</p>
+            <p>Address: {o.address.city}, {o.address.street}</p>
+
+            {o.status === "pending" && (
+              <button
+                className="cancel-btn"
+                onClick={() => updateStatus(o.id, "cancelled")}
+              >
+                Cancel Order
               </button>
-            </div>
-          ))}
-        </div>
-
-        {/* RIGHT: CANCELLED */}
-        {cancelled.length > 0 && (
-          <div className="orders-right">
-            <h3>Cancelled Orders</h3>
-            <div className="cancelled-list">
-              {cancelled.map(c => (
-                <p key={c.id} className="cancelled-item">
-                  Order #{c.id} 
-                  <button
-                    className="delete-x"
-                    onClick={() => dlt(c.id)}
-                  >
-                    ✖
-                  </button>
-                </p>
-              ))}
-            </div>
+            )}
           </div>
-        )}
-
+        ))}
       </div>
+
+      {/* COLUMN 2: CANCELLED ORDERS */}
+      <div className="orders-cancelled">
+        <h3>Cancelled Orders</h3>
+
+        {cancelledOrders.length === 0 && <p>No cancelled orders</p>}
+
+        {cancelledOrders.map(o => (
+          <div className="order-card cancelled" key={o.id}>
+            <div className="order-header">
+              <p><strong>Order #{o.id}</strong></p>
+              <span className="order-status cancelled">CANCELLED</span>
+            </div>
+
+            <p>Date: {o.date}</p>
+            <p>Total: ₹{o.total}</p>
+            <p>Payment: {o.method}</p>
+            <p>Address: {o.address.city}, {o.address.street}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* COLUMN 3: STATUS LEGEND */}
+      <div className="orders-right">
+        <h3>Order Status</h3>
+        <p><span className="dot pending"></span> Pending</p>
+        <p><span className="dot confirmed"></span> Confirmed</p>
+        <p><span className="dot shipped"></span> Shipped</p>
+        <p><span className="dot delivered"></span> Delivered</p>
+        <p><span className="dot cancelled"></span> Cancelled</p>
+      </div>
+
     </div>
-  );
+
+</div>
+);
 }
