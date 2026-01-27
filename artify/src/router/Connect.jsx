@@ -5,13 +5,29 @@ import AuthPanel from "../components/AuthPanel.jsx";
 import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
+import { authGuard } from "../utils/authGuard";
 
 export default function Connect() {
-  const [authMode, setAuthMode] = useState(null);
   const auth = JSON.parse(localStorage.getItem("auth")) || null; //if auth is not found it return null
   const [toast, setToast] = useState("");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")
-));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  // Toast helper
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2500);
+  };
+
+     useEffect(() => {
+      (async () => {
+        const message = await authGuard();
+
+        if (message) {
+          showToast(message);
+          window.location.href = "/";
+        }
+      })();
+    }, []);
 
   // Sync logout across tabs + clear cart/wishlist/orders
   useEffect(() => {
@@ -32,37 +48,16 @@ export default function Connect() {
     return () => window.removeEventListener("storage", syncLogout);
   }, []);
 
-  // Toast helper
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(""), 2500);
-  };
-
   return (
     <>
       {/* AUTH POPUP */}
-      {authMode && (
-        <>
-          <div className="auth-overlay" onClick={() => setAuthMode(null)}></div>
-          <span className="auth-close" onClick={() => setAuthMode(null)}>✖</span>
-          <AuthPanel
-            authMode={authMode}
-            setAuthMode={setAuthMode}
-            showToast={showToast}
-          />
-        </>
-      )}
+      <AuthPanel showToast={showToast} />
 
-      {!authMode && auth?.role === "admin" && <AdminNavbar />}
-      {!authMode && auth?.role !== "admin" && (
-        <Navbar setAuthMode={setAuthMode} showToast={showToast} /> )}
+      {auth?.role === "admin" && <AdminNavbar />}
+      {auth?.role !== "admin" && <Navbar />}
 
-      <AppRoutes 
-        user={user} 
-        setUser={setUser}
-        setAuthMode={setAuthMode}
-        showToast={showToast} 
-      />
+      <AppRoutes showToast={showToast} />
+
       <Footer />
       <Toast message={toast} />
     </>

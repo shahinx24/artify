@@ -53,7 +53,7 @@ export const useAuth = (showToast) => {
     }
 
     localStorage.setItem("auth", JSON.stringify(user));
-    window.location.reload();
+    navigate("/");
   };
 
   const register = async (e) => {

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AdminRouteConfig from "../admin/routes/Route.jsx";
-import { getUser } from "../utils/userHelpers";
+// import { getUser } from "../utils/userHelpers";
 
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
 const ProductsPage = lazy(() => import("../pages/ProductsPage.jsx"));
@@ -12,35 +12,29 @@ const OrdersPage = lazy(() => import("../pages/OrdersPage.jsx"));
 const NotFound = lazy(() => import("../pages/NotFound.jsx"));
 const AdminRoutes = lazy(() => import("../admin/routes/AdminRoutes.jsx"));
 
-export default function AppRoutes({ user, setAuthMode, showToast }) {
+export default function AppRoutes({ showToast }) {
   const auth = JSON.parse(localStorage.getItem("auth"));
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
 
-        {/*-ADMIN-*/}
+        {/* ADMIN */}
         <Route element={<AdminRoutes />}>
           <Route path="/admin/*" element={<AdminRouteConfig />} />
         </Route>
 
-        {/*-public-*/}
-        <Route
-          path="/"
-          element={
-            <HomePage
-              setAuthMode={setAuthMode}
-              showToast={showToast}
-            />
-          }
-        />
+        {/* PUBLIC (popup auth lives here) */}
+        <Route path="/" element={<HomePage showToast={showToast} />} />
+        <Route path="/login" element={<HomePage showToast={showToast} />} />
+        <Route path="/register" element={<HomePage showToast={showToast} />} />
 
         <Route
           path="/products/:category?"
           element={<ProductsPage showToast={showToast} />}
         />
 
-        {/*-user-*/}
+        {/* USER PROTECTED */}
         <Route
           path="/wishlist"
           element={auth ? <WishlistPage showToast={showToast} /> : <Navigate to="/login" />}
@@ -53,16 +47,15 @@ export default function AppRoutes({ user, setAuthMode, showToast }) {
 
         <Route
           path="/checkout"
-          element={getUser() ? <PaymentPage showToast={showToast} /> : <Navigate to="/login" />}
+          element={auth ? <PaymentPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/orders"
-          element={getUser() ? <OrdersPage showToast={showToast} /> : <Navigate to="/login" />}
+          element={auth ? <OrdersPage showToast={showToast} /> : <Navigate to="/login" />}
         />
 
         <Route path="*" element={<NotFound />} />
-
       </Routes>
     </Suspense>
   );

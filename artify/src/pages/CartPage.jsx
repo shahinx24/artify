@@ -11,7 +11,10 @@ export default function CartPage({ showToast }) {
   useEffect(() => {
     const u = getUser();
     if (u) {
-      setUser(u);
+      setUser({
+        ...u,
+        cart: u.cart || []
+      });
     }
 
     fetch("http://localhost:3000/products")
@@ -21,7 +24,10 @@ export default function CartPage({ showToast }) {
 
   if (!auth) {
     return (
-      <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
+      <div
+        className="page-content"
+        style={{ marginTop: "6rem", textAlign: "center" }}
+      >
         <h2>Please login to view your cart</h2>
         <Link to="/" className="checkout-btn">Go Home</Link>
       </div>
@@ -32,7 +38,9 @@ export default function CartPage({ showToast }) {
 
   const cartItems = user.cart
     .map(item => {
-      const product = products.find(p => p.id === item.productId);
+      const product = products.find(
+        p => Number(p.id) === Number(item.productId)
+      );
       return product ? { ...product, qty: item.qty } : null;
     })
     .filter(Boolean);
@@ -42,11 +50,11 @@ export default function CartPage({ showToast }) {
     setUser(updated);
   };
 
- const increaseQty = (id) => {
+  const increaseQty = (id) => {
     const updated = {
       ...user,
       cart: user.cart.map(item =>
-        item.productId === id
+        Number(item.productId) === Number(id)
           ? { ...item, qty: item.qty + 1 }
           : item
       )
@@ -58,7 +66,7 @@ export default function CartPage({ showToast }) {
     const updated = {
       ...user,
       cart: user.cart.map(item =>
-        item.productId === id && item.qty > 1
+        Number(item.productId) === Number(id) && item.qty > 1
           ? { ...item, qty: item.qty - 1 }
           : item
       )
@@ -67,14 +75,25 @@ export default function CartPage({ showToast }) {
   };
 
   const removeItem = (id) => {
-    const updated = { ...user };
-    updated.cart = updated.cart.filter(p => p.productId !== id);
+    const updated = {
+      ...user,
+      cart: user.cart.filter(
+        item => Number(item.productId) !== Number(id)
+      )
+    };
     updateUser(updated);
     showToast("Removed from cart");
   };
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-  const totalQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
+  );
+
+  const totalQty = cartItems.reduce(
+    (acc, item) => acc + item.qty,
+    0
+  );
 
   const goToPayment = () => {
     if (cartItems.length === 0) return showToast("Cart is empty");
@@ -98,7 +117,10 @@ export default function CartPage({ showToast }) {
               <button onClick={() => increaseQty(p.id)}>+</button>
             </div>
 
-            <button className="remove-btn" onClick={() => removeItem(p.id)}>
+            <button
+              className="remove-btn"
+              onClick={() => removeItem(p.id)}
+            >
               Remove
             </button>
           </div>
@@ -107,10 +129,10 @@ export default function CartPage({ showToast }) {
 
       <div className="cart-summary">
         <h2>Order Summary</h2>
+
         <div className="summary-line">
           <span>Total Items:</span>
           <span>{cartItems.length}</span>
-          {/* <span>{cartItems.reduce((acc, i) => acc + i.qty, 0)}</span> */}
         </div>
 
         <div className="summary-line">
@@ -124,6 +146,7 @@ export default function CartPage({ showToast }) {
         </div>
 
         <hr style={{ margin: "1rem 0" }} />
+
         <div className="summary-line" style={{ fontWeight: "bold" }}>
           <span>Total:</span>
           <span>₹{total}</span>
@@ -132,7 +155,15 @@ export default function CartPage({ showToast }) {
         <button className="checkout-btn" onClick={goToPayment}>
           Proceed to Checkout
         </button>
-        <Link to="/" style={{ display: "block", marginTop: "1rem", textAlign: "center" }}>
+
+        <Link
+          to="/"
+          style={{
+            display: "block",
+            marginTop: "1rem",
+            textAlign: "center"
+          }}
+        >
           ← Continue Shopping
         </Link>
       </div>

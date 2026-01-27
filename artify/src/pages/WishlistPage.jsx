@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
-import "./style/wishlist.css"
+import "./style/wishlist.css";
 
 export default function WishlistPage({ showToast }) {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,11 @@ export default function WishlistPage({ showToast }) {
   useEffect(() => {
     const u = getUser();
     if (u) {
-      setUser(u);
+      setUser({
+        ...u,
+        cart: u.cart || [],
+        wishlist: u.wishlist || []
+      });
     }
   }, []);
 
@@ -21,7 +25,7 @@ export default function WishlistPage({ showToast }) {
     if (user?.wishlist?.length) {
       axios.get("http://localhost:3000/products").then(res => {
         const filtered = res.data.filter(p =>
-          user.wishlist.includes(p.id)
+          user.wishlist.some(id => Number(id) === Number(p.id))
         );
         setProducts(filtered);
       });
@@ -32,7 +36,10 @@ export default function WishlistPage({ showToast }) {
 
   if (!auth) {
     return (
-      <div className="page-content" style={{ marginTop: "6rem", textAlign: "center" }}>
+      <div
+        className="page-content"
+        style={{ marginTop: "6rem", textAlign: "center" }}
+      >
         <h2>Please login to view your wishlist</h2>
         <Link to="/" className="checkout-btn">Go Home</Link>
       </div>
@@ -44,7 +51,9 @@ export default function WishlistPage({ showToast }) {
   const removeFromWishlist = async (id) => {
     const updated = {
       ...user,
-      wishlist: user.wishlist.filter(pid => pid !== id)
+      wishlist: user.wishlist.filter(
+        pid => Number(pid) !== Number(id)
+      )
     };
 
     await saveUser(updated);
@@ -53,11 +62,14 @@ export default function WishlistPage({ showToast }) {
   };
 
   const addToCart = async (productId) => {
-    const updated = { ...user };
+    const updated = {
+      ...user,
+      cart: user.cart || []
+    };
 
     // remove from wishlist
     updated.wishlist = updated.wishlist.filter(
-      pid => String(pid) !== String(productId)
+      pid => Number(pid) !== Number(productId)
     );
 
     // add to cart
@@ -69,7 +81,7 @@ export default function WishlistPage({ showToast }) {
       exist.qty += 1;
     } else {
       updated.cart.push({
-        productId: String(productId),
+        productId: Number(productId),
         qty: 1
       });
     }
