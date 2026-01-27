@@ -1,117 +1,124 @@
 import { useNavigate } from "react-router-dom";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { useState, useEffect } from "react";
+import { ENV } from "../constants/env";
 
-export default function PaymentPage({showToast}) {
-    const [user, setUser] = useState(getUser());
-    const [method, setMethod] = useState("");
-    const [upi, setUpi] = useState("");
-    const [address, setAddress] = useState({ city:"", street:"", pin:"" });
-    const navigate = useNavigate();
+export default function PaymentPage({ showToast }) {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(getUser());
+  const [products, setProducts] = useState([]);
+  const [method, setMethod] = useState("");
+  const [upi, setUpi] = useState("");
+  const [address, setAddress] = useState({
+    city: "",
+    street: "",
+    pin: ""
+  });
 
-    const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3000/products")
+      .then(res => res.json())
+      .then(setProducts);
+  }, []);
 
-      useEffect(() => {
-        fetch("http://localhost:3000/products")
-          .then(res => res.json())
-          .then(setProducts);
-      }, []);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    if (!user.cart || user.cart.length === 0) {
+      navigate("/cart");
+      return;
+    }
+  }, [user, navigate]);
 
-      const cartItems = user.cart.map(item => {
-      const product = products.find(p => p.id === item.productId);
-      return product
-        ? { ...product, qty: item.qty }
-        : null;
-      }).filter(Boolean);
+  if (!user || !user.cart || user.cart.length === 0) {
+    return (
+      <div className="payment-page">
+        <h2>Payment</h2>
+        <p className="payment-warning">Cart is empty. Add items first.</p>
+      </div>
+    );
+  }
 
-      const cartTotal = cartItems.reduce(
-        (acc, item) => acc + item.price * item.qty,
-        0
+  const cart = user.cart;
+
+  const cartItems = cart
+    .map(item => {
+      const product = products.find(
+        p => Number(p.id) === Number(item.productId)
       );
+      return product ? { ...product, qty: item.qty } : null;
+    })
+    .filter(Boolean);
 
-      const cartCount = cartItems.reduce(
-        (acc, item) => acc + item.qty,
-        0
-      );
+  const cartTotal = cartItems.reduce(
+    (sum, item) => sum + Number(item.price) * item.qty,
+    0
+  );
 
-      useEffect(() => {
-        if (!user) {
-          navigate("/login");
-          return;
-        }
-        if (!user.cart || user.cart.length === 0) {
-          navigate("/cart");
-          return;
-        }
-      }, [user, navigate]);
-
-        // if no user or no cart items
-        if (!user || user.cart.length === 0) {
-          return (
-            <div className="payment-page">
-              <h2>Payment</h2>
-              <p className="payment-warning">Cart is empty. Add items first.</p>
-            </div>
-          );
-        }
+  const cartCount = cartItems.reduce(
+    (sum, item) => sum + item.qty,
+    0
+  );
 
   const placeOrder = async () => {
-    if (!method) return showToast("Choose a payment method");
-    if (!address.city || !address.street || !address.pin)
-      return showToast("Fill address");
-    if (method === "gpay" && !upi) return showToast("Enter UPI ID");
+      if (!method) return showToast("Choose a payment method");
+      if (!address.city || !address.street || !address.pin)
+        return showToast("Fill address");
+      if (method === "gpay" && !upi)
+        return showToast("Enter UPI ID");
 
-    const newOrder = {
-      id: Date.now(),
-      userEmail: user.email, 
-      items: user.cart,
-      total: cartTotal,
-      date: new Date().toLocaleString(),
-      method,
-      address,
-      status: "pending" 
+      const newOrder = {
+        id: Date.now(),
+        userId: user.id,
+        userEmail: user.email,
+        items: cart,
+        total: cartTotal,
+        date: new Date().toLocaleString(),
+        method,
+        address,
+        status: "pending"
+      };
+
+      // ✅ 1. Save order globally
+      await fetch(`${ENV.API_BASE_URL}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newOrder)
+      });
+
+      // ✅ 2. Clear cart (user)
+      const updatedUser = { ...user, cart: [] };
+      await saveUser(updatedUser);
+      setUser(updatedUser);
+
+      showToast("Order placed!");
+      navigate("/");
     };
-
-
-    const updated = {
-      ...user,
-      orders: [...(user.orders || []), newOrder],
-      cart: []
-    };
-
-    await saveUser(updated);
-    setUser(updated);
-
-    showToast("Order placed!");
-    navigate("/");
-  };
-
+  
 
   return (
     <div className="payment-page">
       <h2>Checkout</h2>
 
       <div className="payment-container">
-
-        {/* LEFT */}
         <div className="pay-left">
           <h3>Choose Payment</h3>
 
-          <label className={`method-box ${method==="gpay"?"active":""}`}>
+          <label className={`method-box ${method === "gpay" ? "active" : ""}`}>
             <input
               type="radio"
               name="pay"
-              value="gpay"
               onChange={() => setMethod("gpay")}
             />
             Google Pay (UPI)
           </label>
 
-          <label className={`method-box ${method==="cod"?"active":""}`}>
+          <label className={`method-box ${method === "cod" ? "active" : ""}`}>
             <input
               type="radio"
               name="pay"
-              value="cod"
               onChange={() => setMethod("cod")}
             />
             Cash on Delivery
@@ -121,44 +128,52 @@ export default function PaymentPage({showToast}) {
             <input
               type="text"
               className="upi-input"
-              placeholder="Enter your UPI ID (example@upi)"
+              placeholder="Enter your UPI ID"
               value={upi}
-              onChange={(e) => setUpi(e.target.value)}
+              onChange={e => setUpi(e.target.value)}
             />
           )}
 
-        {/* TOTAL BOX */}
-        <div className="pay-summary">
+          <div className="pay-summary">
             <p><strong>Items:</strong> {cartCount}</p>
             <p><strong>Total:</strong> ₹{cartTotal}</p>
-        </div>
+          </div>
         </div>
 
-        {/* RIGHT */}
         <div className="pay-right">
           <h3>Delivery Address</h3>
+
           <input
             type="text"
             placeholder="City"
             value={address.city}
-            onChange={e => setAddress({ ...address, city: e.target.value })}
+            onChange={e =>
+              setAddress({ ...address, city: e.target.value })
+            }
           />
+
           <input
             type="text"
             placeholder="Street / Location"
             value={address.street}
-            onChange={e => setAddress({ ...address, street: e.target.value })}
+            onChange={e =>
+              setAddress({ ...address, street: e.target.value })
+            }
           />
+
           <input
             type="number"
             placeholder="PIN Code"
             value={address.pin}
-            onChange={e => setAddress({ ...address, pin: e.target.value })}
+            onChange={e =>
+              setAddress({ ...address, pin: e.target.value })
+            }
           />
 
           <button className="place-btn" onClick={placeOrder}>
             Place Order
           </button>
+
           <button
             className="cancel-btn"
             onClick={() => navigate("/cart")}

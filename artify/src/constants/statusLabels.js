@@ -4,9 +4,7 @@ import { DELIVERY_STATUS } from "./deliveryStatus";
 
 export const ORDER_STATUS_LABELS = {
   [ORDER_STATUS.PENDING]: "Pending",
-  [ORDER_STATUS.CONFIRMED]: "Confirmed",
   [ORDER_STATUS.PROCESSING]: "Processing",
-  [ORDER_STATUS.OUT_FOR_DELIVERY]: "Out for Delivery",
   [ORDER_STATUS.DELIVERED]: "Delivered",
   [ORDER_STATUS.CANCELLED]: "Cancelled"
 };

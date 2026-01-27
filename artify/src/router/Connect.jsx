@@ -6,9 +6,10 @@ import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
 import { authGuard } from "../utils/authGuard";
+import { useAuth } from "../hooks/useAuth.js";
 
 export default function Connect() {
-  const auth = JSON.parse(localStorage.getItem("auth")) || null; //if auth is not found it return null
+  const { auth, loading } = useAuth() || null; //if auth is not found it return null
   const [toast, setToast] = useState("");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 

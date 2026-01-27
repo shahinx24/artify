@@ -50,10 +50,6 @@
   border-left-color: blue;
 }
 
-.order-card.shipped {
-  border-left-color: purple;
-}
-
 .order-card.delivered {
   border-left-color: green;
 }
@@ -74,10 +70,6 @@
 
 .order-status.confirmed {
   color: blue;
-}
-
-.order-status.shipped {
-  color: purple;
 }
 
 .order-status.delivered {
@@ -112,10 +104,6 @@
   background: blue;
 }
 
-.dot.shipped {
-  background: purple;
-}
-
 .dot.delivered {
   background: green;
 }
@@ -140,6 +128,10 @@
 }
 
 @media (max-width: 900px) {
+  .orders-page{
+    margin-top: 20px;
+  }
+
   .orders-layout {
     grid-template-columns: 1fr;
   }
@@ -147,5 +139,11 @@
   .orders-right {
     position: static;
     margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+      .orders-page{
+    margin-top: 40px;
   }
 }

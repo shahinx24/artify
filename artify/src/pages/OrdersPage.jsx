@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../utils/userHelpers";
 import "./style/orders.css"
+import { ENV } from "../constants/env";
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+  if (!user) return;
+
+  fetch(`${ENV.API_BASE_URL}/orders?userEmail=${user.email}`)
+    .then(res => res.json())
+    .then(setOrders);
+}, [user]);
 
   if (!user) {
     return <p className="payment-login-msg">Login required</p>;
   }
 
-  const orders = user.orders || [];
-
   const updateStatus = async (id, status) => {
-    const updatedOrders = orders.map(o =>
-      o.id === id ? { ...o, status } : o
-    );
+    await fetch(`${ENV.API_BASE_URL}/orders/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    });
 
-    const updatedUser = { ...user, orders: updatedOrders };
-    await saveUser(updatedUser);
-    setUser(updatedUser);
+    setOrders(prev =>
+      prev.map(o => (o.id === id ? { ...o, status } : o))
+    );
 
     showToast(`Order ${status}`);
   };
@@ -27,7 +37,6 @@ const getStatusColor = (status) => {
   switch (status) {
     case "pending": return "pending";
     case "confirmed": return "confirmed";
-    case "shipped": return "shipped";
     case "delivered": return "delivered";
     case "cancelled": return "cancelled";
     default: return "unknown";
@@ -101,7 +110,6 @@ return (
         <h3>Order Status</h3>
         <p><span className="dot pending"></span> Pending</p>
         <p><span className="dot confirmed"></span> Confirmed</p>
-        <p><span className="dot shipped"></span> Shipped</p>
         <p><span className="dot delivered"></span> Delivered</p>
         <p><span className="dot cancelled"></span> Cancelled</p>
       </div>

@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const API_USERS = "http://localhost:3000/users";
 const API_ADMINS = "http://localhost:3000/admins";
 
-export const useAuth = (showToast) => {
-  const navigate = useNavigate();
+export const useAuth = (showToast = () => {}) => {
+  const [auth, setAuth] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
     email: "",
@@ -14,51 +14,59 @@ export const useAuth = (showToast) => {
     confirm: ""
   });
 
+  // Load auth once
+  useEffect(() => {
+    const storedAuth = JSON.parse(localStorage.getItem("auth"));
+    setAuth(storedAuth);
+    setLoading(false);
+  }, []);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const login = async (e) => {
-    e.preventDefault();
-
+  const login = async () => {
     const { email, pass } = form;
 
-    /* ADMIN LOGIN */
+    // ADMIN
     const { data: admins } = await axios.get(API_ADMINS);
     const admin = admins.find(
       a => a.email === email && a.password === pass
     );
 
     if (admin) {
-      localStorage.setItem("auth", JSON.stringify({
+      const adminAuth = {
         id: admin.id,
         email: admin.email,
         role: "admin"
-      }));
-      navigate("/admin");
-      return;
+      };
+      localStorage.setItem("auth", JSON.stringify(adminAuth));
+      setAuth(adminAuth);
+      return adminAuth;
     }
 
-    /* USER LOGIN */
+    // USER
     const { data: users } = await axios.get(API_USERS);
     const user = users.find(
       u => u.email === email && u.pass === pass
     );
 
-    if (!user) return showToast("Invalid credentials");
+    if (!user) {
+      showToast("Invalid credentials");
+      return null;
+    }
 
     if (!user.isActive) {
-      localStorage.removeItem("auth");
-      return showToast("Your account is deactivated");
+      showToast("Your account is deactivated");
+      return null;
     }
 
     localStorage.setItem("auth", JSON.stringify(user));
-    navigate("/");
+    setAuth(user);
+    return user;
   };
 
-  const register = async (e) => {
-    e.preventDefault();
-
+  const register = async () => {
     const { email, pass, confirm } = form;
 
     if (!email || !pass || !confirm)
@@ -68,7 +76,6 @@ export const useAuth = (showToast) => {
       return showToast("Passwords don't match");
 
     const { data: users } = await axios.get(API_USERS);
-
     if (users.find(u => u.email === email))
       return showToast("User already exists");
 
@@ -78,14 +85,25 @@ export const useAuth = (showToast) => {
       role: "user",
       cart: [],
       wishlist: [],
-      orders: [],
       isActive: true
     };
 
     await axios.post(API_USERS, newUser);
     showToast("Registered! Login now");
-    navigate("/login");
   };
 
-  return { form, handleChange, login, register };
+  const logout = () => {
+    localStorage.removeItem("auth");
+    setAuth(null);
+  };
+
+  return {
+    auth,
+    loading,
+    form,
+    handleChange,
+    login,
+    register,
+    logout
+  };
 };

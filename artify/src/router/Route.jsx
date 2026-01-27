@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AdminRouteConfig from "../admin/routes/Route.jsx";
+import { useAuth } from "../hooks/useAuth.js";
 // import { getUser } from "../utils/userHelpers";
 
 const HomePage = lazy(() => import("../pages/HomePage.jsx"));
@@ -13,8 +14,8 @@ const NotFound = lazy(() => import("../pages/NotFound.jsx"));
 const AdminRoutes = lazy(() => import("../admin/routes/AdminRoutes.jsx"));
 
 export default function AppRoutes({ showToast }) {
-  const auth = JSON.parse(localStorage.getItem("auth"));
-
+  const { auth, loading } = useAuth();
+  if (loading) return null;
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>

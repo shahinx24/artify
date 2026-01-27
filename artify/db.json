@@ -13,13 +13,45 @@
       "pass": "Hanan@12",
       "role": "user",
       "cart": [],
-      "wishlist": [],
-      "id": 1,
+      "wishlist": [
+        "19",
+        "22",
+        "23"
+      ],
       "isActive": true,
-      "orders": []
+      "id": 1
     }
   ],
-  "orders": [],
+  "orders": [
+    {
+      "id": 1769507410592,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": 7,
+          "qty": 2
+        },
+        {
+          "productId": 23,
+          "qty": 1
+        },
+        {
+          "productId": 21,
+          "qty": 1
+        }
+      ],
+      "total": 860,
+      "date": "27/01/2026, 15:20:10",
+      "method": "cod",
+      "address": {
+        "city": "mlp",
+        "street": "kl",
+        "pin": "68"
+      },
+      "status": "delivered"
+    }
+  ],
   "products": [
     {
       "id": "1",
