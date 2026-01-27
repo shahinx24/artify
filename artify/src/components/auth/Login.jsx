@@ -35,16 +35,21 @@ export default function Login({ setAuthMode, showToast }) {
     const { data: users } = await axios.get("http://localhost:3000/users");
 
     const found = users.find(
-      (u) => u.email === email && u.pass === pass
-    );
+  u => u.email === email && u.pass === pass
+);
 
-    if (!found) return showToast("Invalid credentials");
+if (!found) {
+  return showToast("Invalid credentials");
+}
 
-    localStorage.setItem("auth", JSON.stringify(found));
+if (found.isActive === false) {
+  localStorage.removeItem("auth");
+  return showToast("Your account has been deactivated");
+}
 
-    setAuthMode(null);
-    window.location.reload();
-  };
+localStorage.setItem("auth", JSON.stringify(found));
+window.location.reload();
+  }
 
   return (
     <>

@@ -12,7 +12,16 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [],
+      "cart": [
+        {
+          "productId": "26",
+          "qty": 1
+        },
+        {
+          "productId": "25",
+          "qty": 1
+        }
+      ],
       "wishlist": [],
       "id": 1,
       "isActive": true,
