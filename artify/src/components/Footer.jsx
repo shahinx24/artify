@@ -2,8 +2,12 @@ import "./style/footer.css";
 import instagram from "../assets/icons/instagram.svg";
 import facebook from "../assets/icons/facebook.svg";
 import mail from "../assets/icons/mail.svg";
+import { useAuth } from "../context/AuthContext";
 
 export default function Footer() {
+  const { auth } = useAuth();
+  if (auth?.role === "admin") return null;
+
   return (
     <footer className="footer">
       <div className="footer-content">

@@ -22,4 +22,5 @@ export const saveUser = async (user) => {
 
   await axios.put(`${API}/${user.id}`, user);
   localStorage.setItem("auth", JSON.stringify(user));
+  window.dispatchEvent(new Event("cart-change"));
 };

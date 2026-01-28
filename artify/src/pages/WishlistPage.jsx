@@ -91,6 +91,19 @@ export default function WishlistPage({ showToast }) {
     showToast("Moved to Cart");
   };
 
+    if (user.wishlist.length === 0) {
+      return (
+        <div className="page-content" >
+          <h2>Your wishlist is empty ❤️</h2>
+          <p>Add some art supplies to get started!</p>
+          <Link
+            to="/" className="checkout-btn" >
+            Continue Shopping
+          </Link>
+        </div>
+      );
+    }
+
   return (
     <div className="wishlist-page">
       <div className="wishlist-items">
@@ -109,7 +122,6 @@ export default function WishlistPage({ showToast }) {
             </div>
           </div>
         ))}
-        {products.length === 0 && <p>No wishlist items</p>}
       </div>
     </div>
   );

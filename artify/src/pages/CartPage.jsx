@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { Link, useNavigate } from "react-router-dom";
+import "./style/cart.css"
 
 export default function CartPage({ showToast }) {
   const [user, setUser] = useState(null);
@@ -99,6 +100,20 @@ export default function CartPage({ showToast }) {
     if (cartItems.length === 0) return showToast("Cart is empty");
     navigate("/checkout");
   };
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="page-content" >
+        <h2>Your cart is empty 🛒</h2>
+        <p>Add some art supplies to get started!</p>
+        <Link
+          to="/"
+          className="checkout-btn" >
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-page">

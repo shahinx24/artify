@@ -4,16 +4,20 @@ import wishlist from "../assets/icons/wishlist.svg";
 import { useEffect, useState } from "react";
 
 export default function WishlistButton() {
-  const [user, setUser] = useState(null);
+  const [count, setCount] = useState(0);
+
+  const updateCount = () => {
+    const user = getUser();
+    setCount(user?.wishlist?.length || 0);
+  };
 
   useEffect(() => {
-    const u = getUser();
-    if (u) {
-      setUser(u);
-    }
-  }, []);
+    updateCount();
 
-  const count = user?.wishlist?.length || 0;
+    window.addEventListener("cart-change", updateCount);
+
+    return () => window.removeEventListener("cart-change", updateCount);
+  }, []);
 
   return (
     <Link to="/wishlist">

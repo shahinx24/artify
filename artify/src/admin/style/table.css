@@ -29,10 +29,14 @@
   font-weight: 600;
 }
 
-/* example status colors */
 .status-pending {
   background: #fef3c7;
   color: #92400e;
+}
+
+.status-delivered {
+  background: #acdaa8;
+  color: #006b19;
 }
 
 .status-processing {
@@ -44,8 +48,6 @@
   background: #fee2e2;
   color: #991b1b;
 }
-
-/* SELECT */
 
 .status-select {
   padding: 6px 12px;

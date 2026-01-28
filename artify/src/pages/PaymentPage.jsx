@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser, saveUser } from "../utils/userHelpers";
 import { useState, useEffect } from "react";
 import { ENV } from "../constants/env";
+import "./style/payment.css"
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();

@@ -2,23 +2,16 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import CartButton from "./CartButton.jsx";
 import WishlistButton from "./WishlistButton.jsx";
 import "./style/navbar.css";
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { auth, loading } = useAuth();
+  const { auth, loading, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const logout = () => {
-    localStorage.removeItem("auth");
-    navigate("/");
-  };
-
   const isHome = location.pathname === "/";
 
-  // Hide navbar for admin
-  if (auth?.role === "admin") return null;
   if (loading) return null;
+  if (auth?.role === "admin") return null;
 
   return (
     <header className="top-nav">

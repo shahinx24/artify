@@ -4,16 +4,21 @@ import cartIcon from "../assets/icons/cart.svg";
 import { useEffect, useState } from "react";
 
 export default function CartButton() {
-  const [user, setUser] = useState(null);
+  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    const u = getUser();
-    if (u) {
-      setUser(u);
-    }
-  }, []);
+  const updateCount = () => {
+    const user = getUser();
+    const c = user?.cart?.reduce((a, i) => a + i.qty, 0) || 0;
+    setCount(c);
+  };
 
-  const count = user?.cart?.reduce((a, i) => a + i.qty, 0) || 0;
+   useEffect(() => {
+      updateCount();
+
+      window.addEventListener("cart-change", updateCount);
+
+      return () => window.removeEventListener("cart-change", updateCount);
+    }, []);
 
   return (
     <Link to="/cart">

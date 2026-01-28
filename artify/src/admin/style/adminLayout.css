@@ -51,10 +51,6 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-footer{
-    display: none;
-}
-
 @media (max-width: 768px), (max-height: 533px) {
   .admin-layout {
     margin-top: 100px;

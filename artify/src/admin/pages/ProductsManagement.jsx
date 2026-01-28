@@ -12,7 +12,6 @@ export default function ProductsManagement() {
   fetch(`${ENV.API_BASE_URL}/products`)
     .then((res) => res.json())
     .then((data) => {
-      // console.log("PRODUCTS FROM API:", data);
       setProducts(data);
     });
 }, []);
@@ -43,6 +42,21 @@ export default function ProductsManagement() {
   );
   };
 
+  const dlt = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!confirmDelete) return;
+
+    await fetch(`http://localhost:3000/products/${id}`, {
+      method: "DELETE"
+    });
+
+    // update UI instantly (no refresh)
+    setProducts(prev => prev.filter(p => p.id !== id));
+  };
+
   return (
     <div className="admin-container">
   <h1 className="admin-title">Products Management</h1>
@@ -58,6 +72,7 @@ export default function ProductsManagement() {
           <th>Stock</th>
           <th>Price</th>
           <th>Update</th>
+          <th>Delete</th>
         </tr>
       </thead>
 
@@ -113,6 +128,11 @@ export default function ProductsManagement() {
             <td>
               <button className="btn btn-primary"  onClick={() => update(p.id)} >
                 Update
+              </button>
+            </td>
+            <td>
+              <button className="btn btn-danger"  onClick={() => dlt(p.id)} >
+                Delete
               </button>
             </td>
           </tr>

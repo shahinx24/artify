@@ -6,10 +6,15 @@ export default function AuthForm({
   onSubmit,
   buttonText
 }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(); // parent handles login/register
+  };
+
   return (
     <>
       <h3>{title}</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         {fields.map(f => (
           <input
             key={f.name}

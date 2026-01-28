@@ -4,9 +4,19 @@ import axios from "axios";
 const API_USERS = "http://localhost:3000/users";
 const API_ADMINS = "http://localhost:3000/admins";
 
+const normalizeUser = (u) => ({
+  id: u.id,
+  email: u.email,
+  role: u.role || "user",
+  cart: u.cart ?? [],
+  wishlist: u.wishlist ?? [],
+  isActive: u.isActive ?? true
+});
+
 export const useAuth = (showToast = () => {}) => {
   const [auth, setAuth] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   const [form, setForm] = useState({
     email: "",
@@ -14,10 +24,11 @@ export const useAuth = (showToast = () => {}) => {
     confirm: ""
   });
 
-  // Load auth once
   useEffect(() => {
     const storedAuth = JSON.parse(localStorage.getItem("auth"));
-    setAuth(storedAuth);
+    if (storedAuth?.id) {
+      setAuth(normalizeUser(storedAuth));
+    }
     setLoading(false);
   }, []);
 
@@ -28,24 +39,34 @@ export const useAuth = (showToast = () => {}) => {
   const login = async () => {
     const { email, pass } = form;
 
-    // ADMIN
+    if (!email || !pass) {
+      showToast("All fields required");
+      return null;
+    }
+
+    // ADMIN LOGIN 
     const { data: admins } = await axios.get(API_ADMINS);
     const admin = admins.find(
       a => a.email === email && a.password === pass
     );
 
     if (admin) {
-      const adminAuth = {
-        id: admin.id,
-        email: admin.email,
+      const adminAuth = normalizeUser({
+        ...admin,
         role: "admin"
-      };
+      });
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
       localStorage.setItem("auth", JSON.stringify(adminAuth));
       setAuth(adminAuth);
+      window.dispatchEvent(new Event("cart-change"));
       return adminAuth;
     }
 
-    // USER
     const { data: users } = await axios.get(API_USERS);
     const user = users.find(
       u => u.email === email && u.pass === pass
@@ -61,9 +82,12 @@ export const useAuth = (showToast = () => {}) => {
       return null;
     }
 
-    localStorage.setItem("auth", JSON.stringify(user));
-    setAuth(user);
-    return user;
+    const userAuth = normalizeUser(user);
+
+    localStorage.setItem("auth", JSON.stringify(userAuth));
+    setAuth(userAuth);
+    window.dispatchEvent(new Event("cart-change"));
+    return userAuth;
   };
 
   const register = async () => {
@@ -89,12 +113,13 @@ export const useAuth = (showToast = () => {}) => {
     };
 
     await axios.post(API_USERS, newUser);
-    showToast("Registered! Login now");
+    showToast("Registered successfully! Login now.");
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
     setAuth(null);
+    window.dispatchEvent(new Event("cart-change"));
   };
 
   return {

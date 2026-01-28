@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import AuthPanel from "../components/AuthPanel.jsx";
@@ -6,61 +5,45 @@ import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
 import { authGuard } from "../utils/authGuard";
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuth } from "../hooks/useAuth";
+import { useEffect, useState } from "react";
 
 export default function Connect() {
-  const { auth, loading } = useAuth() || null; //if auth is not found it return null
   const [toast, setToast] = useState("");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-
-  // Toast helper
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(""), 2500);
   };
 
-     useEffect(() => {
-      (async () => {
-        const message = await authGuard();
+  const { auth, loading, logout } = useAuth(showToast);
+  const authState = useAuth(showToast);
 
-        if (message) {
-          showToast(message);
-          window.location.href = "/";
-        }
-      })();
-    }, []);
-
-  // Sync logout across tabs + clear cart/wishlist/orders
   useEffect(() => {
-    const syncLogout = () => {
-      const storedUser = JSON.parse(localStorage.getItem("auth")
-);
-      setUser(storedUser);
+    if (loading) return;
 
-      if (!storedUser) {
-        localStorage.removeItem("cart");
-        localStorage.removeItem("wishlist");
-        localStorage.removeItem("orders");
-        window.location.href = "/";
+    (async () => {
+      const message = await authGuard(auth);
+      if (message) {
+        showToast(message);
+        logout();
       }
-    };
+    })();
+  }, [auth, loading]);
 
-    window.addEventListener("storage", syncLogout);
-    return () => window.removeEventListener("storage", syncLogout);
-  }, []);
+  if (loading) return null;
 
   return (
     <>
       {/* AUTH POPUP */}
-      <AuthPanel showToast={showToast} />
+      <AuthPanel authState={authState} showToast={showToast} />
 
-      {auth?.role === "admin" && <AdminNavbar />}
-      {auth?.role !== "admin" && <Navbar />}
+      {auth?.role === "admin" ? <AdminNavbar /> : <Navbar />}
 
-      <AppRoutes showToast={showToast} />
+      <AppRoutes auth={auth} showToast={showToast} />
 
       <Footer />
-      <Toast message={toast} />
+
+      {toast && <Toast message={toast} />}
     </>
   );
 }

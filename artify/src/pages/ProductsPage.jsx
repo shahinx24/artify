@@ -25,38 +25,29 @@ export default function ProductsPage({ showToast }) {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth) return showToast("Login required");
 
-    const res = await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`);
-    const freshUser = await res.json();
+    // always start from latest local user
+    const user = getUser();
 
-    const exists = freshUser.cart.find(
+    const updated = {
+      ...user,
+      cart: user.cart || []
+    };
+
+    const exist = updated.cart.find(
       item => Number(item.productId) === Number(productId)
     );
 
-    let updatedCart;
-
-    if (exists) {
-      updatedCart = freshUser.cart.map(item =>
-        Number(item.productId) === Number(productId)
-          ? { ...item, qty: item.qty + 1 }
-          : item
-      );
+    if (exist) {
+      exist.qty += 1;
     } else {
-      updatedCart = [
-        ...freshUser.cart,
-        { productId: Number(productId), qty: 1 }
-      ];
+      updated.cart.push({
+        productId: Number(productId),
+        qty: 1
+      });
     }
 
-    const updatedUser = { ...freshUser, cart: updatedCart };
-
-    await fetch(`${ENV.API_BASE_URL}/users/${auth.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedUser)
-    });
-
-    localStorage.setItem("auth", JSON.stringify(updatedUser));
-    setUser(updatedUser);
+    await saveUser(updated);   // 🔥 THIS is the key
+    setUser(updated);
     showToast("Added to cart");
   };
 
