@@ -15,13 +15,17 @@
       "cart": [
         {
           "productId": 1,
+          "qty": 2
+        },
+        {
+          "productId": 8,
           "qty": 1
         }
       ],
       "wishlist": [
-        "1",
         "6",
-        "8"
+        "25",
+        "30"
       ],
       "isActive": true,
       "id": 1

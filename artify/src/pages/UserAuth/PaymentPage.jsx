@@ -82,14 +82,14 @@ export default function PaymentPage({ showToast }) {
         status: "pending"
       };
 
-      // ✅ 1. Save order globally
+      // Save order globally
       await fetch(`${ENV.API_BASE_URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newOrder)
       });
 
-      // ✅ 2. Clear cart (user)
+      // Clear cart (user)
       const updatedUser = { ...user, cart: [] };
       await saveUser(updatedUser);
       setUser(updatedUser);
