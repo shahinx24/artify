@@ -17,12 +17,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // LOGIN
   const login = (user) => {
     localStorage.setItem("auth", JSON.stringify(user));
     setAuth(user);
 
-    // role-based redirect
     if (user.role === "admin") {
       navigate("/admin");
     } else {
@@ -30,11 +28,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // LOGOUT
   const logout = () => {
     localStorage.removeItem("auth");
     setAuth(null);
-    navigate("/login");
+    navigate("/");
   };
 
   return (

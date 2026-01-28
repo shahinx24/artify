@@ -8,9 +8,10 @@ export default function Navbar() {
   const { auth, loading, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
   const isHome = location.pathname === "/";
 
-  if (loading) return null;
+  // Hide navbar ONLY for admin
   if (auth?.role === "admin") return null;
 
   return (
@@ -21,31 +22,40 @@ export default function Navbar() {
         {isHome && (
           <>
             <button
-              className="nav-btn" onClick={() =>
-                document .getElementById("categories")
+              className="nav-btn"
+              onClick={() =>
+                document.getElementById("categories")
                   ?.scrollIntoView({ behavior: "smooth" })
-              } >
+              }
+            >
               Category
             </button>
 
             <button
-              className="nav-btn" onClick={() =>
-                document .getElementById("about")
+              className="nav-btn"
+              onClick={() =>
+                document.getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
-              } >
+              }
+            >
               About
             </button>
 
             <button
-              className="nav-btn" onClick={() =>
-                document .getElementById("contact")
+              className="nav-btn"
+              onClick={() =>
+                document.getElementById("contact")
                   ?.scrollIntoView({ behavior: "smooth" })
-              } >
+              }
+            >
               Contact
             </button>
 
             {auth?.role === "user" && (
-              <button onClick={() => navigate("/orders")}>
+              <button
+                className="nav-btn"
+                onClick={() => navigate("/orders")}
+              >
                 Orders
               </button>
             )}
@@ -61,7 +71,7 @@ export default function Navbar() {
           </>
         )}
 
-        {auth ? (
+        {!loading && auth ? (
           <>
             <span className="username-tag">
               {auth.email.split("@")[0]}
@@ -69,9 +79,11 @@ export default function Navbar() {
             <button onClick={logout}>LOGOUT</button>
           </>
         ) : (
-          <button onClick={() => navigate("/login")}>
-            LOGIN
-          </button>
+          !loading && (
+            <button onClick={() => navigate("/login")}>
+              LOGIN
+            </button>
+          )
         )}
       </div>
     </header>
