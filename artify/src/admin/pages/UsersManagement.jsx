@@ -83,7 +83,9 @@ export default function UsersManagement() {
                   <td>{u.email}</td>
 
                   <td>
-                    <button onClick={() => viewOrders(u.email)}>
+                    <button
+                      className="btn btn-primary"
+                        onClick={() => viewOrders(u.email)}>
                       View Orders
                     </button>
                   </td>

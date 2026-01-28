@@ -16,8 +16,13 @@ export default function OrdersPage({ showToast }) {
 }, [user]);
 
   if (!user) {
-    return <p className="payment-login-msg">Login required</p>;
-  }
+    return(
+        <div
+          className="page-contents">
+          <h2>Login required</h2>
+          <Link to="/" className="checkout-btn">Go Home</Link>
+      </div>
+  )}
 
   const updateStatus = async (id, status) => {
     await fetch(`${ENV.API_BASE_URL}/orders/${id}`, {

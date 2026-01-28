@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ENV } from "../../constants/env";
+import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
@@ -7,6 +8,21 @@ import "../style/buttons.css";
 export default function ProductsManagement() {
   const [products, setProducts] = useState([]);
   const [editedProducts, setEditedProducts] = useState({});
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const categories = [...new Set(products.map(p => p.category))];
+
+  const filteredProducts = products.filter(p => {
+    const matchName = p.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchCategory = category
+      ? p.category === category
+      : true;
+
+    return matchName && matchCategory;
+  });
 
   useEffect(() => {
   fetch(`${ENV.API_BASE_URL}/products`)
@@ -61,84 +77,100 @@ export default function ProductsManagement() {
     <div className="admin-container">
   <h1 className="admin-title">Products Management</h1>
 
-  <div className="admin-card">
-    <h2 className="section-title">Product Stock</h2>
-    {/* <button>Add Product</button> */}
+    <div className="admin-card">
+      <h2 className="section-title">Product Stock</h2>
 
-    <table className="admin-table">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Stock</th>
-          <th>Price</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
+      <ProductFilter
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        categories={categories}
+      />
 
-      <tbody>
-        {products.map((p) => (
-          <tr key={p.id}>
-            <td>
-            <input
-              value={editedProducts[p.id]?.name ?? p.name}
-              onChange={(e) =>
-                setEditedProducts({
-                  ...editedProducts,
-                  [p.id]: {
-                    ...editedProducts[p.id],
-                    name: e.target.value,
-                  },
-                })
-              }
-            />
-          </td>
-
-          <td>
-            <input
-              type="number"
-              value={editedProducts[p.id]?.stock ?? p.stock}
-              onChange={(e) =>
-                setEditedProducts({
-                  ...editedProducts,
-                  [p.id]: {
-                    ...editedProducts[p.id],
-                    stock: Number(e.target.value),
-                  },
-                })
-              }
-            />
-          </td>
-
-          <td>
-            <input
-              type="number"
-              value={editedProducts[p.id]?.price ?? p.price}
-              onChange={(e) =>
-                setEditedProducts({
-                  ...editedProducts,
-                  [p.id]: {
-                    ...editedProducts[p.id],
-                    price: Number(e.target.value),
-                  },
-                })
-              }
-            />
-          </td>
-            <td>
-              <button className="btn btn-primary"  onClick={() => update(p.id)} >
-                Update
-              </button>
-            </td>
-            <td>
-              <button className="btn btn-danger"  onClick={() => dlt(p.id)} >
-                Delete
-              </button>
-            </td>
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Update</th>
+            <th>Delete</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {filteredProducts.map((p) => (
+            <tr key={p.id}>
+              <td>
+                <input
+                  value={editedProducts[p.id]?.name ?? p.name}
+                  onChange={(e) =>
+                    setEditedProducts({
+                      ...editedProducts,
+                      [p.id]: {
+                        ...editedProducts[p.id],
+                        name: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  value={editedProducts[p.id]?.stock ?? p.stock}
+                  onChange={(e) =>
+                    setEditedProducts({
+                      ...editedProducts,
+                      [p.id]: {
+                        ...editedProducts[p.id],
+                        stock: Number(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  value={editedProducts[p.id]?.price ?? p.price}
+                  onChange={(e) =>
+                    setEditedProducts({
+                      ...editedProducts,
+                      [p.id]: {
+                        ...editedProducts[p.id],
+                        price: Number(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </td>
+
+              <td>
+                <button className="btn btn-primary" onClick={() => update(p.id)}>
+                  Update
+                </button>
+              </td>
+              <td>
+                <button className="btn btn-danger" onClick={() => dlt(p.id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+
+          {filteredProducts.length === 0 && (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No products found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   </div>
   );

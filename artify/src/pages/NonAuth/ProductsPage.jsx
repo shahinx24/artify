@@ -2,20 +2,28 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../../utils/userHelpers";
+import Search from "../../components/search/Search";
 import "../style/product.css";
-// import { ENV } from "../../constants/env";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [user, setUser] = useState(getUser());
 
   useEffect(() => {
     axios.get("http://localhost:3000/products")
-      .then(res =>
-        setProducts(res.data.filter(p => p.category === category))
-      );
+      .then(res => {
+        const filtered = res.data.filter(
+          p => p.category === category
+        );
+        setProducts(filtered);
+      });
   }, [category]);
+
+  const filteredProducts = products.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const safeUser = user
     ? { ...user, cart: user.cart || [], wishlist: user.wishlist || [] }
@@ -25,28 +33,17 @@ export default function ProductsPage({ showToast }) {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth) return showToast("Login required");
 
-    // always start from latest local user
     const user = getUser();
-
-    const updated = {
-      ...user,
-      cart: user.cart || []
-    };
+    const updated = { ...user, cart: user.cart || [] };
 
     const exist = updated.cart.find(
       item => Number(item.productId) === Number(productId)
     );
 
-    if (exist) {
-      exist.qty += 1;
-    } else {
-      updated.cart.push({
-        productId: Number(productId),
-        qty: 1
-      });
-    }
+    if (exist) exist.qty += 1;
+    else updated.cart.push({ productId: Number(productId), qty: 1 });
 
-    await saveUser(updated);   // 🔥 THIS is the key
+    await saveUser(updated);
     setUser(updated);
     showToast("Added to cart");
   };
@@ -68,6 +65,13 @@ export default function ProductsPage({ showToast }) {
 
   return (
     <div className="page-contents">
+      
+      <Search
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder={`Search in ${category}...`}
+      />
+
       <h2
         className="section-title"
         style={{ marginTop: "6rem", textTransform: "capitalize" }}
@@ -76,7 +80,7 @@ export default function ProductsPage({ showToast }) {
       </h2>
 
       <div className="product-grid">
-        {products.map(p => (
+        {filteredProducts.map(p => (
           <div className="product-card" key={p.id}>
             <img
               src={p.image}
@@ -101,6 +105,12 @@ export default function ProductsPage({ showToast }) {
             </div>
           </div>
         ))}
+
+        {filteredProducts.length === 0 && (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            No products found 😕
+          </p>
+        )}
       </div>
     </div>
   );

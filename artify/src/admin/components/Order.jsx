@@ -12,6 +12,7 @@ export default function Order({ orders }) {
             <th>Status</th>
             <th>Total</th>
             <th>Date</th>
+            <th>Address</th>
           </tr>
         </thead>
 
@@ -22,10 +23,11 @@ export default function Order({ orders }) {
               <td>{o.status}</td>
               <td>{o.total}</td>
               <td>{o.date}</td>
+              <td>{o.address.city}, {o.address.street} - {o.address.pin}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-}
+} 

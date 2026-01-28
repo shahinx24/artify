@@ -26,9 +26,7 @@ export default function CartPage({ showToast }) {
   if (!auth) {
     return (
       <div
-        className="page-contents"
-        style={{ marginTop: "6rem", textAlign: "center" }}
-      >
+        className="page-contents">
         <h2>Please login to view your cart</h2>
         <Link to="/" className="checkout-btn">Go Home</Link>
       </div>
