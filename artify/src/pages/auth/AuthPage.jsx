@@ -21,7 +21,7 @@ export default function AuthPage({ showToast }) {
     const email = form.email.trim().toLowerCase();
     const pass = form.pass.trim();
 
-    // fetch users & admins
+    // fetch users and admin
     const [usersRes, adminsRes] = await Promise.all([
       fetch("http://localhost:3000/users"),
       fetch("http://localhost:3000/admins")
@@ -31,7 +31,6 @@ export default function AuthPage({ showToast }) {
     const admins = await adminsRes.json();
 
     if (isLogin) {
-      // 🔐 check admin first
       const admin = admins.find(
         a =>
           a.email.toLowerCase() === email &&
@@ -39,11 +38,10 @@ export default function AuthPage({ showToast }) {
       );
 
       if (admin) {
-        login(admin); // role === "admin"
+        login(admin); 
         return;
       }
 
-      // 👤 check user
       const user = users.find(
         u =>
           u.email.toLowerCase() === email &&
@@ -60,9 +58,8 @@ export default function AuthPage({ showToast }) {
         return;
       }
 
-      login(user); // role === "user"
+      login(user);
     } else {
-      // 📝 register
       if (form.pass !== form.confirm) {
         showToast?.("Passwords do not match", "error");
         return;
@@ -86,7 +83,6 @@ export default function AuthPage({ showToast }) {
           role: "user",
           cart: [],
           wishlist: [],
-          orders: [],
           isActive: true
         })
       });
