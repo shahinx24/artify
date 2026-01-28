@@ -34,29 +34,39 @@ export default function ProductsManagement() {
 
 
   const update = async (id) => {
-  const newStock = editedStock[id];
+    const edited = editedProducts[id];
+    if (!edited) return;
 
-  if (newStock === undefined) return;
-  if (newStock < 0) {
-  alert("Stock cannot be negative");
-  return;
-  }
+    if (edited.stock < 0) {
+      alert("Stock cannot be negative");
+      return;
+    }
 
-  await fetch(`${ENV.API_BASE_URL}/products/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ stock: newStock }),
-  });
+    await fetch(`${ENV.API_BASE_URL}/products/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: edited.name,
+        stock: edited.stock,
+        price: edited.price
+      }),
+    });
 
-  // update UI instantly
-  setProducts((prev) =>
-    prev.map((p) =>
-      p.id === id ? { ...p, stock: newStock } : p
-    )
-  );
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, ...edited } : p
+      )
+    );
+
+    setEditedProducts((prev) => {
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
   };
+
 
   const dlt = async (id) => {
     const confirmDelete = window.confirm(
