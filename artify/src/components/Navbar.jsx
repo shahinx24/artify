@@ -21,35 +21,26 @@ export default function Navbar() {
         {isHome && (
           <>
             <button
-              className="nav-btn"
-              onClick={() =>
-                document
-                  .getElementById("categories")
+              className="nav-btn" onClick={() =>
+                document .getElementById("categories")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
+              } >
               Category
             </button>
 
             <button
-              className="nav-btn"
-              onClick={() =>
-                document
-                  .getElementById("about")
+              className="nav-btn" onClick={() =>
+                document .getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
+              } >
               About
             </button>
 
             <button
-              className="nav-btn"
-              onClick={() =>
-                document
-                  .getElementById("contact")
+              className="nav-btn" onClick={() =>
+                document .getElementById("contact")
                   ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
+              } >
               Contact
             </button>
 
