@@ -98,7 +98,6 @@ export default function PaymentPage({ showToast }) {
       navigate("/");
     };
   
-
   return (
     <div className="payment-page">
       <h2>Checkout</h2>
