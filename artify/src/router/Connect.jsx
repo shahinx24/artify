@@ -36,13 +36,9 @@ export default function Connect() {
     <>
       {/* AUTH POPUP */}
       <AuthPanel authState={authState} showToast={showToast} />
-
       {auth?.role === "admin" ? <AdminNavbar /> : <Navbar />}
-
       <AppRoutes auth={auth} showToast={showToast} />
-
       <Footer />
-
       {toast && <Toast message={toast} />}
     </>
   );

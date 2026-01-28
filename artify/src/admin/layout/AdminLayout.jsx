@@ -6,6 +6,7 @@ import AdminNavbar from "../components/AdminNavbar";
 export default function AdminLayout() {
   return (
     <div className="admin-layout">
+      <AdminNavbar />
       <Sidebar />
       <div className="admin-main">
         <Outlet />

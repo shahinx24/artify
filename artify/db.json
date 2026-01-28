@@ -7,67 +7,8 @@
       "role": "admin"
     }
   ],
-  "users": [
-    {
-      "id": 1,
-      "email": "hanan@gmail.com",
-      "pass": "Hanan@12",
-      "role": "user",
-      "cart": [],
-      "wishlist": [],
-      "isActive": true
-    }
-  ],
-  "orders": [
-    {
-      "id": 1769529458313,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
-      "items": [
-        {
-          "productId": 13,
-          "qty": 2
-        },
-        {
-          "productId": 14,
-          "qty": 1
-        }
-      ],
-      "total": 580,
-      "date": "27/01/2026, 21:27:38",
-      "method": "cod",
-      "address": {
-        "city": "mlp",
-        "street": "plkl",
-        "pin": "6763"
-      },
-      "status": "delivered"
-    },
-    {
-      "id": 1769529481175,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
-      "items": [
-        {
-          "productId": 13,
-          "qty": 1
-        },
-        {
-          "productId": 14,
-          "qty": 1
-        }
-      ],
-      "total": 400,
-      "date": "27/01/2026, 21:28:01",
-      "method": "gpay",
-      "address": {
-        "city": "pop",
-        "street": "music",
-        "pin": "9000"
-      },
-      "status": "cancelled"
-    }
-  ],
+  "users": [],
+  "orders": [],
   "products": [
     {
       "id": "1",
