@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUser, saveUser } from "../utils/userHelpers";
+import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link, useNavigate } from "react-router-dom";
 import "./style/cart.css"
 

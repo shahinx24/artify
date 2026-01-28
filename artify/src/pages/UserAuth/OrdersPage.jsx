@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { getUser, saveUser } from "../utils/userHelpers";
+import { getUser, saveUser } from "../../utils/userHelpers";
 import "./style/orders.css"
-import { ENV } from "../constants/env";
+import { ENV } from "../../constants/env";
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());

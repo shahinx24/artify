@@ -4,13 +4,13 @@ import AdminRouteConfig from "../admin/routes/Route.jsx";
 import { useAuth } from "../hooks/useAuth.js";
 // import { getUser } from "../utils/userHelpers";
 
-const HomePage = lazy(() => import("../pages/HomePage.jsx"));
-const ProductsPage = lazy(() => import("../pages/ProductsPage.jsx"));
-const CartPage = lazy(() => import("../pages/CartPage.jsx"));
-const WishlistPage = lazy(() => import("../pages/WishlistPage.jsx"));
-const PaymentPage = lazy(() => import("../pages/PaymentPage.jsx"));
-const OrdersPage = lazy(() => import("../pages/OrdersPage.jsx"));
-const NotFound = lazy(() => import("../pages/NotFound.jsx"));
+const HomePage = lazy(() => import("../pages/NonAuth/HomePage.jsx"));
+const ProductsPage = lazy(() => import("../pages/NonAuth/ProductsPage.jsx"));
+const CartPage = lazy(() => import("../pages/UserAuth/CartPage.jsx"));
+const WishlistPage = lazy(() => import("../pages/UserAuth/WishlistPage.jsx"));
+const PaymentPage = lazy(() => import("../pages/UserAuth/PaymentPage.jsx"));
+const OrdersPage = lazy(() => import("../pages/UserAuth/OrdersPage.jsx"));
+const NotFound = lazy(() => import("../pages/NonAuth/NotFound.jsx"));
 const AdminRoutes = lazy(() => import("../admin/routes/AdminRoutes.jsx"));
 
 export default function AppRoutes({ showToast }) {
