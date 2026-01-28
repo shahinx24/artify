@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link } from "react-router-dom";
-import "./style/wishlist.css";
+import "../style/wishlist.css";
 
 export default function WishlistPage({ showToast }) {
   const [products, setProducts] = useState([]);
@@ -37,7 +37,7 @@ export default function WishlistPage({ showToast }) {
   if (!auth) {
     return (
       <div
-        className="page-content"
+        className="page-contents"
         style={{ marginTop: "6rem", textAlign: "center" }}
       >
         <h2>Please login to view your wishlist</h2>
@@ -93,7 +93,7 @@ export default function WishlistPage({ showToast }) {
 
     if (user.wishlist.length === 0) {
       return (
-        <div className="page-content" >
+        <div className="page-contents" >
           <h2>Your wishlist is empty ❤️</h2>
           <p>Add some art supplies to get started!</p>
           <Link

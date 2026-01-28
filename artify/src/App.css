@@ -17,10 +17,6 @@ html, body, #root {
   flex-direction: column;
 }
 
-.page-content {
-  flex: 1;
-}
-
 .about-section, .contact-section {
   padding: 4rem 3rem;
   text-align: center;
@@ -53,6 +49,20 @@ h1, h2, h3 {
   padding-top: 20;
   padding-left: 2rem;
   padding-right: 2rem;
+  flex: 1;
+}
+
+.page-contents {
+  margin-top: 6rem;
+  text-align: center;
+  padding-top: 20;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  flex: 1;
+}
+.checkout-btn {
+  margin-top: 1rem;
+  display:inline-block;
 }
 
 @keyframes slideUp {

@@ -1,14 +1,3 @@
-.page-content {
-  margin-top: 6rem;
-  text-align: center;
-}
-
-.checkout-btn {
-  margin-top: 1rem;
-  display:inline-block;
-}
-
-
 .cart-page {
   min-height: calc(100vh - 150px);
   display: flex;

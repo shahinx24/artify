@@ -13,12 +13,7 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [
-        {
-          "productId": 8,
-          "qty": 1
-        }
-      ],
+      "cart": [],
       "wishlist": [],
       "isActive": true
     }

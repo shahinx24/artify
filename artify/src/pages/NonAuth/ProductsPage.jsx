@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUser, saveUser } from "../../utils/userHelpers";
-import "./style/product.css";
+import "../style/product.css";
 // import { ENV } from "../../constants/env";
 
 export default function ProductsPage({ showToast }) {
@@ -67,7 +67,7 @@ export default function ProductsPage({ showToast }) {
   const isLiked = (id) => user?.wishlist?.includes(id);
 
   return (
-    <div className="page-content">
+    <div className="page-contents">
       <h2
         className="section-title"
         style={{ marginTop: "6rem", textTransform: "capitalize" }}

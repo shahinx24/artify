@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../../utils/userHelpers";
-import "./style/orders.css"
+import "../style/orders.css"
 import { ENV } from "../../constants/env";
 
 export default function OrdersPage({ showToast }) {
