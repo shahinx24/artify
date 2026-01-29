@@ -3,6 +3,8 @@ import { getUser, saveUser } from "../../utils/userHelpers";
 import { useState, useEffect } from "react";
 import { ENV } from "../../constants/env";
 import "../style/payment.css"
+import usePayment from "../../hooks/usePayment"
+import api from "../../services/api";
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
@@ -17,9 +19,9 @@ export default function PaymentPage({ showToast }) {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3000/products")
-      .then(res => res.json())
-      .then(setProducts);
+    api.get("/products")
+      .then(res => setProducts(res.data))
+      .catch(err => console.error("Failed to load products", err));
   }, []);
 
   useEffect(() => {
@@ -69,6 +71,12 @@ export default function PaymentPage({ showToast }) {
         return showToast("Fill address");
       if (method === "gpay" && !upi)
         return showToast("Enter UPI ID");
+
+      for (const item of cartItems) {
+        if (item.stock < item.qty) {
+          return showToast(`${item.name} is out of stock`);
+        }
+      }
 
       const newOrder = {
         id: Date.now(),

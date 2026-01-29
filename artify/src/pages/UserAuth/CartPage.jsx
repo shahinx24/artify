@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../constants/api";
 import "../style/cart.css"
 
 export default function CartPage({ showToast }) {
@@ -18,7 +19,7 @@ export default function CartPage({ showToast }) {
       });
     }
 
-    fetch("http://localhost:3000/products")
+    fetch(`${API_BASE_URL}/products`)
       .then(res => res.json())
       .then(data => setProducts(data));
   }, []);

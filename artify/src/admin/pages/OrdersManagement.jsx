@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 import "../style/table.css"
@@ -8,22 +8,18 @@ export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`${ENV.API_BASE_URL}/orders`)
-      .then(res => res.json())
-      .then(data => setOrders(data));
+    api.get("/orders").then(res => {
+      setOrders(res.data);
+    });
   }, []);
 
   const updateStatus = useCallback(async (id, status) => {
-      await fetch(`${ENV.API_BASE_URL}/orders/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status })
-      });
+    await api.patch(`/orders/${id}`, { status });
 
-      setOrders(prev =>
-        prev.map(o => (o.id === id ? { ...o, status } : o))
-      );
-    }, []);
+    setOrders(prev =>
+      prev.map(o => (o.id === id ? { ...o, status } : o))
+    );
+  }, []);
 
   return (
   <div className="admin-table-wrapper">

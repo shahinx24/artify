@@ -12,19 +12,9 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [
-        {
-          "productId": 1,
-          "qty": 2
-        },
-        {
-          "productId": 8,
-          "qty": 1
-        }
-      ],
+      "cart": [],
       "wishlist": [
         "6",
-        "25",
         "30"
       ],
       "isActive": true,
@@ -57,6 +47,26 @@
         "city": "mlp",
         "street": "plkl",
         "pin": "898"
+      },
+      "status": "pending"
+    },
+    {
+      "id": 1769599036745,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": 1,
+          "qty": 2
+        }
+      ],
+      "total": 240,
+      "date": "28/01/2026, 16:47:16",
+      "method": "cod",
+      "address": {
+        "city": "yaranankullam",
+        "street": "cochin ",
+        "pin": "676367"
       },
       "status": "pending"
     }

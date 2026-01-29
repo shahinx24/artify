@@ -1,9 +1,9 @@
+import api from "../services/api";
 export const authGuard = async () => {
   const auth = JSON.parse(localStorage.getItem("auth"));
   if (!auth || auth.role !== "user") return null;
 
-  const res = await fetch(`http://localhost:3000/users/${auth.id}`);
-  const freshUser = await res.json();
+  const { data: freshUser } = await api.get(`/users/${auth.id}`);
 
   if (!freshUser.isActive) {
     localStorage.removeItem("auth");

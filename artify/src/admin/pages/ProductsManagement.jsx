@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
+import { API_BASE_URL } from "../../constants/api";
 
 export default function ProductsManagement() {
   const [products, setProducts] = useState([]);
@@ -25,13 +26,10 @@ export default function ProductsManagement() {
   });
 
   useEffect(() => {
-  fetch(`${ENV.API_BASE_URL}/products`)
-    .then((res) => res.json())
-    .then((data) => {
-      setProducts(data);
+    api.get("/products").then(res => {
+      setProducts(res.data);
     });
-}, []);
-
+  }, []);
 
   const update = async (id) => {
     const edited = editedProducts[id];
@@ -42,16 +40,10 @@ export default function ProductsManagement() {
       return;
     }
 
-    await fetch(`${ENV.API_BASE_URL}/products/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: edited.name,
-        stock: edited.stock,
-        price: edited.price
-      }),
+    await api.patch(`/products/${id}`, {
+      name: edited.name,
+      stock: edited.stock,
+      price: edited.price
     });
 
     setProducts((prev) =>
@@ -75,9 +67,9 @@ export default function ProductsManagement() {
 
     if (!confirmDelete) return;
 
-    await fetch(`http://localhost:3000/products/${id}`, {
-      method: "DELETE"
-    });
+   await fetch(`${API_BASE_URL}/products/${id}`, {
+    method: "DELETE",
+  });
 
     // update UI instantly (no refresh)
     setProducts(prev => prev.filter(p => p.id !== id));

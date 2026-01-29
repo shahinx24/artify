@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../constants/api";
 
-const API_USERS = "http://localhost:3000/users";
-const API_ADMINS = "http://localhost:3000/admins";
+const API_USERS = `${API_BASE_URL}/users`;
+const API_ADMINS = `${API_BASE_URL}/admins`;
+
+export { API_USERS, API_ADMINS };
+
 
 const normalizeUser = (u) => ({
   id: u.id,

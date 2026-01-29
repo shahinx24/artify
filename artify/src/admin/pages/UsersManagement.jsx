@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 
 import "../style/adminLayout.css";
 import "../style/table.css";
@@ -14,24 +14,20 @@ export default function UsersManagement() {
 
   // Fetch users
   useEffect(() => {
-    fetch(`${ENV.API_BASE_URL}/users`)
-      .then(res => res.json())
-      .then(setUsers);
+    api.get("/users").then(res => {
+      setUsers(res.data);
+    });
   }, []);
 
   // Toggle user active / blocked
-  const toggleUser = useCallback((id, isActive) => {
-    fetch(`${ENV.API_BASE_URL}/users/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isActive: !isActive })
-    }).then(() => {
-      setUsers(prev =>
-        prev.map(u =>
-          u.id === id ? { ...u, isActive: !isActive } : u
-        )
-      );
-    });
+  const toggleUser = useCallback(async (id, isActive) => {
+    await api.patch(`/users/${id}`, { isActive: !isActive });
+
+    setUsers(prev =>
+      prev.map(u =>
+        u.id === id ? { ...u, isActive: !isActive } : u
+      )
+    );
   }, []);
 
   // Delete user

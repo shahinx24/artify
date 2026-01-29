@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ENV } from "../../constants/env";
+import { API_BASE_URL } from "../../constants/api";
 import "../style/adminLayout.css";
 import "../style/form.css";
 import "../style/buttons.css";
@@ -29,7 +29,9 @@ export default function AddProduct() {
       image, // path
     };
 
-    await fetch(`${ENV.API_BASE_URL}/products`, {
+    import { API_BASE_URL } from "../../constants/api";
+
+    await fetch(`${API_BASE_URL}/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +39,7 @@ export default function AddProduct() {
       body: JSON.stringify(newProduct),
     });
 
-    alert("Product added successfully ✅");
+    alert("Product added successfully ");
 
     setName("");
     setPrice("");

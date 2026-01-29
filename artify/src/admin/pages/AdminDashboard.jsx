@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 
 import "../style/adminLayout.css";
 import "../style/dashboard.css";
@@ -15,28 +15,28 @@ export default function AdminDashboard() {
 
   // Orders stats (count + revenue)
   useEffect(() => {
-    fetch(`${ENV.API_BASE_URL}/orders`)
-      .then(res => res.json())
-      .then(data => {
-        setTotalOrders(data.length);
+    api.get("/orders").then(res => {
+      const data = res.data;
 
-        const revenue = data.reduce(
-          (sum, o) => sum + Number(o.total || 0),
-          0
-        );
-        setTotalRevenue(revenue);
-      });
+      setTotalOrders(data.length);
+
+      const revenue = data.reduce(
+        (sum, o) => sum + Number(o.total || 0),
+        0
+      );
+      setTotalRevenue(revenue);
+    });
   }, []);
 
   // Users & Products
   useEffect(() => {
     Promise.all([
-      fetch(`${ENV.API_BASE_URL}/users`).then(res => res.json()),
-      fetch(`${ENV.API_BASE_URL}/products`).then(res => res.json())
-    ]).then(([users, products]) => {
+      api.get("/users"),
+      api.get("/products")
+    ]).then(([usersRes, productsRes]) => {
       setStats({
-        users: users.length,
-        products: products.length
+        users: usersRes.data.length,
+        products: productsRes.data.length
       });
     });
   }, []);

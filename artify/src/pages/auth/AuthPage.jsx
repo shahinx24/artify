@@ -3,6 +3,7 @@ import AuthForm from "../../components/form/AuthForm";
 import AuthSwitch from "../../components/form/AuthSwitch";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
+import { API_BASE_URL } from "../../constants/api";
 
 export default function AuthPage({ showToast }) {
   const location = useLocation();
@@ -20,15 +21,14 @@ export default function AuthPage({ showToast }) {
   const handleSubmit = async () => {
     const email = form.email.trim().toLowerCase();
     const pass = form.pass.trim();
+    const users = await usersRes.json();
+    const admins = await adminsRes.json();
 
     // fetch users and admin
     const [usersRes, adminsRes] = await Promise.all([
-      fetch("http://localhost:3000/users"),
-      fetch("http://localhost:3000/admins")
+      fetch(`${API_BASE_URL}/users`),
+      fetch(`${API_BASE_URL}/admins`)
     ]);
-
-    const users = await usersRes.json();
-    const admins = await adminsRes.json();
 
     if (isLogin) {
       const admin = admins.find(
@@ -74,18 +74,18 @@ export default function AuthPage({ showToast }) {
         return;
       }
 
-      await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          pass,
-          role: "user",
-          cart: [],
-          wishlist: [],
-          isActive: true
-        })
-      });
+     await fetch(`${API_BASE_URL}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        pass,
+        role: "user",
+        cart: [],
+        wishlist: [],
+        isActive: true
+      })
+    });
 
       navigate("/login");
     }

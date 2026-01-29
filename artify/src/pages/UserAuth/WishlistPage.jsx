@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
@@ -22,17 +22,19 @@ export default function WishlistPage({ showToast }) {
   }, []);
 
   useEffect(() => {
-    if (user?.wishlist?.length) {
-      axios.get("http://localhost:3000/products").then(res => {
-        const filtered = res.data.filter(p =>
-          user.wishlist.some(id => Number(id) === Number(p.id))
-        );
-        setProducts(filtered);
-      });
-    } else {
+    if (!user?.wishlist?.length) {
       setProducts([]);
+      return;
     }
+
+    api.get("/products").then(res => {
+      const filtered = res.data.filter(p =>
+        user.wishlist.some(id => Number(id) === Number(p.id))
+      );
+      setProducts(filtered);
+    });
   }, [user]);
+
 
   if (!auth) {
     return (

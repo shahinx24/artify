@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import Search from "../../components/search/Search";
 import "../style/product.css";
@@ -12,13 +12,12 @@ export default function ProductsPage({ showToast }) {
   const [user, setUser] = useState(getUser());
 
   useEffect(() => {
-    axios.get("http://localhost:3000/products")
-      .then(res => {
-        const filtered = res.data.filter(
-          p => p.category === category
-        );
-        setProducts(filtered);
-      });
+    api.get("/products").then(res => {
+      const filtered = res.data.filter(
+        p => p.category === category
+      );
+      setProducts(filtered);
+    });
   }, [category]);
 
   const filteredProducts = products.filter(p =>

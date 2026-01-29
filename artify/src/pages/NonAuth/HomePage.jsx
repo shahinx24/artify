@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { Link } from "react-router-dom";
 import { categories } from "../../data/categories.js";
 import "../style/home.css"
@@ -7,10 +7,10 @@ import "../style/home.css"
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:3000/products")
-      .then(res => setProducts(res.data));
-  }, []);
+      useEffect(() => {
+        api.get("/products")
+          .then(res => setProducts(res.data));
+      }, []);
 
   return (
     <>
