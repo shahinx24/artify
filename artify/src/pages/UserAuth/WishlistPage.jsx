@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../services/api";
+import { getWishlistProducts } from "../../services/productService";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
@@ -22,19 +22,22 @@ export default function WishlistPage({ showToast }) {
   }, []);
 
   useEffect(() => {
-    if (!user?.wishlist?.length) {
-      setProducts([]);
-      return;
-    }
+    const loadWishlist = async () => {
+      if (!user?.wishlist?.length) {
+        setProducts([]);
+        return;
+      }
 
-    api.get("/products").then(res => {
-      const filtered = res.data.filter(p =>
-        user.wishlist.some(id => Number(id) === Number(p.id))
-      );
-      setProducts(filtered);
-    });
+      try {
+        const products = await getWishlistProducts(user.wishlist);
+        setProducts(products);
+      } catch (err) {
+        console.error("Failed to load wishlist", err);
+      }
+    };
+
+    loadWishlist();
   }, [user]);
-
 
   if (!auth) {
     return (

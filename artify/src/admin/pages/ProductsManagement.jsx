@@ -4,7 +4,7 @@ import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
-import { API_BASE_URL } from "../../constants/api";
+import { deleteProduct } from "../../services/productService";
 
 export default function ProductsManagement() {
   const [products, setProducts] = useState([]);
@@ -67,12 +67,15 @@ export default function ProductsManagement() {
 
     if (!confirmDelete) return;
 
-   await fetch(`${API_BASE_URL}/products/${id}`, {
-    method: "DELETE",
-  });
+    try {
+      await deleteProduct(id);
 
-    // update UI instantly (no refresh)
-    setProducts(prev => prev.filter(p => p.id !== id));
+      // update UI instantly (no refresh)
+      setProducts(prev => prev.filter(p => p.id !== id));
+    } catch (error) {
+      console.error("Delete failed", error);
+      alert("Failed to delete product");
+    }
   };
 
   return (

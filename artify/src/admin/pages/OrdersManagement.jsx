@@ -1,24 +1,35 @@
 import { useEffect, useState, useCallback } from "react";
-import api from "../../services/api";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 import "../style/table.css"
+import { getOrders, updateOrderStatus } from "../../services/orderService";
 
 export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    api.get("/orders").then(res => {
-      setOrders(res.data);
-    });
+    const fetchOrders = async () => {
+      try {
+        const { data } = await getOrders();
+        setOrders(data);
+      } catch (err) {
+        console.error("Failed to load orders", err);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   const updateStatus = useCallback(async (id, status) => {
-    await api.patch(`/orders/${id}`, { status });
+    try {
+      await updateOrderStatus(id, status);
 
-    setOrders(prev =>
-      prev.map(o => (o.id === id ? { ...o, status } : o))
-    );
+      setOrders(prev =>
+        prev.map(o => (o.id === id ? { ...o, status } : o))
+      );
+    } catch (err) {
+      console.error("Status update failed", err);
+    }
   }, []);
 
   return (

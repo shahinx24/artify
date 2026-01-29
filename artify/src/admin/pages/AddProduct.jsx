@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { API_BASE_URL } from "../../constants/api";
+import { addProduct } from "../../services/productService";
 import "../style/adminLayout.css";
 import "../style/form.css";
 import "../style/buttons.css";
@@ -29,13 +29,13 @@ export default function AddProduct() {
       image, // path
     };
 
-    await fetch(`${API_BASE_URL}/products`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
-    });
+    try {
+      await addProduct(newProduct);
+      alert("Product added successfully");
+    } catch (error) {
+      console.error("Add product failed", error);
+      alert("Failed to add product");
+    }
 
     alert("Product added successfully ");
 

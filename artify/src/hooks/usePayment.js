@@ -1,44 +1,21 @@
-import api from "../services/api";
+import { restoreStock } from "../services/productService";
+import { cancelOrderById } from "../services/orderService";
 
 export default function usePayment(showToast) {
-    const restoreStockAfterCancel = async (order) => {
-      const res = await api.get("/products");
-      const products = res.data;
-
-      for (const item of order.items) {
-        const product = products.find(
-          p => Number(p.id) === Number(item.productId)
-        );
-
-        if (!product) continue;
-
-        const updatedProduct = {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          category: product.category,
-          stock: Number(product.stock) + Number(item.qty)
-        };
-
-        await api.put(`/products/${product.id}`, updatedProduct);
-
-        console.log("Stock restored:", updatedProduct);
-      }
-    };
 
   const cancelOrder = async (order) => {
-    await restoreStockAfterCancel(order);
+    try {
+      await restoreStock(order.items);
+      await cancelOrderById(order.id);
 
-    await api.patch(`/orders/${order.id}`, {
-      status: "cancelled"
-    });
-
-    showToast?.("Order cancelled");
+      showToast?.("Order cancelled");
+    } catch (err) {
+      console.error("Cancel order failed", err);
+      showToast?.("Failed to cancel order");
+    }
   };
 
   return {
-    cancelOrder,
-    restoreStockAfterCancel
+    cancelOrder
   };
 }
