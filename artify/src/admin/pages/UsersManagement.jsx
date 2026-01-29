@@ -31,12 +31,10 @@ export default function UsersManagement() {
   }, []);
 
   // Delete user
-  const deleteUser = useCallback((id) => {
-    fetch(`${ENV.API_BASE_URL}/users/${id}`, {
-      method: "DELETE"
-    }).then(() => {
-      setUsers(prev => prev.filter(u => u.id !== id));
-    });
+  const deleteUser = useCallback(async (id) => {
+    await api.delete(`/users/${id}`);
+
+    setUsers(prev => prev.filter(u => u.id !== id));
   }, []);
 
   // View orders for a user (toggle)
