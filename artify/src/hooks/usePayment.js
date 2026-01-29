@@ -1,43 +1,34 @@
-import { ENV } from "../constants/env";
+import api from "../services/api";
 
 export default function usePayment(showToast) {
-  const restoreStockAfterCancel = async (order) => {
-    const res = await fetch(`${ENV.API_BASE_URL}/products`);
-    const products = await res.json();
+    const restoreStockAfterCancel = async (order) => {
+      const res = await api.get("/products");
+      const products = res.data;
 
-    for (const item of order.items) {
+      for (const item of order.items) {
         const product = products.find(
-        p => String(p.id) === String(item.productId)
+          p => Number(p.id) === Number(item.productId)
         );
 
-        if (!product) {
-        console.error("Product not found for item:", item);
-        continue;
-        }
+        if (!product) continue;
 
         const updatedProduct = {
-        ...product,
-        stock: Number(product.stock) + Number(item.qty)
+          ...product,
+          stock: Number(product.stock) + Number(item.qty)
         };
 
-        await fetch(`${ENV.API_BASE_URL}/products/${product.id}`, {
-        method: "PUT", // JSON-server requires FULL object
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProduct)
-        });
+        // JSON-server requires FULL object for PUT
+        await api.put(`/products/${product.id}`, updatedProduct);
 
         console.log("Stock restored:", updatedProduct);
-    }
+      }
     };
-
 
   const cancelOrder = async (order) => {
     await restoreStockAfterCancel(order);
 
-    await fetch(`${ENV.API_BASE_URL}/orders/${order.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "cancelled" })
+    await api.patch(`/orders/${order.id}`, {
+      status: "cancelled"
     });
 
     showToast?.("Order cancelled & stock restored");

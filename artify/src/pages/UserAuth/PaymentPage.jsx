@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import { useState, useEffect } from "react";
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 import "../style/payment.css"
 import usePayment from "../../hooks/usePayment"
 import api from "../../services/api";
@@ -91,11 +91,7 @@ export default function PaymentPage({ showToast }) {
       };
 
       // Save order globally
-      await fetch(`${ENV.API_BASE_URL}/orders`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newOrder)
-      });
+      await api.post("/orders", newOrder);
 
       // Clear cart (user)
       const updatedUser = { ...user, cart: [] };

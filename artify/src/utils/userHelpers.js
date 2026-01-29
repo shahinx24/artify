@@ -1,7 +1,4 @@
-import axios from "axios";
-import { ENV } from "../constants/env";
-
-const API = `${ENV.API_BASE_URL}/users`;
+import api from "../services/api";
 
 export const getUser = () => {
   const u = JSON.parse(localStorage.getItem("auth"));
@@ -20,7 +17,8 @@ export const saveUser = async (user) => {
     return;
   }
 
-  await axios.put(`${API}/${user.id}`, user);
+  await api.put(`/users/${user.id}`, user);
+
   localStorage.setItem("auth", JSON.stringify(user));
   window.dispatchEvent(new Event("cart-change"));
 };

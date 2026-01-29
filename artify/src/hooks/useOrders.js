@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ENV } from "../constants/env";
+import api from "../services/api";
 
 export default function useOrders({user}) {
   const [orders, setOrders] = useState([]);
@@ -7,9 +7,10 @@ export default function useOrders({user}) {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`${ENV.API_BASE_URL}/orders?userId=${user.id}`)
-      .then(res => res.json())
-      .then(setOrders);
+    api.get(`/orders?userId=${user.id}`)
+      .then(res => {
+        setOrders(res.data);
+      });
   }, [user]);
 
   return orders;

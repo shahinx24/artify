@@ -29,8 +29,6 @@ export default function AddProduct() {
       image, // path
     };
 
-    import { API_BASE_URL } from "../../constants/api";
-
     await fetch(`${API_BASE_URL}/products`, {
       method: "POST",
       headers: {

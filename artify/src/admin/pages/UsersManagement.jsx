@@ -39,19 +39,15 @@ export default function UsersManagement() {
 
   // View orders for a user (toggle)
   const viewOrders = async (email) => {
-    // Close if same user clicked again
     if (selectedUser === email) {
       setSelectedUser(null);
       setUserOrders([]);
       return;
     }
 
-    const res = await fetch(
-      `${ENV.API_BASE_URL}/orders?userEmail=${email}`
-    );
-    const data = await res.json();
+    const res = await api.get(`/orders?userEmail=${email}`);
 
-    setUserOrders(data);
+    setUserOrders(res.data);
     setSelectedUser(email);
   };
 

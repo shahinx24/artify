@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import "../style/orders.css"
-import { ENV } from "../../constants/env";
+import api from "../../services/api";
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-  if (!user) return;
+    if (!user) return;
 
-  fetch(`${ENV.API_BASE_URL}/orders?userEmail=${user.email}`)
-    .then(res => res.json())
-    .then(setOrders);
-}, [user]);
+    api.get(`/orders?userEmail=${user.email}`)
+      .then(res => {
+        setOrders(res.data);
+      });
+  }, [user]);
 
   if (!user) {
     return(
@@ -25,11 +26,7 @@ export default function OrdersPage({ showToast }) {
   )}
 
   const updateStatus = async (id, status) => {
-    await fetch(`${ENV.API_BASE_URL}/orders/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status })
-    });
+    await api.patch(`/orders/${id}`, { status });
 
     setOrders(prev =>
       prev.map(o => (o.id === id ? { ...o, status } : o))
