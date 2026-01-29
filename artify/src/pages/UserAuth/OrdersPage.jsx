@@ -88,7 +88,7 @@ return (
             {o.status === "pending" && (
               <button
                 className="cancel-btn"
-                onClick={() => updateStatus(o.id, "cancelled")}
+                onClick={() => handleCancel(o)}
               >
                 Cancel Order
               </button>
