@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import "../style/orders.css"
 import api from "../../services/api";
+import usePayment from "../../hooks/usePayment";
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [orders, setOrders] = useState([]);
+  const { cancelOrder } = usePayment(showToast);
 
   useEffect(() => {
     if (!user) return;
@@ -45,6 +47,15 @@ const getStatusColor = (status) => {
   }
 };
 
+const handleCancel = async (order) => {
+  await cancelOrder(order);
+
+  setOrders(prev =>
+    prev.map(o =>
+      o.id === order.id ? { ...o, status: "cancelled" } : o
+    )
+  );
+};
 
   const activeOrders = orders.filter(o => o.status !== "cancelled");
   const cancelledOrders = orders.filter(o => o.status === "cancelled");

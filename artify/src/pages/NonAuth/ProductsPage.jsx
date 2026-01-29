@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import api from "../../services/api";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import Search from "../../components/search/Search";
 import "../style/product.css";

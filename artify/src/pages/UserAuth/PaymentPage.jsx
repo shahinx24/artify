@@ -3,8 +3,6 @@ import { getUser, saveUser } from "../../utils/userHelpers";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import "../style/payment.css"
-import usePayment from "../../hooks/usePayment"
-import api from "../../services/api";
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
