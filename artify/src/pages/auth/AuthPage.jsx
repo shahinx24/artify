@@ -21,14 +21,15 @@ export default function AuthPage({ showToast }) {
   const handleSubmit = async () => {
     const email = form.email.trim().toLowerCase();
     const pass = form.pass.trim();
-    const users = await usersRes.json();
-    const admins = await adminsRes.json();
 
     // fetch users and admin
     const [usersRes, adminsRes] = await Promise.all([
       fetch(`${API_BASE_URL}/users`),
       fetch(`${API_BASE_URL}/admins`)
     ]);
+    
+    const users = await usersRes.json();
+    const admins = await adminsRes.json();
 
     if (isLogin) {
       const admin = admins.find(
