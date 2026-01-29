@@ -14,7 +14,6 @@
       "role": "user",
       "cart": [],
       "wishlist": [
-        "6",
         "30"
       ],
       "isActive": true,
@@ -71,30 +70,22 @@
       "status": "pending"
     },
     {
-      "id": 1769670182620,
+      "id": 1769674760287,
       "userId": 1,
       "userEmail": "hanan@gmail.com",
       "items": [
         {
           "productId": 1,
           "qty": 2
-        },
-        {
-          "productId": 8,
-          "qty": 1
-        },
-        {
-          "productId": 25,
-          "qty": 1
         }
       ],
-      "total": 890,
-      "date": "29/01/2026, 12:33:02",
+      "total": 240,
+      "date": "29/01/2026, 13:49:20",
       "method": "cod",
       "address": {
-        "city": "kollam",
-        "street": "kollilla",
-        "pin": "911"
+        "city": "sd",
+        "street": "sd",
+        "pin": "23"
       },
       "status": "cancelled"
     }
@@ -114,7 +105,7 @@
       "price": 150,
       "image": "/images/brushes/brush2.jpg",
       "category": "brushes",
-      "stock": 50
+      "stock": 52
     },
     {
       "id": "3",

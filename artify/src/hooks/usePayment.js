@@ -13,11 +13,14 @@ export default function usePayment(showToast) {
         if (!product) continue;
 
         const updatedProduct = {
-          ...product,
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
           stock: Number(product.stock) + Number(item.qty)
         };
 
-        // JSON-server requires FULL object for PUT
         await api.put(`/products/${product.id}`, updatedProduct);
 
         console.log("Stock restored:", updatedProduct);
@@ -31,7 +34,7 @@ export default function usePayment(showToast) {
       status: "cancelled"
     });
 
-    showToast?.("Order cancelled & stock restored");
+    showToast?.("Order cancelled");
   };
 
   return {

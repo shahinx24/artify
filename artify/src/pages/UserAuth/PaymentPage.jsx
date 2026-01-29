@@ -63,42 +63,61 @@ export default function PaymentPage({ showToast }) {
     0
   );
 
-  const placeOrder = async () => {
-      if (!method) return showToast("Choose a payment method");
-      if (!address.city || !address.street || !address.pin)
-        return showToast("Fill address");
-      if (method === "gpay" && !upi)
-        return showToast("Enter UPI ID");
-
-      for (const item of cartItems) {
-        if (item.stock < item.qty) {
-          return showToast(`${item.name} is out of stock`);
-        }
-      }
-
-      const newOrder = {
-        id: Date.now(),
-        userId: user.id,
-        userEmail: user.email,
-        items: cart,
-        total: cartTotal,
-        date: new Date().toLocaleString(),
-        method,
-        address,
-        status: "pending"
+  const reduceStockAfterOrder = async () => {
+    for (const item of cartItems) {
+      const updatedProduct = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        category: item.category,
+        stock: Number(item.stock) - Number(item.qty)
       };
 
-      // Save order globally
-      await api.post("/orders", newOrder);
+      await api.put(`/products/${item.id}`, updatedProduct);
+    }
+  };
 
-      // Clear cart (user)
-      const updatedUser = { ...user, cart: [] };
-      await saveUser(updatedUser);
-      setUser(updatedUser);
+  const placeOrder = async () => {
+    if (!method) return showToast("Choose a payment method");
+    if (!address.city || !address.street || !address.pin)
+      return showToast("Fill address");
+    if (method === "gpay" && !upi)
+      return showToast("Enter UPI ID");
 
-      showToast("Order placed!");
-      navigate("/");
+    // safety check
+    for (const item of cartItems) {
+      if (item.stock < item.qty) {
+        return showToast(`${item.name} is out of stock`);
+      }
+    }
+
+    // 🔥 REDUCE STOCK FIRST
+    await reduceStockAfterOrder();
+
+    const newOrder = {
+      id: Date.now(),
+      userId: user.id,
+      userEmail: user.email,
+      items: cart,
+      total: cartTotal,
+      date: new Date().toLocaleString(),
+      method,
+      address,
+      status: "pending"
     };
+
+    // Save order
+    await api.post("/orders", newOrder);
+
+    // Clear cart
+    const updatedUser = { ...user, cart: [] };
+    await saveUser(updatedUser);
+    setUser(updatedUser);
+
+    showToast("Order placed!");
+    navigate("/");
+  };
   
   return (
     <div className="payment-page">
