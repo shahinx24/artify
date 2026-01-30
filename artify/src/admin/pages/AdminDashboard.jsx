@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
-
+import { getOrderStats } from "../../services/orderService";
+import { getUserCount } from "../../services/userService";
+import { getProductCount } from "../../services/productService";
 import "../style/adminLayout.css";
 import "../style/dashboard.css";
 import "../style/buttons.css";
@@ -15,30 +16,38 @@ export default function AdminDashboard() {
 
   // Orders stats (count + revenue)
   useEffect(() => {
-    api.get("/orders").then(res => {
-      const data = res.data;
+    const loadOrderStats = async () => {
+      try {
+        const { totalOrders, totalRevenue } = await getOrderStats();
+        setTotalOrders(totalOrders);
+        setTotalRevenue(totalRevenue);
+      } catch (err) {
+        console.error("Failed to load order stats", err);
+      }
+    };
 
-      setTotalOrders(data.length);
-
-      const revenue = data.reduce(
-        (sum, o) => sum + Number(o.total || 0),
-        0
-      );
-      setTotalRevenue(revenue);
-    });
+    loadOrderStats();
   }, []);
 
   // Users & Products
   useEffect(() => {
-    Promise.all([
-      api.get("/users"),
-      api.get("/products")
-    ]).then(([usersRes, productsRes]) => {
-      setStats({
-        users: usersRes.data.length,
-        products: productsRes.data.length
-      });
-    });
+    const loadCounts = async () => {
+      try {
+        const [users, products] = await Promise.all([
+          getUserCount(),
+          getProductCount()
+        ]);
+
+        setStats({
+          users,
+          products
+        });
+      } catch (err) {
+        console.error("Failed to load dashboard stats", err);
+      }
+    };
+
+    loadCounts();
   }, []);
 
   return (

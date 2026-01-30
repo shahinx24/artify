@@ -30,3 +30,7 @@ export const restoreStock = async (items) => {
     });
   }
 };
+export const getProductCount = async () => {
+  const { data } = await api.get("/products");
+  return data.length;
+};
