@@ -39,34 +39,47 @@ export default function ProductsManagement() {
     const edited = editedProducts[id];
     if (!edited) return;
 
-    if (!edited.name || edited.name.trim() === "") {
+    const original = products.find(p => p.id === id);
+    if (!original) return;
+
+    const finalName = edited.name ?? original.name;
+    const finalStock = Number(
+      edited.stock ?? original.stock ?? 0
+    );
+    const finalPrice = Number(
+      edited.price ?? original.price ?? 0
+    );
+
+    if (!finalName || finalName.trim() === "") {
       alert("Product name is required");
       return;
     }
 
-    const safeStock = Number(edited.stock ?? 0);
-    const safePrice = Number(edited.price ?? 0);
-
-    if (safeStock < 0) {
+    if (finalStock < 0) {
       alert("Stock cannot be negative");
       return;
     }
 
-    if (safePrice < 0) {
+    if (finalPrice < 0) {
       alert("Price cannot be negative");
       return;
     }
 
     await api.patch(`/products/${id}`, {
-      name: edited.name,
-      stock: safeStock,
-      price: safePrice,
+      name: finalName,
+      stock: finalStock,
+      price: finalPrice,
     });
 
     setProducts(prev =>
       prev.map(p =>
         p.id === id
-          ? { ...p, ...edited, stock: safeStock, price: safePrice }
+          ? {
+              ...p,
+              name: finalName,
+              stock: finalStock,
+              price: finalPrice,
+            }
           : p
       )
     );
@@ -77,6 +90,7 @@ export default function ProductsManagement() {
       return copy;
     });
   };
+
 
   const dlt = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
