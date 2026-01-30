@@ -167,7 +167,7 @@
       "price": 250,
       "image": "/images/colors/colors1.jpg",
       "category": "colors",
-      "stock": 50
+      "stock": null
     },
     {
       "id": "8",
@@ -183,7 +183,7 @@
       "price": 180,
       "image": "/images/colors/colors3.jpg",
       "category": "colors",
-      "stock": 48
+      "stock": null
     },
     {
       "id": "10",
@@ -191,7 +191,7 @@
       "price": 100,
       "image": "/images/colors/colors4.jpg",
       "category": "colors",
-      "stock": 49
+      "stock": null
     },
     {
       "id": "11",

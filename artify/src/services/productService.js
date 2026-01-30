@@ -34,3 +34,19 @@ export const getProductCount = async () => {
   const { data } = await api.get("/products");
   return data.length;
 };
+export const reduceStock = async (items) => {
+  const res = await api.get("/products");
+  const products = res.data;
+
+  for (const item of items) {
+    const product = products.find(
+      p => Number(p.id) === Number(item.productId)
+    );
+
+    if (!product) continue;
+
+    await api.patch(`/products/${product.id}`, {
+      stock: product.stock - item.quantity
+    });
+  }
+};
