@@ -74,10 +74,10 @@
     {
       "id": "1",
       "name": "Round Brush",
-      "price": 120,
+      "price": 121,
       "image": "/images/brushes/brush1.webp",
       "category": "brushes",
-      "stock": 50
+      "stock": 10
     },
     {
       "id": "2",

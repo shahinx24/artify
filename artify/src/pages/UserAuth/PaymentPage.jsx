@@ -3,6 +3,7 @@ import { getUser, saveUser } from "../../utils/userHelpers";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import "../style/payment.css"
+import { reduceStock } from "../../services/productService";
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
@@ -63,20 +64,6 @@ export default function PaymentPage({ showToast }) {
     0
   );
 
-  const reduceStockAfterOrder = async () => {
-    for (const item of cartItems) {
-      const updatedProduct = {
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        image: item.image,
-        category: item.category,
-        stock: Number(item.stock) - Number(item.qty)
-      };
-
-      await api.put(`/products/${item.id}`, updatedProduct);
-    }
-  };
 
   const placeOrder = async () => {
     if (!method) return showToast("Choose a payment method");
@@ -92,8 +79,7 @@ export default function PaymentPage({ showToast }) {
       }
     }
 
-    // 🔥 REDUCE STOCK FIRST
-    await reduceStockAfterOrder();
+    await reduceStock(cart);
 
     const newOrder = {
       id: Date.now(),

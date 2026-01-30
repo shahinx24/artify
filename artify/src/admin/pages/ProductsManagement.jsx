@@ -4,7 +4,7 @@ import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
-import { deleteProduct } from "../../services/productService";
+import { deleteProduct,updateProduct } from "../../services/productService";
 
 export default function ProductsManagement() {
   const [products, setProducts] = useState([]);
@@ -65,7 +65,7 @@ export default function ProductsManagement() {
       return;
     }
 
-    await api.patch(`/products/${id}`, {
+    await updateProduct(id, {
       name: finalName,
       stock: finalStock,
       price: finalPrice,
