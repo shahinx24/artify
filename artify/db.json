@@ -12,12 +12,30 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [],
+      "cart": [
+        {
+          "productId": 32,
+          "qty": 1
+        },
+        {
+          "productId": 34,
+          "qty": 2
+        }
+      ],
       "wishlist": [
         "30"
       ],
       "isActive": true,
       "id": 1
+    },
+    {
+      "email": "shabin@gmail.com",
+      "pass": "Shabin@12",
+      "role": "user",
+      "cart": [],
+      "wishlist": [],
+      "isActive": true,
+      "id": 2
     }
   ],
   "orders": [
@@ -70,24 +88,28 @@
       "status": "pending"
     },
     {
-      "id": 1769674760287,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
+      "id": 1769747970526,
+      "userId": 2,
+      "userEmail": "shabin@gmail.com",
       "items": [
         {
-          "productId": 1,
+          "productId": 34,
           "qty": 2
+        },
+        {
+          "productId": 31,
+          "qty": 1
         }
       ],
-      "total": 240,
-      "date": "29/01/2026, 13:49:20",
+      "total": 420,
+      "date": "30/01/2026, 10:09:30",
       "method": "cod",
       "address": {
-        "city": "sd",
-        "street": "sd",
-        "pin": "23"
+        "city": "London ",
+        "street": "fejo",
+        "pin": "9890"
       },
-      "status": "cancelled"
+      "status": "delivered"
     }
   ],
   "products": [

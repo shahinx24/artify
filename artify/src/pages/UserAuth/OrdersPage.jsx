@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import "../style/orders.css"
 import api from "../../services/api";
-import usePayment from "../../hooks/usePayment";
+import useCancelOrder from "../../hooks/useCancelOrder";
 
 export default function OrdersPage({ showToast }) {
   const [user, setUser] = useState(getUser());
   const [orders, setOrders] = useState([]);
-  const { cancelOrder } = usePayment(showToast);
+  const { cancelOrder } = useCancelOrder(showToast);
 
   useEffect(() => {
     if (!user) return;

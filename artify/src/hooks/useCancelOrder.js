@@ -1,7 +1,7 @@
 import { restoreStock } from "../services/productService";
 import { cancelOrderById } from "../services/orderService";
 
-export default function usePayment(showToast) {
+export default function useCancelOrder(showToast) {
 
   const cancelOrder = async (order) => {
     try {
