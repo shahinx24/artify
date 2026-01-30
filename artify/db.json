@@ -68,26 +68,6 @@
         "pin": "676367"
       },
       "status": "pending"
-    },
-    {
-      "id": 1769674760287,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
-      "items": [
-        {
-          "productId": 1,
-          "qty": 2
-        }
-      ],
-      "total": 240,
-      "date": "29/01/2026, 13:49:20",
-      "method": "cod",
-      "address": {
-        "city": "sd",
-        "street": "sd",
-        "pin": "23"
-      },
-      "status": "cancelled"
     }
   ],
   "products": [
