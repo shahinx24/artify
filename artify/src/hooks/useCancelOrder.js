@@ -2,11 +2,13 @@ import { restoreStock } from "../services/productService";
 import { cancelOrderById } from "../services/orderService";
 
 export default function useCancelOrder(showToast) {
-
-  const cancelOrder = async (order) => {
+  const cancelOrder = async (order, skipApi = false) => {
     try {
       await restoreStock(order.items);
-      await cancelOrderById(order.id);
+
+      if (!skipApi) {
+        await cancelOrderById(order.id);
+      }
 
       showToast?.("Order cancelled");
     } catch (err) {
@@ -15,7 +17,5 @@ export default function useCancelOrder(showToast) {
     }
   };
 
-  return {
-    cancelOrder
-  };
+  return { cancelOrder };
 }

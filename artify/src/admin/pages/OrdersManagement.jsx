@@ -2,14 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 import { getOrders, updateOrderStatus } from "../../services/orderService";
-import {
-  restoreStock,
-  reduceStock
-} from "../../services/productService";
+import { reduceStock } from "../../services/productService";
 import "../style/table.css";
+import useCancelOrder from "../../hooks/useCancelOrder";
 
 export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
+  const { cancelOrder } = useCancelOrder();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -24,40 +23,39 @@ export default function OrdersManagement() {
     fetchOrders();
   }, []);
 
-  const updateStatus = useCallback(async (order, newStatus) => {
-    const prevStatus = order.status;
+  const updateStatus = useCallback(
+    async (order, newStatus) => {
+      const prevStatus = order.status;
 
-    try {
-      // 1. Stock logic FIRST (critical)
-      if (
-        prevStatus !== ORDER_STATUS.CANCELLED &&
-        newStatus === ORDER_STATUS.CANCELLED
-      ) {
-        // Cancelled → increase stock
-        await restoreStock(order.items);
+      try {
+        if (
+          prevStatus !== ORDER_STATUS.CANCELLED &&
+          newStatus === ORDER_STATUS.CANCELLED
+        ) {
+          await cancelOrder(order, true);
+        }
+
+        // RE-ACTIVATE → decrease stock
+        if (
+          prevStatus === ORDER_STATUS.CANCELLED &&
+          newStatus !== ORDER_STATUS.CANCELLED
+        ) {
+          await reduceStock(order.items);
+        }
+
+        await updateOrderStatus(order.id, newStatus);
+
+        setOrders(prev =>
+          prev.map(o =>
+            o.id === order.id ? { ...o, status: newStatus } : o
+          )
+        );
+      } catch (err) {
+        console.error("Status update failed", err);
       }
-
-      if (
-        prevStatus === ORDER_STATUS.CANCELLED &&
-        newStatus !== ORDER_STATUS.CANCELLED
-      ) {
-        // Reactivated → decrease stock
-        await reduceStock(order.items);
-      }
-
-      // 2. Update order status
-      await updateOrderStatus(order.id, newStatus);
-
-      // 3. Update UI
-      setOrders(prev =>
-        prev.map(o =>
-          o.id === order.id ? { ...o, status: newStatus } : o
-        )
-      );
-    } catch (err) {
-      console.error("Status update failed", err);
-    }
-  }, []);
+    },
+    [cancelOrder]
+  );
 
   return (
     <div className="admin-table-wrapper">

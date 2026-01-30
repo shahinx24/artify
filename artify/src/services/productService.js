@@ -20,8 +20,7 @@ export const getProductCount = async () => {
   return data.length;
 };
 export const restoreStock = async (items) => {
-  const res = await api.get("/products");
-  const products = res.data;
+  const { data: products } = await api.get("/products");
 
   for (const item of items) {
     const product = products.find(
@@ -33,14 +32,13 @@ export const restoreStock = async (items) => {
     const currentStock = Number(product.stock ?? 0);
 
     await api.patch(`/products/${product.id}`, {
-      stock: currentStock + Number(item.quantity)
+      stock: currentStock + Number(item.quantity),
     });
   }
 };
 
 export const reduceStock = async (items) => {
-  const res = await api.get("/products");
-  const products = res.data;
+  const { data: products } = await api.get("/products");
 
   for (const item of items) {
     const product = products.find(
@@ -52,7 +50,7 @@ export const reduceStock = async (items) => {
     const currentStock = Number(product.stock ?? 0);
 
     await api.patch(`/products/${product.id}`, {
-      stock: Math.max(0, currentStock - Number(item.quantity))
+      stock: Math.max(0, currentStock - Number(item.quantity)),
     });
   }
 };
