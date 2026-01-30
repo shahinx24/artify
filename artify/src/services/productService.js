@@ -15,8 +15,13 @@ export const getWishlistProducts = async (wishlistIds) => {
     wishlistIds.some(id => Number(id) === Number(p.id))
   );
 };
+export const getProductCount = async () => {
+  const { data } = await api.get("/products");
+  return data.length;
+};
 export const restoreStock = async (items) => {
-  const { data: products } = await api.get("/products");
+  const res = await api.get("/products");
+  const products = res.data;
 
   for (const item of items) {
     const product = products.find(
@@ -25,15 +30,14 @@ export const restoreStock = async (items) => {
 
     if (!product) continue;
 
+    const currentStock = Number(product.stock ?? 0);
+
     await api.patch(`/products/${product.id}`, {
-      stock: Number(product.stock) + Number(item.qty)
+      stock: currentStock + Number(item.quantity)
     });
   }
 };
-export const getProductCount = async () => {
-  const { data } = await api.get("/products");
-  return data.length;
-};
+
 export const reduceStock = async (items) => {
   const res = await api.get("/products");
   const products = res.data;
@@ -45,8 +49,10 @@ export const reduceStock = async (items) => {
 
     if (!product) continue;
 
+    const currentStock = Number(product.stock ?? 0);
+
     await api.patch(`/products/${product.id}`, {
-      stock: product.stock - item.quantity
+      stock: Math.max(0, currentStock - Number(item.quantity))
     });
   }
 };
