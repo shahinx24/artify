@@ -1,13 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import api from "../../services/api";
 import Search from "../../components/search/Search";
 import "../style/product.css";
-
-import useCart from "../hooks/useCart";
-import { useAuth } from "../context/AuthContext";
-import { saveUser } from "../services/userService";
+import { saveUser } from "../../services/userService";
+import useCart from "../../hooks/useCart";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();

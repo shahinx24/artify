@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
-
 import { getWishlistProducts } from "../../services/productService";
-import { saveUser } from "../services/userService";
-
-import { useAuth } from "../context/AuthContext";
-import useCart from "../hooks/useCart";
+import { useAuth } from "../../context/AuthContext";
+import useCart from "../../hooks/useCart";
+import { saveUser } from "../../services/userService";
 
 export default function WishlistPage({ showToast }) {
   const { auth, updateAuth } = useAuth();

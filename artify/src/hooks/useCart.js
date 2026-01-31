@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ENV } from "../constants/env";
-import { useAuth } from "../context/AuthContext";
 import { saveUser } from "../services/userService";
+import { useAuth } from "../context/AuthContext";
 
 export default function useCart() {
   const { auth, updateAuth } = useAuth();

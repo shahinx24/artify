@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import api from "../../services/api";
 import { reduceStock } from "../../services/productService";
-import { saveUser } from "../services/userService";
+import { saveUser } from "../../services/userService";
 
 import { useAuth } from "../../context/AuthContext";
 import "../style/payment.css";

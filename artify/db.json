@@ -16,11 +16,15 @@
         {
           "productId": 8,
           "qty": 1
+        },
+        {
+          "productId": 7,
+          "qty": 1
         }
       ],
       "wishlist": [
         "30",
-        "7"
+        "1"
       ],
       "isActive": true,
       "id": 1
@@ -53,7 +57,7 @@
         "street": "plkl",
         "pin": "898"
       },
-      "status": "pending"
+      "status": "delivered"
     },
     {
       "id": 1769599036745,
@@ -74,13 +78,37 @@
         "pin": "676367"
       },
       "status": "pending"
+    },
+    {
+      "id": 1769855548755,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": 8,
+          "qty": 1
+        },
+        {
+          "productId": 1,
+          "qty": 1
+        }
+      ],
+      "total": 471,
+      "date": "31/01/2026, 16:02:28",
+      "method": "cod",
+      "address": {
+        "city": "qw",
+        "street": "wqw",
+        "pin": "44"
+      },
+      "status": "cancelled"
     }
   ],
   "products": [
     {
       "id": "1",
       "name": "Round Brush",
-      "price": 121,
+      "price": 120,
       "image": "/images/brushes/brush1.webp",
       "category": "brushes",
       "stock": 10
