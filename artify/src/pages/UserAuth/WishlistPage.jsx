@@ -46,7 +46,6 @@ export default function WishlistPage({ showToast }) {
     );
   }
 
-  // ❤️ Empty wishlist
   if (wishlist.length === 0) {
     return (
       <div className="page-contents">
@@ -59,7 +58,6 @@ export default function WishlistPage({ showToast }) {
     );
   }
 
-  // ❌ Remove from wishlist
   const removeFromWishlist = async (productId) => {
     const updatedUser = {
       ...auth,
@@ -74,10 +72,24 @@ export default function WishlistPage({ showToast }) {
     showToast("Removed from wishlist");
   };
 
-  // 🔁 Move to cart
+  //  Move to cart
   const moveToCart = async (productId) => {
+    const cart = auth.cart || [];
+
+    const updatedCart = [...cart];
+    const existing = updatedCart.find(
+      i => Number(i.productId) === Number(productId)
+    );
+
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      updatedCart.push({ productId, qty: 1 });
+    }
+
     const updatedUser = {
       ...auth,
+      cart: updatedCart,
       wishlist: auth.wishlist.filter(
         id => Number(id) !== Number(productId)
       ),
@@ -85,8 +97,6 @@ export default function WishlistPage({ showToast }) {
 
     await saveUser(updatedUser);
     updateAuth(updatedUser);
-
-    await addToCart(productId);
 
     showToast("Moved to cart");
   };
