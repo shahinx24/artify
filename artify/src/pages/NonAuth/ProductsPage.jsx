@@ -1,19 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import api from "../../services/api";
-import { getUser, saveUser } from "../../utils/userHelpers";
 import Search from "../../components/search/Search";
 import "../style/product.css";
+
 import useCart from "../hooks/useCart";
 import { useAuth } from "../context/AuthContext";
+import { saveUser } from "../services/userService";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
+
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { auth } = useAuth();
 
+  const { auth, updateAuth } = useAuth();
+  const { addToCart } = useCart();
 
+  // 🔄 Load products by category
   useEffect(() => {
     api.get("/products").then(res => {
       const filtered = res.data.filter(
@@ -27,14 +32,8 @@ export default function ProductsPage({ showToast }) {
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const safeUser = user
-    ? { ...user, cart: user.cart || [], wishlist: user.wishlist || [] }
-    : null;
-
-
-  const { addToCart } = useCart();
-
-  const AddToCart = async (productId) => {
+  // 🛒 Add to cart
+  const handleAddToCart = async (productId) => {
     try {
       await addToCart(productId);
       showToast("Added to cart");
@@ -43,24 +42,34 @@ export default function ProductsPage({ showToast }) {
     }
   };
 
-  const toggleWishlist = async (id) => {
-    if (!safeUser) return showToast("Login required!");
+  // ❤️ Toggle wishlist
+  const toggleWishlist = async (productId) => {
+    if (!auth) return showToast("Login required!");
 
-    const updated = { ...safeUser };
-    updated.wishlist = updated.wishlist.includes(id)
-      ? updated.wishlist.filter(w => w !== id)
-      : [...updated.wishlist, id];
+    const wishlist = auth.wishlist || [];
 
-    await saveUser(updated);
-    setUser(updated);
-    showToast("Added to wishlist!");
+    const updatedUser = {
+      ...auth,
+      wishlist: wishlist.includes(productId)
+        ? wishlist.filter(id => Number(id) !== Number(productId))
+        : [...wishlist, productId],
+    };
+
+    await saveUser(updatedUser);
+    updateAuth(updatedUser);
+
+    showToast(
+      wishlist.includes(productId)
+        ? "Removed from wishlist"
+        : "Added to wishlist"
+    );
   };
 
-  const isLiked = (id) => user?.wishlist?.includes(id);
+  const isLiked = (id) => auth?.wishlist?.includes(id);
 
   return (
     <div className="page-contents">
-      
+
       <Search
         value={searchTerm}
         onChange={setSearchTerm}
@@ -80,16 +89,22 @@ export default function ProductsPage({ showToast }) {
             <img
               src={p.image}
               alt={p.name}
-              style={{ width: "100%", height: "200px", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "cover"
+              }}
             />
+
             <div style={{ padding: "1rem" }}>
               <h3>{p.name}</h3>
               <p>₹{p.price}</p>
 
               <div className="btn-group">
-                <button onClick={() => AddToCart(p.id)}>
+                <button onClick={() => handleAddToCart(p.id)}>
                   Add to Cart
                 </button>
+
                 <button
                   className={`wishlist-btn ${isLiked(p.id) ? "wishlisted" : ""}`}
                   onClick={() => toggleWishlist(p.id)}

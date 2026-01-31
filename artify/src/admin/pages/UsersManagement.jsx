@@ -14,30 +14,39 @@ export default function UsersManagement() {
 
   // Fetch users
   useEffect(() => {
-    api.get("/users").then(res => {
-      setUsers(res.data);
-    });
+    api.get("/users")
+      .then(res => setUsers(res.data))
+      .catch(() => alert("Failed to load users"));
   }, []);
 
-  // Change user active / blocked
+  // Toggle active / blocked
   const toggleUser = useCallback(async (id, isActive) => {
-    await api.patch(`/users/${id}`, { isActive: !isActive });
+    try {
+      await api.patch(`/users/${id}`, { isActive: !isActive });
 
-    setUsers(prev =>
-      prev.map(u =>
-        u.id === id ? { ...u, isActive: !isActive } : u
-      )
-    );
+      setUsers(prev =>
+        prev.map(u =>
+          u.id === id ? { ...u, isActive: !isActive } : u
+        )
+      );
+    } catch {
+      alert("Failed to update user");
+    }
   }, []);
 
   // Delete user
   const deleteUser = useCallback(async (id) => {
-    await api.delete(`/users/${id}`);
+    if (!window.confirm("Delete this user permanently?")) return;
 
-    setUsers(prev => prev.filter(u => u.id !== id));
+    try {
+      await api.delete(`/users/${id}`);
+      setUsers(prev => prev.filter(u => u.id !== id));
+    } catch {
+      alert("Failed to delete user");
+    }
   }, []);
 
-  // View orders for a user
+  // View user orders
   const viewOrders = async (email) => {
     if (selectedUser === email) {
       setSelectedUser(null);
@@ -45,10 +54,13 @@ export default function UsersManagement() {
       return;
     }
 
-    const res = await api.get(`/orders?userEmail=${email}`);
-
-    setUserOrders(res.data);
-    setSelectedUser(email);
+    try {
+      const res = await api.get(`/orders?userEmail=${email}`);
+      setUserOrders(res.data);
+      setSelectedUser(email);
+    } catch {
+      alert("Failed to load orders");
+    }
   };
 
   return (
@@ -75,7 +87,8 @@ export default function UsersManagement() {
                   <td>
                     <button
                       className="btn btn-primary"
-                        onClick={() => viewOrders(u.email)}>
+                      onClick={() => viewOrders(u.email)}
+                    >
                       View Orders
                     </button>
                   </td>
@@ -108,7 +121,6 @@ export default function UsersManagement() {
                   </td>
                 </tr>
 
-                {/* User Orders */}
                 {selectedUser === u.email && userOrders.length > 0 && (
                   <tr>
                     <td colSpan="4">
