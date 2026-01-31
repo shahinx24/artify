@@ -1,44 +1,41 @@
 import { useEffect, useState } from "react";
-import { getWishlistProducts } from "../../services/productService";
-import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
 
+import { getWishlistProducts } from "../../services/productService";
+import { saveUser } from "../services/userService";
+
+import { useAuth } from "../context/AuthContext";
+import useCart from "../hooks/useCart";
+
 export default function WishlistPage({ showToast }) {
+  const { auth, updateAuth } = useAuth();
+  const { addToCart } = useCart();
+
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState(null);
 
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const wishlist = auth?.wishlist || [];
 
-  useEffect(() => {
-    const u = getUser();
-    if (u) {
-      setUser({
-        ...u,
-        cart: u.cart || [],
-        wishlist: u.wishlist || []
-      });
-    }
-  }, []);
-
+  // 🚀 Load wishlist products
   useEffect(() => {
     const loadWishlist = async () => {
-      if (!user?.wishlist?.length) {
+      if (!wishlist.length) {
         setProducts([]);
         return;
       }
 
       try {
-        const products = await getWishlistProducts(user.wishlist);
-        setProducts(products);
+        const res = await getWishlistProducts(wishlist);
+        setProducts(res);
       } catch (err) {
         console.error("Failed to load wishlist", err);
       }
     };
 
     loadWishlist();
-  }, [user]);
+  }, [wishlist]);
 
+  // 🔒 Not logged in
   if (!auth) {
     return (
       <div
@@ -51,63 +48,50 @@ export default function WishlistPage({ showToast }) {
     );
   }
 
-  if (!user) return null;
+  // ❤️ Empty wishlist
+  if (wishlist.length === 0) {
+    return (
+      <div className="page-contents">
+        <h2>Your wishlist is empty ❤️</h2>
+        <p>Add some art supplies to get started!</p>
+        <Link to="/" className="checkout-btn">
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
 
-  const removeFromWishlist = async (id) => {
-    const updated = {
-      ...user,
-      wishlist: user.wishlist.filter(
-        pid => Number(pid) !== Number(id)
-      )
+  // ❌ Remove from wishlist
+  const removeFromWishlist = async (productId) => {
+    const updatedUser = {
+      ...auth,
+      wishlist: auth.wishlist.filter(
+        id => Number(id) !== Number(productId)
+      ),
     };
 
-    await saveUser(updated);
-    setUser(updated);
+    await saveUser(updatedUser);   // backend
+    updateAuth(updatedUser);       // context
+
     showToast("Removed from wishlist");
   };
 
-  const addToCart = async (productId) => {
-    const updated = {
-      ...user,
-      cart: user.cart || []
+  // 🔁 Move to cart
+  const moveToCart = async (productId) => {
+    const updatedUser = {
+      ...auth,
+      wishlist: auth.wishlist.filter(
+        id => Number(id) !== Number(productId)
+      ),
     };
 
-    // remove from wishlist
-    updated.wishlist = updated.wishlist.filter(
-      pid => Number(pid) !== Number(productId)
-    );
+    await saveUser(updatedUser);
+    updateAuth(updatedUser);
 
-    // add to cart
-    const exist = updated.cart.find(
-      item => Number(item.productId) === Number(productId)
-    );
+    await addToCart(productId);
 
-    if (exist) {
-      exist.qty += 1;
-    } else {
-      updated.cart.push({
-        productId: Number(productId),
-        qty: 1
-      });
-    }
-
-    await saveUser(updated);
-    setUser(updated);
-    showToast("Moved to Cart");
+    showToast("Moved to cart");
   };
-
-    if (user.wishlist.length === 0) {
-      return (
-        <div className="page-contents" >
-          <h2>Your wishlist is empty ❤️</h2>
-          <p>Add some art supplies to get started!</p>
-          <Link
-            to="/" className="checkout-btn" >
-            Continue Shopping
-          </Link>
-        </div>
-      );
-    }
 
   return (
     <div className="wishlist-page">
@@ -122,8 +106,12 @@ export default function WishlistPage({ showToast }) {
             </div>
 
             <div className="wishlist-actions">
-              <button onClick={() => addToCart(p.id)}>Add to Cart</button>
-              <button onClick={() => removeFromWishlist(p.id)}>Remove</button>
+              <button onClick={() => moveToCart(p.id)}>
+                Move to Cart
+              </button>
+              <button onClick={() => removeFromWishlist(p.id)}>
+                Remove
+              </button>
             </div>
           </div>
         ))}

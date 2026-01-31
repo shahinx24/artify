@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { getUser, saveUser } from "../../utils/userHelpers";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import api from "../../services/api";
-import "../style/payment.css"
 import { reduceStock } from "../../services/productService";
+import { saveUser } from "../services/userService";
+
+import { useAuth } from "../../context/AuthContext";
+import "../style/payment.css";
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState(getUser());
+  const { auth, updateAuth } = useAuth();
+
   const [products, setProducts] = useState([]);
   const [method, setMethod] = useState("");
   const [upi, setUpi] = useState("");
@@ -17,33 +21,36 @@ export default function PaymentPage({ showToast }) {
     pin: ""
   });
 
+  // 🔄 Load products
   useEffect(() => {
     api.get("/products")
       .then(res => setProducts(res.data))
       .catch(err => console.error("Failed to load products", err));
   }, []);
 
+  // 🔐 Guards
   useEffect(() => {
-    if (!user) {
+    if (!auth) {
       navigate("/login");
       return;
     }
-    if (!user.cart || user.cart.length === 0) {
+    if (!auth.cart || auth.cart.length === 0) {
       navigate("/cart");
-      return;
     }
-  }, [user, navigate]);
+  }, [auth, navigate]);
 
-  if (!user || !user.cart || user.cart.length === 0) {
+  if (!auth || !auth.cart || auth.cart.length === 0) {
     return (
       <div className="payment-page">
         <h2>Payment</h2>
-        <p className="payment-warning">Cart is empty. Add items first.</p>
+        <p className="payment-warning">
+          Cart is empty. Add items first.
+        </p>
       </div>
     );
   }
 
-  const cart = user.cart;
+  const cart = auth.cart;
 
   const cartItems = cart
     .map(item => {
@@ -64,7 +71,7 @@ export default function PaymentPage({ showToast }) {
     0
   );
 
-
+  // 🧾 Place order
   const placeOrder = async () => {
     if (!method) return showToast("Choose a payment method");
     if (!address.city || !address.street || !address.pin)
@@ -72,19 +79,20 @@ export default function PaymentPage({ showToast }) {
     if (method === "gpay" && !upi)
       return showToast("Enter UPI ID");
 
-    // safety check
+    // Stock check
     for (const item of cartItems) {
       if (item.stock < item.qty) {
         return showToast(`${item.name} is out of stock`);
       }
     }
 
+    // Reduce stock
     await reduceStock(cart);
 
     const newOrder = {
       id: Date.now(),
-      userId: user.id,
-      userEmail: user.email,
+      userId: auth.id,
+      userEmail: auth.email,
       items: cart,
       total: cartTotal,
       date: new Date().toLocaleString(),
@@ -96,15 +104,15 @@ export default function PaymentPage({ showToast }) {
     // Save order
     await api.post("/orders", newOrder);
 
-    // Clear cart
-    const updatedUser = { ...user, cart: [] };
-    await saveUser(updatedUser);
-    setUser(updatedUser);
+    // 🧹 Clear cart
+    const updatedUser = { ...auth, cart: [] };
+    await saveUser(updatedUser);   // backend
+    updateAuth(updatedUser);       // context
 
     showToast("Order placed!");
     navigate("/");
   };
-  
+
   return (
     <div className="payment-page">
       <h2>Checkout</h2>

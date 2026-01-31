@@ -1,24 +1,14 @@
-import { getUser } from "../utils/userHelpers";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/cart.svg";
-import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function CartButton() {
-  const [count, setCount] = useState(0);
+  const { auth } = useAuth();
 
-  const updateCount = () => {
-    const user = getUser();
-    const c = user?.cart?.reduce((a, i) => a + i.qty, 0) || 0;
-    setCount(c);
-  };
+  if (!auth) return null;
 
-   useEffect(() => {
-      updateCount();
-
-      window.addEventListener("cart-change", updateCount);
-
-      return () => window.removeEventListener("cart-change", updateCount);
-    }, []);
+  const count =
+    auth.cart?.reduce((total, item) => total + item.qty, 0) || 0;
 
   return (
     <Link to="/cart">

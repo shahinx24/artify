@@ -18,7 +18,5 @@ export const saveUser = async (user) => {
   }
 
   await api.put(`/users/${user.id}`, user);
-
-  localStorage.setItem("auth", JSON.stringify(user));
-  window.dispatchEvent(new Event("cart-change"));
+  return user;
 };

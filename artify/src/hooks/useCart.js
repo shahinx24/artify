@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { ENV } from "../constants/env";
+import { useAuth } from "../context/AuthContext";
+import { saveUser } from "../services/userService";
 
 export default function useCart() {
+  const { auth, updateAuth } = useAuth();
   const [cart, setCart] = useState(() => {
     return JSON.parse(localStorage.getItem(ENV.CART_KEY)) || [];
   });
@@ -21,17 +24,30 @@ export default function useCart() {
     setCart(updated);
   };
 
-  const addToCart = (productId) => {
-    const updated = [...cart];
-    const exist = updated.find(i => i.productId === productId);
+  const addToCart = async (productId) => {
+      if (!auth) throw new Error("Login required");
 
-    if (exist) {
-      exist.qty += 1;
-    } else {
-      updated.push({ productId, qty: 1 });
-    }
-    saveCart(updated);
-  };
+      const updatedUser = {
+        ...auth,
+        cart: auth.cart ? [...auth.cart] : [],
+      };
+
+      const exist = updatedUser.cart.find(
+        i => Number(i.productId) === Number(productId)
+      );
+
+      if (exist) {
+        exist.qty += 1;
+      } else {
+        updatedUser.cart.push({
+          productId: Number(productId),
+          qty: 1,
+        });
+      }
+
+      await saveUser(updatedUser);   // backend
+      updateAuth(updatedUser);       // context sync
+    };
 
   const removeFromCart = (productId) => {
     saveCart(cart.filter(i => i.productId !== productId));
@@ -56,6 +72,5 @@ export default function useCart() {
     addToCart,
     removeFromCart,
     updateQty,
-    clearCart
   };
 }

@@ -4,12 +4,15 @@ import api from "../../services/api";
 import { getUser, saveUser } from "../../utils/userHelpers";
 import Search from "../../components/search/Search";
 import "../style/product.css";
+import useCart from "../hooks/useCart";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [user, setUser] = useState(getUser());
+  const { auth } = useAuth();
+
 
   useEffect(() => {
     api.get("/products").then(res => {
@@ -28,23 +31,16 @@ export default function ProductsPage({ showToast }) {
     ? { ...user, cart: user.cart || [], wishlist: user.wishlist || [] }
     : null;
 
-  const addToCart = async (productId) => {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth) return showToast("Login required");
 
-    const user = getUser();
-    const updated = { ...user, cart: user.cart || [] };
+  const { addToCart } = useCart();
 
-    const exist = updated.cart.find(
-      item => Number(item.productId) === Number(productId)
-    );
-
-    if (exist) exist.qty += 1;
-    else updated.cart.push({ productId: Number(productId), qty: 1 });
-
-    await saveUser(updated);
-    setUser(updated);
-    showToast("Added to cart");
+  const AddToCart = async (productId) => {
+    try {
+      await addToCart(productId);
+      showToast("Added to cart");
+    } catch (err) {
+      showToast(err.message);
+    }
   };
 
   const toggleWishlist = async (id) => {
@@ -91,7 +87,7 @@ export default function ProductsPage({ showToast }) {
               <p>₹{p.price}</p>
 
               <div className="btn-group">
-                <button onClick={() => addToCart(p.id)}>
+                <button onClick={() => AddToCart(p.id)}>
                   Add to Cart
                 </button>
                 <button

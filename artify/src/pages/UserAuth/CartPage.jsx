@@ -1,42 +1,37 @@
 import { useEffect, useState } from "react";
-import { getUser, saveUser } from "../../utils/userHelpers";
 import { Link, useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../constants/api";
-import "../style/cart.css"
+import "../style/cart.css";
+
+import api from "../../services/api";
+import { saveUser } from "../services/userService";
+import { useAuth } from "../context/AuthContext";
 
 export default function CartPage({ showToast }) {
-  const [user, setUser] = useState(null);
-  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const { auth, updateAuth } = useAuth();
 
-  useEffect(() => {
-    const u = getUser();
-    if (u) {
-      setUser({
-        ...u,
-        cart: u.cart || []
-      });
-    }
+  const [products, setProducts] = useState([]);
 
-    fetch(`${API_BASE_URL}/products`)
-      .then(res => res.json())
-      .then(data => setProducts(data));
-  }, []);
-
+  // 🔒 Login guard
   if (!auth) {
     return (
-      <div
-        className="page-contents">
+      <div className="page-contents">
         <h2>Please login to view your cart</h2>
         <Link to="/" className="checkout-btn">Go Home</Link>
       </div>
     );
   }
 
-  if (!user) return null;
+  const cart = auth.cart || [];
 
-  const cartItems = user.cart
+  // 🔄 Load products
+  useEffect(() => {
+    api.get("/products")
+      .then(res => setProducts(res.data))
+      .catch(err => console.error("Failed to load products", err));
+  }, []);
+
+  const cartItems = cart
     .map(item => {
       const product = products.find(
         p => Number(p.id) === Number(item.productId)
@@ -45,43 +40,37 @@ export default function CartPage({ showToast }) {
     })
     .filter(Boolean);
 
-  const updateUser = async (updated) => {
-    await saveUser(updated);
-    setUser(updated);
+  // 🔁 Update cart helper
+  const updateCart = async (updatedCart) => {
+    const updatedUser = { ...auth, cart: updatedCart };
+
+    await saveUser(updatedUser);   // backend
+    updateAuth(updatedUser);       // context (sync navbar)
   };
 
   const increaseQty = (id) => {
-    const updated = {
-      ...user,
-      cart: user.cart.map(item =>
-        Number(item.productId) === Number(id)
-          ? { ...item, qty: item.qty + 1 }
-          : item
-      )
-    };
-    updateUser(updated);
+    const updated = cart.map(item =>
+      Number(item.productId) === Number(id)
+        ? { ...item, qty: item.qty + 1 }
+        : item
+    );
+    updateCart(updated);
   };
 
   const decreaseQty = (id) => {
-    const updated = {
-      ...user,
-      cart: user.cart.map(item =>
-        Number(item.productId) === Number(id) && item.qty > 1
-          ? { ...item, qty: item.qty - 1 }
-          : item
-      )
-    };
-    updateUser(updated);
+    const updated = cart.map(item =>
+      Number(item.productId) === Number(id) && item.qty > 1
+        ? { ...item, qty: item.qty - 1 }
+        : item
+    );
+    updateCart(updated);
   };
 
   const removeItem = (id) => {
-    const updated = {
-      ...user,
-      cart: user.cart.filter(
-        item => Number(item.productId) !== Number(id)
-      )
-    };
-    updateUser(updated);
+    const updated = cart.filter(
+      item => Number(item.productId) !== Number(id)
+    );
+    updateCart(updated);
     showToast("Removed from cart");
   };
 
@@ -96,18 +85,18 @@ export default function CartPage({ showToast }) {
   );
 
   const goToPayment = () => {
-    if (cartItems.length === 0) return showToast("Cart is empty");
+    if (cartItems.length === 0)
+      return showToast("Cart is empty");
     navigate("/checkout");
   };
 
+  // 🛒 Empty cart
   if (cartItems.length === 0) {
     return (
-      <div className="page-contents" >
+      <div className="page-contents">
         <h2>Your cart is empty 🛒</h2>
         <p>Add some art supplies to get started!</p>
-        <Link
-          to="/"
-          className="checkout-btn" >
+        <Link to="/" className="checkout-btn">
           Continue Shopping
         </Link>
       </div>
@@ -120,6 +109,7 @@ export default function CartPage({ showToast }) {
         {cartItems.map(p => (
           <div className="cart-item" key={p.id}>
             <img src={p.image} alt={p.name} />
+
             <div className="item-info">
               <h3>{p.name}</h3>
               <p>₹{p.price}</p>
@@ -172,11 +162,7 @@ export default function CartPage({ showToast }) {
 
         <Link
           to="/"
-          style={{
-            display: "block",
-            marginTop: "1rem",
-            textAlign: "center"
-          }}
+          style={{ display: "block", marginTop: "1rem", textAlign: "center" }}
         >
           ← Continue Shopping
         </Link>

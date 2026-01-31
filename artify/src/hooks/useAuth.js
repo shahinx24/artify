@@ -26,16 +26,13 @@ export const useAuth = (showToast = () => {}) => {
       [e.target.name]: e.target.value,
     }));
   };
-
   // Login
   const login = async () => {
     try {
       const userAuth = await loginUser(form);
 
       localStorage.setItem("auth", JSON.stringify(userAuth));
-      setAuth(userAuth);
-
-      window.dispatchEvent(new Event("cart-change"));
+      setAuth(userAuth); // ✅ THIS triggers navbar/cart/wishlist
 
       navigate(userAuth.role === "admin" ? "/admin" : "/");
       return userAuth;
@@ -43,6 +40,13 @@ export const useAuth = (showToast = () => {}) => {
       showToast(err.message);
       return null;
     }
+  };
+
+  // Logout
+  const logout = () => {
+    localStorage.removeItem("auth");
+    setAuth(null); // ✅ THIS resets everything
+    navigate("/login");
   };
 
   // Register
@@ -56,12 +60,9 @@ export const useAuth = (showToast = () => {}) => {
     }
   };
 
-  // Logout
-  const logout = () => {
-    localStorage.removeItem("auth");
-    setAuth(null);
-    window.dispatchEvent(new Event("cart-change"));
-    navigate("/login");
+  const updateAuth = (updatedUser) => {
+    localStorage.setItem("auth", JSON.stringify(updatedUser));
+    setAuth(updatedUser);
   };
 
   return {
@@ -72,5 +73,6 @@ export const useAuth = (showToast = () => {}) => {
     login,
     register,
     logout,
+    updateAuth,
   };
 };
