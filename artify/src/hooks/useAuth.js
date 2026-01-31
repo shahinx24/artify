@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../services/authService";
+import { loginUser, registerUser } from "../services/authServices";
 
 export const useAuth = (showToast = () => {}) => {
   const navigate = useNavigate();
