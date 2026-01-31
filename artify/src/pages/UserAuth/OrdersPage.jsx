@@ -11,7 +11,7 @@ export default function OrdersPage({ showToast }) {
   const [orders, setOrders] = useState([]);
   const { cancelOrder } = useCancelOrder(showToast);
 
-  // 🔄 Load user orders
+  // Load user orders
   useEffect(() => {
     if (!auth) return;
 

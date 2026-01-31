@@ -14,7 +14,7 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [refreshKey, setRefreshKey] = useState(0); // 🔥 IMPORTANT
+  const [refreshKey, setRefreshKey] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   const login = (user) => {
     localStorage.setItem("auth", JSON.stringify(user));
     setAuth(user);
-    triggerRefresh(); // 🔥 sync navbar + buttons
+    triggerRefresh();
 
     navigate(user.role === "admin" ? "/admin" : "/");
   };
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("auth");
     setAuth(null);
-    triggerRefresh(); // 🔥 reset cart/wishlist
+    triggerRefresh();
 
     navigate("/");
   };

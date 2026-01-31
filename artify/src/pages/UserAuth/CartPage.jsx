@@ -24,7 +24,7 @@ export default function CartPage({ showToast }) {
 
   const cart = auth.cart || [];
 
-  // 🔄 Load products
+  // Load products
   useEffect(() => {
     api.get("/products")
       .then(res => setProducts(res.data))

@@ -13,7 +13,9 @@
       "pass": "Hanan@12",
       "role": "user",
       "cart": [],
-      "wishlist": [],
+      "wishlist": [
+        "34"
+      ],
       "isActive": true,
       "id": 1
     }
@@ -90,6 +92,30 @@
         "pin": "44"
       },
       "status": "cancelled"
+    },
+    {
+      "id": 1769860210479,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": "12",
+          "qty": 1
+        },
+        {
+          "productId": "19",
+          "qty": 1
+        }
+      ],
+      "total": 540,
+      "date": "31/01/2026, 17:20:10",
+      "method": "cod",
+      "address": {
+        "city": "s",
+        "street": "s",
+        "pin": "3"
+      },
+      "status": "pending"
     }
   ],
   "products": [
@@ -187,7 +213,7 @@
       "price": 450,
       "image": "/images/colors/colors6.jpg",
       "category": "colors",
-      "stock": 39
+      "stock": 38
     },
     {
       "id": "13",
@@ -243,7 +269,7 @@
       "price": 90,
       "image": "/images/sketchbooks/sketch1.jpg",
       "category": "sketchbooks",
-      "stock": 66
+      "stock": 65
     },
     {
       "id": "20",

@@ -21,7 +21,7 @@ export default function PaymentPage({ showToast }) {
     pin: ""
   });
 
-  // 🔄 Load products
+  // Load products
   useEffect(() => {
     api.get("/products")
       .then(res => setProducts(res.data))

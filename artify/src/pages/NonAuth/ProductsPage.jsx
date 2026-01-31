@@ -16,7 +16,7 @@ export default function ProductsPage({ showToast }) {
   const { auth, updateAuth } = useAuth();
   const { addToCart } = useCart();
 
-  // 🔄 Load products by category
+  //  Load products by category
   useEffect(() => {
     api.get("/products").then(res => {
       const filtered = res.data.filter(
