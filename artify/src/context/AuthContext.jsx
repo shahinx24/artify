@@ -6,9 +6,9 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0); // 🔥 IMPORTANT
   const navigate = useNavigate();
 
-  // Load auth from localStorage on app start
   useEffect(() => {
     const storedAuth = localStorage.getItem("auth");
     if (storedAuth) {
@@ -17,25 +17,30 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const triggerRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   const login = (user) => {
     localStorage.setItem("auth", JSON.stringify(user));
     setAuth(user);
+    triggerRefresh(); // 🔥 sync navbar + buttons
 
-    if (user.role === "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/");
-    }
+    navigate(user.role === "admin" ? "/admin" : "/");
   };
 
   const logout = () => {
     localStorage.removeItem("auth");
     setAuth(null);
+    triggerRefresh(); // 🔥 reset cart/wishlist
+
     navigate("/");
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ auth, login, logout, loading, refreshKey, triggerRefresh }}
+    >
       {children}
     </AuthContext.Provider>
   );
