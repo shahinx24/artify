@@ -11,7 +11,7 @@
     {
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
-      "role": "user",
+      "role": "user", 
       "cart": [],
       "wishlist": [
         "30"
