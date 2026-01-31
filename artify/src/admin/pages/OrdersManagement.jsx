@@ -35,7 +35,7 @@ export default function OrdersManagement() {
           await cancelOrder(order, true);
         }
 
-        // RE-ACTIVATE → decrease stock
+        // RE-ACTIVATE -> decrease stock
         if (
           prevStatus === ORDER_STATUS.CANCELLED &&
           newStatus !== ORDER_STATUS.CANCELLED

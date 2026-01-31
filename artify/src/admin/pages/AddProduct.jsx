@@ -26,7 +26,7 @@ export default function AddProduct() {
       price: Number(price),
       stock: Number(stock),
       category,
-      image, // path
+      image,
     };
 
     try {

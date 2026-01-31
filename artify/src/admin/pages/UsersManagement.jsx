@@ -19,7 +19,7 @@ export default function UsersManagement() {
     });
   }, []);
 
-  // Toggle user active / blocked
+  // Change user active / blocked
   const toggleUser = useCallback(async (id, isActive) => {
     await api.patch(`/users/${id}`, { isActive: !isActive });
 
@@ -37,7 +37,7 @@ export default function UsersManagement() {
     setUsers(prev => prev.filter(u => u.id !== id));
   }, []);
 
-  // View orders for a user (toggle)
+  // View orders for a user
   const viewOrders = async (email) => {
     if (selectedUser === email) {
       setSelectedUser(null);
