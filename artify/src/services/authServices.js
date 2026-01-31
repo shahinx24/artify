@@ -1,71 +1,67 @@
-import axios from "axios";
+import api from "./api";
+import { API_USERS, API_ADMINS } from "../hooks/useAuth";
 
-const API = "http://localhost:3000/users";
+export const normalizeUser = (u, role = "user") => ({
+  id: u.id,
+  email: u.email,
+  role,
+  cart: u.cart ?? [],
+  wishlist: u.wishlist ?? [],
+  isActive: u.isActive ?? true,
+});
 
-const validateEmail = (email) =>
-  email.includes("@") && email.includes(".com");
-
-const validatePassword = (p) => {
-  return (
-    p.length >= 6 &&
-    /[A-Z]/.test(p) &&
-    /[a-z]/.test(p) &&
-    /[0-9]/.test(p) &&
-    /[^A-Za-z0-9]/.test(p)
-  );
-};
-
-export async function loginUser({ email, pass }, showToast) {
+// -Login
+export async function loginUser({ email, pass }) {
   if (!email || !pass) {
-    alert("All fields required");
-    return null;
+    throw new Error("All fields required");
   }
 
-  const { data: users } = await axios.get(API);
-  const user = users.find(u => u.email === email && u.pass === pass);
+  // Admin check
+  const { data: admins } = await api.get("/admins");
+  const admin = admins.find(
+    a => a.email === email && a.password === pass
+  );
+
+  if (admin) {
+    return normalizeUser(admin, "admin");
+  }
+
+  // User check
+  const { data: users } = await api.get("/users");
+  const user = users.find(
+    u => u.email === email && u.pass === pass
+  );
 
   if (!user) {
-    alert("Invalid credentials");
-    return null;
+    throw new Error("Invalid credentials");
   }
 
-  return user;
+  if (!user.isActive) {
+    throw new Error("Account deactivated");
+  }
+
+  return normalizeUser(user);
 }
 
-export async function registerUser({ email, pass, confirm }, showToast) {
-  if (!email || !pass || !confirm) {
-    alert("All fields required");
-    return false;
-  }
+// Register
+export async function registerUser({ email, pass, confirm }) {
+  if (!email || !pass || !confirm)
+    throw new Error("All fields required");
 
-  if (pass !== confirm) {
-    alert("Passwords don't match");
-    return false;
-  }
+  if (pass !== confirm)
+    throw new Error("Passwords don't match");
 
-  if (!validateEmail(email)) {
-    alert("Invalid email format");
-    return false;
-  }
+  const { data: users } = await api.get("/users");
+  if (users.find(u => u.email === email))
+    throw new Error("User already exists");
 
-  if (!validatePassword(pass)) {
-    alert(
-      "Password must include uppercase, lowercase, number & special character"
-    );
-    return false;
-  }
-
-  const { data: users } = await axios.get(API);
-  if (users.find(u => u.email === email)) {
-    alert("User already exists");
-    return false;
-  }
-
-  await axios.post(API, {
+  await api.post("/users", {
     email,
     pass,
+    role: "user",
     cart: [],
     wishlist: [],
+    isActive: true,
   });
 
   return true;
