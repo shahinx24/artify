@@ -1,13 +1,13 @@
 import { useEffect, useState, useMemo } from "react";
-import api from "../../services/api";
 import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
 import { deleteProduct,updateProduct } from "../../services/productService";
+import useProducts from "../../hooks/useProducts";
 
 export default function ProductsManagement() {
-  const [products, setProducts] = useState([]);
+  const { products, loading } = useProducts();
   const [editedProducts, setEditedProducts] = useState({});
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -28,12 +28,6 @@ export default function ProductsManagement() {
 
     return matchName && matchCategory;
   });
-
-  useEffect(() => {
-    api.get("/products").then(res => {
-      setProducts(res.data);
-    });
-  }, []);
 
   const update = async (id) => {
     const edited = editedProducts[id];

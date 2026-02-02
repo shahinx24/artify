@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import useProducts from "../hooks/useProducts";
 import api from "../../services/api";
 import { reduceStock } from "../../services/productService";
 import { saveUser } from "../../services/userService";
@@ -13,6 +13,8 @@ export default function PaymentPage({ showToast }) {
   const { auth, updateAuth } = useAuth();
 
   const [products, setProducts] = useState([]);
+  const { products } = useProducts();
+  
   const [method, setMethod] = useState("");
   const [upi, setUpi] = useState("");
   const [address, setAddress] = useState({
@@ -20,13 +22,6 @@ export default function PaymentPage({ showToast }) {
     street: "",
     pin: ""
   });
-
-  // Load products
-  useEffect(() => {
-    api.get("/products")
-      .then(res => setProducts(res.data))
-      .catch(err => console.error("Failed to load products", err));
-  }, []);
 
   // 🔐 Guards
   useEffect(() => {

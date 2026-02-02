@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/cart.css";
+import useProducts from "../hooks/useProducts";
 
 import api from "../../services/api";
 import { saveUser } from "../../services/userService";
@@ -11,8 +12,9 @@ export default function CartPage({ showToast }) {
   const { auth, updateAuth } = useAuth();
 
   const [products, setProducts] = useState([]);
+  const { products } = useProducts();
 
-  // 🔒 Login guard
+  //  Login guard
   if (!auth) {
     return (
       <div className="page-contents">
@@ -23,13 +25,6 @@ export default function CartPage({ showToast }) {
   }
 
   const cart = auth.cart || [];
-
-  // Load products
-  useEffect(() => {
-    api.get("/products")
-      .then(res => setProducts(res.data))
-      .catch(err => console.error("Failed to load products", err));
-  }, []);
 
   const cartItems = cart
     .map(item => {

@@ -6,25 +6,15 @@ import "../style/product.css";
 import { saveUser } from "../../services/userService";
 import useCart from "../../hooks/useCart";
 import { useAuth } from "../../context/AuthContext";
+import useProducts from "../hooks/useProducts";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
-
   const [products, setProducts] = useState([]);
+  const { products, loading } = useProducts({ category });
   const [searchTerm, setSearchTerm] = useState("");
-
   const { auth, updateAuth } = useAuth();
   const { addToCart } = useCart();
-
-  //  Load products by category
-  useEffect(() => {
-    api.get("/products").then(res => {
-      const filtered = res.data.filter(
-        p => p.category === category
-      );
-      setProducts(filtered);
-    });
-  }, [category]);
 
   const filteredProducts = products.filter(p =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())

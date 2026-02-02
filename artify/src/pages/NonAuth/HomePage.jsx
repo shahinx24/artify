@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
-import api from "../../services/api";
 import { Link } from "react-router-dom";
 import { categories } from "../../data/categories.js";
 import "../style/home.css"
+import useProducts from "../hooks/useProducts";
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    api.get("/products")
-      .then(res => setProducts(res.data));
-  }, []);
+  const { products, loading } = useProducts();
 
   return (
     <>

@@ -4,8 +4,6 @@ export const getProducts = () => api.get("/products");
 export const getWishlistProducts = async (wishlistIds) => {
   if (!wishlistIds?.length) return [];
 
-  const { data } = await api.get("/products");
-
   return data.filter(p =>
     wishlistIds.some(id => Number(id) === Number(p.id))
   );
