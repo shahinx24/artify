@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { addProduct } from "../../services/productService";
+import PageHeader from "../components/PageHeader";
 import "../style/adminLayout.css";
 import "../style/form.css";
 import "../style/buttons.css";
@@ -58,7 +59,10 @@ export default function AddProduct() {
 
   return (
     <div className="admin-container">
-      <h1 className="admin-title">Add Product</h1>
+      <PageHeader
+        title="Add Product"
+        subtitle="Create a new product for your store"
+      />
 
       <div className="admin-card">
         <form className="admin-form" onSubmit={handleSubmit}>
