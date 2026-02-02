@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/cart.css";
 import useProducts from "../hooks/useProducts";
-
-import api from "../../services/api";
 import { saveUser } from "../../services/userService";
 import { useAuth } from "../../context/AuthContext";
 
 export default function CartPage({ showToast }) {
   const navigate = useNavigate();
   const { auth, updateAuth } = useAuth();
-
-  const [products, setProducts] = useState([]);
   const { products } = useProducts();
 
   //  Login guard

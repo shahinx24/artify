@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import api from "../../services/api";
+import { useState } from "react";
 import Search from "../../components/search/Search";
 import "../style/product.css";
 import { saveUser } from "../../services/userService";
@@ -10,7 +9,6 @@ import useProducts from "../hooks/useProducts";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
-  const [products, setProducts] = useState([]);
   const { products, loading } = useProducts({ category });
   const [searchTerm, setSearchTerm] = useState("");
   const { auth, updateAuth } = useAuth();

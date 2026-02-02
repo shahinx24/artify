@@ -4,17 +4,14 @@ import useProducts from "../hooks/useProducts";
 import api from "../../services/api";
 import { reduceStock } from "../../services/productService";
 import { saveUser } from "../../services/userService";
-
 import { useAuth } from "../../context/AuthContext";
 import "../style/payment.css";
 
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
   const { auth, updateAuth } = useAuth();
-
-  const [products, setProducts] = useState([]);
   const { products } = useProducts();
-  
+
   const [method, setMethod] = useState("");
   const [upi, setUpi] = useState("");
   const [address, setAddress] = useState({
