@@ -1,17 +1,20 @@
 import api from "./api";
 
-export const getOrders = () => {
-  return api.get("/orders");
-};
+// User orders
+export const getOrders = (userId) =>
+  api.get(`/orders?userId=${userId}`);
 
-export const updateOrderStatus = (id, status) => {
-  return api.patch(`/orders/${id}`, { status });
-};
-export const cancelOrderById = (orderId) => {
-  return api.patch(`/orders/${orderId}`, {
-    status: "cancelled"
+// Update order status (admin / user)
+export const updateOrderStatus = (id, status) =>
+  api.patch(`/orders/${id}`, { status });
+
+// Cancel order
+export const cancelOrderById = (orderId) =>
+  api.patch(`/orders/${orderId}`, {
+    status: "cancelled",
   });
-};
+
+// Admin dashboard stats
 export const getOrderStats = async () => {
   const { data } = await api.get("/orders");
 
@@ -23,6 +26,6 @@ export const getOrderStats = async () => {
 
   return {
     totalOrders,
-    totalRevenue
+    totalRevenue,
   };
 };

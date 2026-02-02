@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import { getOrders } from "../services/orderService";
 
-export default function useOrders({user}) {
+export default function useOrders(user) {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user?.id) {
+      setOrders([]);
+      return;
+    }
 
-    api.get(`/orders?userId=${user.id}`)
-      .then(res => {
-        setOrders(res.data);
-      });
-  }, [user]);
+    setLoading(true);
 
-  return orders;
+    getOrders(user.id)
+      .then(res => setOrders(res.data))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  return { orders, loading, error };
 }
