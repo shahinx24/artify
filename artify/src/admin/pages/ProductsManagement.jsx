@@ -7,7 +7,7 @@ import { deleteProduct,updateProduct } from "../../services/productService";
 import useProducts from "../../hooks/useProducts";
 
 export default function ProductsManagement() {
-  const { products, loading } = useProducts();
+  const { products, loading, refetch } = useProducts();
   const [editedProducts, setEditedProducts] = useState({});
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -65,25 +65,14 @@ export default function ProductsManagement() {
       price: finalPrice,
     });
 
-    setProducts(prev =>
-      prev.map(p =>
-        p.id === id
-          ? {
-              ...p,
-              name: finalName,
-              stock: finalStock,
-              price: finalPrice,
-            }
-          : p
-      )
-    );
+    await refetch(); // ✅ reload from source
 
     setEditedProducts(prev => {
       const copy = { ...prev };
       delete copy[id];
       return copy;
     });
-  };
+  }; // ✅ IMPORTANT: close update here
 
 
   const dlt = async (id) => {
@@ -91,7 +80,7 @@ export default function ProductsManagement() {
 
     try {
       await deleteProduct(id);
-      setProducts(prev => prev.filter(p => p.id !== id));
+      await refetch(); // ✅ reload after delete
     } catch (error) {
       console.error("Delete failed", error);
       alert("Failed to delete product");

@@ -16,34 +16,44 @@ export default function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !price || !stock || !category || !image) {
-      alert("Please fill all fields");
+    const finalCategory = useNewCategory
+      ? newCategory.trim()
+      : category;
+
+    if (!name || !price || !stock || !finalCategory || !image) {
+      alert("Please fill all required fields");
+      return;
+    }
+
+    if (Number(price) < 0 || Number(stock) < 0) {
+      alert("Price and stock must be positive values");
       return;
     }
 
     const newProduct = {
-      name,
+      name: name.trim(),
       price: Number(price),
       stock: Number(stock),
-      category,
+      category: finalCategory,
       image,
     };
 
     try {
       await addProduct(newProduct);
       alert("Product added successfully");
+
+      // reset form
+      setName("");
+      setPrice("");
+      setStock("");
+      setCategory("");
+      setNewCategory("");
+      setImage("");
+      setUseNewCategory(false);
     } catch (error) {
       console.error("Add product failed", error);
       alert("Failed to add product");
     }
-
-    alert("Product added successfully ");
-
-    setName("");
-    setPrice("");
-    setStock("");
-    setCategory("");
-    setImage("");
   };
 
   return (

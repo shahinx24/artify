@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getProducts } from "../services/productService";
 
 export default function useProducts({ category } = {}) {
@@ -6,7 +6,7 @@ export default function useProducts({ category } = {}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchProducts = useCallback(() => {
     setLoading(true);
 
     getProducts()
@@ -22,5 +22,9 @@ export default function useProducts({ category } = {}) {
       .finally(() => setLoading(false));
   }, [category]);
 
-  return { products, loading, error };
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  return { products, loading, error, refetch: fetchProducts };
 }
