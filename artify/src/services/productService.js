@@ -1,4 +1,4 @@
-import { api } from "./api";
+import api from "./api";
 
 export const getProducts = () => api.get("/products");
 export const getWishlistProducts = async (wishlistIds) => {

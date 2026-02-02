@@ -14,8 +14,12 @@
       "role": "user",
       "cart": [
         {
-          "productId": "34",
+          "productId": 12,
           "qty": 1
+        },
+        {
+          "productId": 8,
+          "qty": 2
         }
       ],
       "wishlist": [],

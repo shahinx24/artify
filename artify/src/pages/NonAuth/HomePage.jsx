@@ -7,10 +7,10 @@ import "../style/home.css"
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const [products, setProducts] = useState([]);
 
-      useEffect(() => {
-        api.get("/products")
-          .then(res => setProducts(res.data));
-      }, []);
+  useEffect(() => {
+    api.get("/products")
+      .then(res => setProducts(res.data));
+  }, []);
 
   return (
     <>
