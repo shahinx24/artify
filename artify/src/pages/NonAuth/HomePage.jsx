@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { categories } from "../../data/categories.js";
 import "../style/home.css"
-import useProducts from "../hooks/useProducts";
+import useProducts from "../../hooks/useProducts";
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const { products, loading } = useProducts();

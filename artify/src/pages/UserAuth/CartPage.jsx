@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../style/cart.css";
-import useProducts from "../hooks/useProducts";
+import useProducts from "../../hooks/useProducts";
 import { saveUser } from "../../services/userService";
 import { useAuth } from "../../context/AuthContext";
 

@@ -5,7 +5,7 @@ import "../style/product.css";
 import { saveUser } from "../../services/userService";
 import useCart from "../../hooks/useCart";
 import { useAuth } from "../../context/AuthContext";
-import useProducts from "../hooks/useProducts";
+import useProducts from "../../hooks/useProducts";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
