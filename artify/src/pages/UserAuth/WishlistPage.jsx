@@ -1,40 +1,17 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
-
-import { getWishlistProducts } from "../../services/productService";
 import { useAuth } from "../../context/AuthContext";
 import useWishlist from "../../hooks/useWishlist";
 
 export default function WishlistPage({ showToast }) {
   const { auth } = useAuth();
-
   const {
     wishlist,
+    products,
+    loading,
     removeFromWishlist,
     moveToCart,
   } = useWishlist(showToast);
-
-  const [products, setProducts] = useState([]);
-
-  // Load wishlist products
-  useEffect(() => {
-    const loadWishlist = async () => {
-      if (!wishlist.length) {
-        setProducts([]);
-        return;
-      }
-
-      try {
-        const res = await getWishlistProducts(wishlist);
-        setProducts(res.data); // ✅ FIX HERE
-      } catch (err) {
-        console.error("Failed to load wishlist", err);
-      }
-    };
-
-    loadWishlist();
-  }, [wishlist]);
 
   // Not logged in
   if (!auth) {
