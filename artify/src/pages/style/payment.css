@@ -1,8 +1,8 @@
-
 .payment-page {
   padding-top: 80px;
   padding-bottom: 2rem;
-  min-height: calc(100vh - 150px);
+  min-height: calc(110vh - 150px);
+  padding-bottom: 4rem;
 }
 
 .payment-page h2 {
@@ -110,4 +110,16 @@
     .payment-container {
       flex-direction: column;
     }
+}
+@media (max-height: 603px) {
+  .payment-page {
+    margin-top: 60px;
+  }
+}
+@media (max-width: 776px){
+  .payment-page {
+    margin-top: 60px;
+    min-height: calc(160vh - 180px);
+
+  }
 }
