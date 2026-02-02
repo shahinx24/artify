@@ -69,6 +69,16 @@
   gap: 10px;
 }
 
+.stock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stock-header .admin-filter {
+  margin-bottom: 0;
+}
 
 @media (max-width: 768px), (max-height: 533px) {
   .admin-layout {

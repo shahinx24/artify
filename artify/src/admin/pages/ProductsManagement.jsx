@@ -92,15 +92,17 @@ export default function ProductsManagement() {
       <h1 className="admin-title">Products Management</h1>
 
       <div className="admin-card">
-        <h2 className="section-title">Product Stock</h2>
+        <div className="stock-header">
+          <h2 className="section-title">Product Stock</h2>
 
-        <ProductFilter
-          search={search}
-          setSearch={setSearch}
-          category={category}
-          setCategory={setCategory}
-          categories={categories}
-        />
+          <ProductFilter
+            search={search}
+            setSearch={setSearch}
+            category={category}
+            setCategory={setCategory}
+            categories={categories}
+          />
+        </div>
 
         <table className="admin-table">
           <thead>

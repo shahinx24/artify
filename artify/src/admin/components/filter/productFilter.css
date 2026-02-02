@@ -1,7 +1,7 @@
 .admin-filter {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  align-items: center;
 }
 
 .admin-filter input,
