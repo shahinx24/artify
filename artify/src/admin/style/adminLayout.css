@@ -51,6 +51,25 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-subtitle {
+  margin-top: 4px;
+  color: #777;
+  font-size: 14px;
+}
+
+.admin-header-right {
+  display: flex;
+  gap: 10px;
+}
+
+
 @media (max-width: 768px), (max-height: 533px) {
   .admin-layout {
     margin-top: 100px;

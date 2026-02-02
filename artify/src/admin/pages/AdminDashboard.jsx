@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getOrderStats } from "../../services/orderService";
 import { getUserCount } from "../../services/userService";
 import { getProductCount } from "../../services/productService";
+import PageHeader from "../components/PageHeader";
 import "../style/adminLayout.css";
 import "../style/dashboard.css";
 import "../style/buttons.css";
@@ -52,7 +53,10 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <h1 className="admin-title">Admin Dashboard</h1>
+    <PageHeader
+      title="Dashboard"
+      subtitle="Overview of your store"
+    />
 
       <div className="admin-grid">
         <div className="stat-card">

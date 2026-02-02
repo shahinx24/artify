@@ -3,8 +3,9 @@ import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 import { getAllOrders, updateOrderStatus } from "../../services/orderService";
 import { reduceStock } from "../../services/productService";
-import "../style/table.css";
+import PageHeader from "../components/PageHeader";
 import useCancelOrder from "../../hooks/useCancelOrder";
+import "../style/table.css";
 
 export default function OrdersManagement() {
   const [orders, setOrders] = useState([]);
@@ -59,7 +60,10 @@ export default function OrdersManagement() {
 
   return (
     <div className="admin-table-wrapper">
-      <h2 className="admin-page-title">All Orders</h2>
+     <PageHeader
+      title="Orders"
+      subtitle="Manage customer orders"
+    />
 
       {orders.length === 0 ? (
         <p className="empty-text">No orders found</p>
