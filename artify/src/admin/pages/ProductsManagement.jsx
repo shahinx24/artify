@@ -5,12 +5,14 @@ import "../style/table.css";
 import "../style/buttons.css";
 import { deleteProduct,updateProduct } from "../../services/productService";
 import useProducts from "../../hooks/useProducts";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductsManagement() {
   const { products, loading, refetch } = useProducts();
   const [editedProducts, setEditedProducts] = useState({});
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const navigate = useNavigate();
 
   const categories = useMemo(
     () => [...new Set(products.map(p => p.category))],
@@ -102,6 +104,12 @@ export default function ProductsManagement() {
             setCategory={setCategory}
             categories={categories}
           />
+          <button
+            className="btn btn-sec"
+            onClick={() => navigate("/admin/add")}
+          >
+            Add New Product
+          </button>
         </div>
 
         <table className="admin-table">

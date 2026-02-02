@@ -71,13 +71,21 @@
 
 .stock-header {
   display: flex;
-  align-items: center;
+  align-items:end;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
 .stock-header .admin-filter {
   margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .stock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
 }
 
 @media (max-width: 768px), (max-height: 533px) {
