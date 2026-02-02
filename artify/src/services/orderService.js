@@ -1,5 +1,6 @@
 import api from "./api";
 
+export const getAllOrders = () => api.get("/orders");
 // User orders
 export const getOrders = (userId) =>
   api.get(`/orders?userId=${userId}`);

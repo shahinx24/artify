@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
-import { getOrders, updateOrderStatus } from "../../services/orderService";
+import { getAllOrders, updateOrderStatus } from "../../services/orderService";
 import { reduceStock } from "../../services/productService";
 import "../style/table.css";
 import useCancelOrder from "../../hooks/useCancelOrder";
@@ -13,7 +13,7 @@ export default function OrdersManagement() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await getOrders();
+        const { data } = await getAllOrders();
         setOrders(data);
       } catch (err) {
         console.error("Failed to load orders", err);
