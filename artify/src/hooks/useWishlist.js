@@ -13,7 +13,9 @@ export default function useWishlist(showToast) {
 
   // Load wishlist products
   useEffect(() => {
-    if (!auth || wishlist.length === 0) {
+    let active = true;
+
+    if (!auth?.id || wishlist.length === 0) {
       setProducts([]);
       return;
     }
@@ -21,10 +23,15 @@ export default function useWishlist(showToast) {
     setLoading(true);
 
     getWishlistProducts(wishlist)
-      .then(res => setProducts(res.data))
-      .catch(() => showToast?.("Failed to load wishlist"))
-      .finally(() => setLoading(false));
-  }, [wishlist, auth]);
+      .then(res => active && setProducts(res.data))
+      .catch(() => active && showToast?.("Failed to load wishlist"))
+      .finally(() => active && setLoading(false));
+
+    return () => {
+      active = false;
+    };
+  }, [auth?.id, wishlist.join(",")]);
+
 
   // Not logged in
   if (!auth) {

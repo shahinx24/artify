@@ -2,11 +2,10 @@ import api from "./api";
 
 export const getProducts = () => api.get("/products");
 export const getWishlistProducts = async (wishlistIds) => {
-  if (!wishlistIds?.length) return [];
+  if (!wishlistIds?.length) return { data: [] };
 
-  return data.filter(p =>
-    wishlistIds.some(id => Number(id) === Number(p.id))
-  );
+  const query = wishlistIds.map(id => `id=${id}`).join("&");
+  return api.get(`/products?${query}`);
 };
 export const getProductCount = async () => {
   const { data } = await api.get("/products");
