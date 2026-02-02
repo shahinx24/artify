@@ -12,108 +12,112 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [],
-      "wishlist": [],
+      "cart": [
+        {
+          "productId": 12,
+          "qty": 1
+        }
+      ],
+      "wishlist": [
+        "7",
+        "10"
+      ],
       "isActive": true,
       "id": 1
     }
   ],
   "orders": [
     {
-      "id": 1769575384515,
+      "id": 1770017870424,
       "userId": 1,
       "userEmail": "hanan@gmail.com",
       "items": [
         {
-          "productId": 7,
+          "productId": 32,
           "qty": 1
         },
         {
-          "productId": 9,
+          "productId": 33,
           "qty": 1
         },
         {
-          "productId": 10,
-          "qty": 2
-        }
-      ],
-      "total": 630,
-      "date": "28/01/2026, 10:13:04",
-      "method": "cod",
-      "address": {
-        "city": "mlp",
-        "street": "plkl",
-        "pin": "898"
-      },
-      "status": "delivered"
-    },
-    {
-      "id": 1769599036745,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
-      "items": [
-        {
-          "productId": 1,
-          "qty": 2
-        }
-      ],
-      "total": 240,
-      "date": "28/01/2026, 16:47:16",
-      "method": "cod",
-      "address": {
-        "city": "yaranankullam",
-        "street": "cochin ",
-        "pin": "676367"
-      },
-      "status": "processing"
-    },
-    {
-      "id": 1769855548755,
-      "userId": 1,
-      "userEmail": "hanan@gmail.com",
-      "items": [
-        {
-          "productId": 8,
+          "productId": 31,
           "qty": 1
         },
         {
-          "productId": 1,
+          "productId": 28,
+          "qty": 1
+        },
+        {
+          "productId": 27,
           "qty": 1
         }
       ],
-      "total": 471,
-      "date": "31/01/2026, 16:02:28",
+      "total": 960,
+      "createdAt": "2026-02-02T07:37:50.424Z",
       "method": "cod",
       "address": {
-        "city": "qw",
-        "street": "wqw",
-        "pin": "44"
+        "city": "Malappuram ",
+        "street": "kakkenjeri ",
+        "pin": "124"
       },
       "status": "cancelled"
     },
     {
-      "id": 1769860210479,
+      "id": 1770017905192,
       "userId": 1,
       "userEmail": "hanan@gmail.com",
       "items": [
         {
-          "productId": "12",
+          "productId": "25",
           "qty": 1
         },
         {
-          "productId": "19",
+          "productId": "29",
           "qty": 1
         }
       ],
-      "total": 540,
-      "date": "31/01/2026, 17:20:10",
+      "total": 390,
+      "createdAt": "2026-02-02T07:38:25.192Z",
+      "method": "gpay",
+      "address": {
+        "city": "malappuram ",
+        "street": "university ",
+        "pin": "676335"
+      },
+      "status": "delivered"
+    },
+    {
+      "id": 1770017943569,
+      "userId": 1,
+      "userEmail": "hanan@gmail.com",
+      "items": [
+        {
+          "productId": "30",
+          "qty": 1
+        },
+        {
+          "productId": "31",
+          "qty": 1
+        },
+        {
+          "productId": "34",
+          "qty": 1
+        },
+        {
+          "productId": "35",
+          "qty": 1
+        }
+      ],
+      "total": 610,
+      "createdAt": "2026-02-02T07:39:03.569Z",
       "method": "cod",
       "address": {
-        "city": "s",
-        "street": "s",
-        "pin": "3"
+        "city": "hooks",
+        "street": "oops",
+        "pin": "809"
       },
-      "status": "pending"
+      "status": "cancelled"
     }
   ],
   "products": [
@@ -315,7 +319,7 @@
       "price": 300,
       "image": "/images/markers/marker1.jpg",
       "category": "markers",
-      "stock": 65
+      "stock": 64
     },
     {
       "id": "26",
@@ -347,7 +351,7 @@
       "price": 90,
       "image": "/images/markers/marker5.jpg",
       "category": "markers",
-      "stock": 50
+      "stock": 49
     },
     {
       "id": "30",

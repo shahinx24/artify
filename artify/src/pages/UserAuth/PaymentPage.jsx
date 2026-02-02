@@ -87,7 +87,7 @@ export default function PaymentPage({ showToast }) {
       userEmail: auth.email,
       items: cart,
       total: cartTotal,
-      date: new Date().toLocaleString(),
+      createdAt: new Date().toISOString(),
       method,
       address,
       status: "pending"

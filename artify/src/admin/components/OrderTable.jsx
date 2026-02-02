@@ -1,5 +1,7 @@
-export default function Order({ orders }) {
-  if (!orders || orders.length === 0) return null;
+import formatDate from "../../utils/formatDate";
+
+export default function OrderTable({ orders }) {
+  if (!orders?.length) return null;
 
   return (
     <div className="admin-table-wrapper" style={{ marginTop: "20px" }}>
@@ -8,7 +10,7 @@ export default function Order({ orders }) {
       <table className="admin-table">
         <thead>
           <tr>
-            <th>Order ID</th>
+            <th>ID</th>
             <th>Status</th>
             <th>Total</th>
             <th>Date</th>
@@ -17,17 +19,19 @@ export default function Order({ orders }) {
         </thead>
 
         <tbody>
-          {orders.map((o) => (
+          {orders.map(o => (
             <tr key={o.id}>
               <td>#{o.id}</td>
               <td>{o.status}</td>
               <td>{o.total}</td>
-              <td>{o.date}</td>
-              <td>{o.address.city}, {o.address.street} - {o.address.pin}</td>
+              <td>{formatDate(o.createdAt)}</td>
+              <td>
+                {o.address.city}, {o.address.street} – {o.address.pin}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-} 
+}

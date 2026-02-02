@@ -1,11 +1,17 @@
 import api from "./api";
 
+// Admin – all orders
 export const getAllOrders = () => api.get("/orders");
-// User orders
+
+// User – own orders
 export const getOrders = (userId) =>
   api.get(`/orders?userId=${userId}`);
 
-// Update order status (admin / user)
+// Admin – view orders by user email
+export const getOrdersByEmail = (email) =>
+  api.get(`/orders?userEmail=${email}`);
+
+// Update order status
 export const updateOrderStatus = (id, status) =>
   api.patch(`/orders/${id}`, { status });
 
@@ -25,8 +31,5 @@ export const getOrderStats = async () => {
     0
   );
 
-  return {
-    totalOrders,
-    totalRevenue,
-  };
+  return { totalOrders, totalRevenue };
 };

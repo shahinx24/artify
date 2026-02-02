@@ -32,7 +32,7 @@ export const useAuth = (showToast = () => {}) => {
       const userAuth = await loginUser(form);
 
       localStorage.setItem("auth", JSON.stringify(userAuth));
-      setAuth(userAuth); // ✅ THIS triggers navbar/cart/wishlist
+      setAuth(userAuth); // THIS triggers navbar/cart/wishlist
 
       navigate(userAuth.role === "admin" ? "/admin" : "/");
       return userAuth;
@@ -45,7 +45,7 @@ export const useAuth = (showToast = () => {}) => {
   // Logout
   const logout = () => {
     localStorage.removeItem("auth");
-    setAuth(null); // ✅ THIS resets everything
+    setAuth(null); // THIS resets everything
     navigate("/login");
   };
 

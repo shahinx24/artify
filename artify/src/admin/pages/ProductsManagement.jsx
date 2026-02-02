@@ -65,14 +65,14 @@ export default function ProductsManagement() {
       price: finalPrice,
     });
 
-    await refetch(); // ✅ reload from source
+    await refetch(); // reload from source
 
     setEditedProducts(prev => {
       const copy = { ...prev };
       delete copy[id];
       return copy;
     });
-  }; // ✅ IMPORTANT: close update here
+  }; // IMPORTANT: close update here
 
 
   const dlt = async (id) => {
@@ -80,7 +80,7 @@ export default function ProductsManagement() {
 
     try {
       await deleteProduct(id);
-      await refetch(); // ✅ reload after delete
+      await refetch(); // reload after delete
     } catch (error) {
       console.error("Delete failed", error);
       alert("Failed to delete product");

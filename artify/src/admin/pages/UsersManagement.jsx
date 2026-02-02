@@ -1,67 +1,14 @@
-import React, { useEffect, useState, useCallback } from "react";
-import api from "../../services/api";
+import useUsers from "../../hooks/useUsers";
+import useUserOrders from "../../hooks/useUserOrders";
+import OrderTable from "../components/OrderTable";
 
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
 
-import Order from "../components/Order";
-
 export default function UsersManagement() {
-  const [users, setUsers] = useState([]);
-  const [userOrders, setUserOrders] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-
-  // Fetch users
-  useEffect(() => {
-    api.get("/users")
-      .then(res => setUsers(res.data))
-      .catch(() => alert("Failed to load users"));
-  }, []);
-
-  // Toggle active / blocked
-  const toggleUser = useCallback(async (id, isActive) => {
-    try {
-      await api.patch(`/users/${id}`, { isActive: !isActive });
-
-      setUsers(prev =>
-        prev.map(u =>
-          u.id === id ? { ...u, isActive: !isActive } : u
-        )
-      );
-    } catch {
-      alert("Failed to update user");
-    }
-  }, []);
-
-  // Delete user
-  const deleteUser = useCallback(async (id) => {
-    if (!window.confirm("Delete this user permanently?")) return;
-
-    try {
-      await api.delete(`/users/${id}`);
-      setUsers(prev => prev.filter(u => u.id !== id));
-    } catch {
-      alert("Failed to delete user");
-    }
-  }, []);
-
-  // View user orders
-  const viewOrders = async (email) => {
-    if (selectedUser === email) {
-      setSelectedUser(null);
-      setUserOrders([]);
-      return;
-    }
-
-    try {
-      const res = await api.get(`/orders?userEmail=${email}`);
-      setUserOrders(res.data);
-      setSelectedUser(email);
-    } catch {
-      alert("Failed to load orders");
-    }
-  };
+  const { users, toggleUser, deleteUser } = useUsers();
+  const { selectedUser, orders, viewOrders } = useUserOrders();
 
   return (
     <div className="admin-container">
@@ -71,7 +18,7 @@ export default function UsersManagement() {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Mail</th>
+              <th>Email</th>
               <th>Orders</th>
               <th>Status</th>
               <th>Actions</th>
@@ -79,59 +26,52 @@ export default function UsersManagement() {
           </thead>
 
           <tbody>
-            {users.map((u) => (
-              <React.Fragment key={u.id}>
-                <tr>
-                  <td>{u.email}</td>
+            {users.map(u => (
+              <tr key={u.id}>
+                <td>{u.email}</td>
 
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => viewOrders(u.email)}
-                    >
-                      View Orders
-                    </button>
-                  </td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => viewOrders(u.email)}
+                  >
+                    View Orders
+                  </button>
+                </td>
 
-                  <td>
-                    <span
-                      className={
-                        u.isActive ? "status-active" : "status-blocked"
-                      }
-                    >
-                      {u.isActive ? "Active" : "Blocked"}
-                    </span>
-                  </td>
+                <td>
+                  <span
+                    className={
+                      u.isActive ? "status-active" : "status-blocked"
+                    }
+                  >
+                    {u.isActive ? "Active" : "Blocked"}
+                  </span>
+                </td>
 
-                  <td>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => toggleUser(u.id, u.isActive)}
-                    >
-                      Toggle
-                    </button>
+                <td>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => toggleUser(u.id, u.isActive)}
+                  >
+                    Toggle
+                  </button>
 
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteUser(u.id)}
-                      style={{ marginLeft: "8px" }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-
-                {selectedUser === u.email && userOrders.length > 0 && (
-                  <tr>
-                    <td colSpan="4">
-                      <Order orders={userOrders} />
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteUser(u.id)}
+                    style={{ marginLeft: "8px" }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Orders table styled using SAME table.css */}
+        {selectedUser && <OrderTable orders={orders} />}
       </div>
     </div>
   );
