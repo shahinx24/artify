@@ -27,7 +27,7 @@ export default function WishlistPage({ showToast }) {
 
       try {
         const res = await getWishlistProducts(wishlist);
-        setProducts(res);
+        setProducts(res.data); // ✅ FIX HERE
       } catch (err) {
         console.error("Failed to load wishlist", err);
       }

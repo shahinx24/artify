@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useProducts from "../hooks/useProducts";
+import useProducts from "../../hooks/useProducts";
 import api from "../../services/api";
 import { reduceStock } from "../../services/productService";
 import { saveUser } from "../../services/userService";
