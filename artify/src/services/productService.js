@@ -11,6 +11,7 @@ export const getProductCount = async () => {
   const { data } = await api.get("/products");
   return data.length;
 };
+
 export const reduceStock = async (items) => {
   for (const item of items) {
 
