@@ -20,7 +20,7 @@ export default function PaymentPage({ showToast }) {
     pin: ""
   });
 
-  // 🔐 Guards
+  // Guards
   useEffect(() => {
     if (!auth) {
       navigate("/login");
@@ -63,7 +63,7 @@ export default function PaymentPage({ showToast }) {
     0
   );
 
-  // 🧾 Place order
+  // Place order
   const placeOrder = async () => {
     if (!method) return showToast("Choose a payment method");
     if (!address.city || !address.street || !address.pin)
@@ -96,7 +96,7 @@ export default function PaymentPage({ showToast }) {
     // Save order
     await api.post("/orders", newOrder);
 
-    // 🧹 Clear cart
+    // Clear cart
     const updatedUser = { ...auth, cart: [] };
     await saveUser(updatedUser);   // backend
     updateAuth(updatedUser);       // context

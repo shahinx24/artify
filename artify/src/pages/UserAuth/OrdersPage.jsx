@@ -20,7 +20,7 @@ export default function OrdersPage({ showToast }) {
       .catch(err => console.error("Failed to load orders", err));
   }, [auth]);
 
-  // 🔒 Not logged in
+  // Not logged in
   if (!loading && !auth) {
     return (
       <div className="page-contents">
