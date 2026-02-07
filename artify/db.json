@@ -12,16 +12,8 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [
-        {
-          "productId": 12,
-          "qty": 1
-        }
-      ],
-      "wishlist": [
-        "7",
-        "10"
-      ],
+      "cart": [],
+      "wishlist": [],
       "isActive": true,
       "id": 1
     }
@@ -117,7 +109,7 @@
         "street": "oops",
         "pin": "809"
       },
-      "status": "cancelled"
+      "status": "pending"
     }
   ],
   "products": [
@@ -215,7 +207,7 @@
       "price": 450,
       "image": "/images/colors/colors6.jpg",
       "category": "colors",
-      "stock": 38
+      "stock": 37
     },
     {
       "id": "13",
