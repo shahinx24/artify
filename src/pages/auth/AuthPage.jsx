@@ -3,7 +3,7 @@ import AuthForm from "../../components/form/AuthForm";
 import AuthSwitch from "../../components/form/AuthSwitch";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
-import { API_BASE_URL } from "../../constants/api";
+import api from "../../services/api";
 
 export default function AuthPage({ showToast }) {
   const location = useLocation();
@@ -22,73 +22,70 @@ export default function AuthPage({ showToast }) {
     const email = form.email.trim().toLowerCase();
     const pass = form.pass.trim();
 
-    // fetch users and admin
-    const [usersRes, adminsRes] = await Promise.all([
-      fetch(`${API_BASE_URL}/users`),
-      fetch(`${API_BASE_URL}/admins`)
-    ]);
-    
-    const users = await usersRes.json();
-    const admins = await adminsRes.json();
+    try {
+      const [{ data: users }, { data: admins }] = await Promise.all([
+        api.get("/users"),
+        api.get("/admins")
+      ]);
 
-    if (isLogin) {
-      const admin = admins.find(
-        a =>
-          a.email.toLowerCase() === email &&
-          a.pass === pass
-      );
+      if (isLogin) {
+        const admin = admins.find(
+          a =>
+            a.email.toLowerCase() === email &&
+            a.pass === pass
+        );
 
-      if (admin) {
-        login(admin); 
-        return;
+        if (admin) {
+          login(admin);
+          return;
+        }
+
+        const user = users.find(
+          u =>
+            u.email.toLowerCase() === email &&
+            u.pass === pass
+        );
+
+        if (!user) {
+          showToast?.("Invalid credentials", "error");
+          return;
+        }
+
+        if (!user.isActive) {
+          showToast?.("Account deactivated", "error");
+          return;
+        }
+
+        login(user);
+      } else {
+        if (form.pass !== form.confirm) {
+          showToast?.("Passwords do not match", "error");
+          return;
+        }
+
+        const exists =
+          users.some(u => u.email.toLowerCase() === email) ||
+          admins.some(a => a.email.toLowerCase() === email);
+
+        if (exists) {
+          showToast?.("Email already exists", "error");
+          return;
+        }
+
+        await api.post("/users", {
+          email,
+          pass,
+          role: "user",
+          cart: [],
+          wishlist: [],
+          isActive: true
+        });
+
+        navigate("/login");
       }
-
-      const user = users.find(
-        u =>
-          u.email.toLowerCase() === email &&
-          u.pass === pass
-      );
-
-      if (!user) {
-        showToast?.("Invalid credentials", "error");
-        return;
-      }
-
-      if (!user.isActive) {
-        showToast?.("Account deactivated", "error");
-        return;
-      }
-
-      login(user);
-    } else {
-      if (form.pass !== form.confirm) {
-        showToast?.("Passwords do not match", "error");
-        return;
-      }
-
-      const exists =
-        users.some(u => u.email.toLowerCase() === email) ||
-        admins.some(a => a.email.toLowerCase() === email);
-
-      if (exists) {
-        showToast?.("Email already exists", "error");
-        return;
-      }
-
-     await fetch(`${API_BASE_URL}/users`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        pass,
-        role: "user",
-        cart: [],
-        wishlist: [],
-        isActive: true
-      })
-    });
-
-      navigate("/login");
+    } catch (error) {
+      console.error("Auth request failed", error);
+      showToast?.("Cannot reach the server. Run npm run backend to start the API on http://localhost:3001", "error");
     }
   };
 
