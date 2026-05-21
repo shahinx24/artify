@@ -39,6 +39,26 @@ export default function WishlistPage({ showToast }) {
     );
   }
 
+  if (loading) {
+    return (
+      <div className="page-contents">
+        <h2>Loading wishlist...</h2>
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="page-contents">
+        <h2>Wishlist products could not be loaded</h2>
+        <p>Please try again after a moment.</p>
+        <Link to="/" className="checkout-btn">
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="wishlist-page">
       <div className="wishlist-items">

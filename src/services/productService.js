@@ -4,8 +4,14 @@ export const getProducts = () => api.get("/products");
 export const getWishlistProducts = async (wishlistIds) => {
   if (!wishlistIds?.length) return { data: [] };
 
-  const query = wishlistIds.map(id => `id=${id}`).join("&");
-  return api.get(`/products?${query}`);
+  const { data: products } = await api.get("/products");
+  const wishlistIdSet = new Set(wishlistIds.map(id => String(id)));
+
+  return {
+    data: products.filter(product =>
+      wishlistIdSet.has(String(product.id))
+    ),
+  };
 };
 export const getProductCount = async () => {
   const { data } = await api.get("/products");
