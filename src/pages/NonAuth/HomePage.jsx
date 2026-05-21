@@ -5,11 +5,20 @@ import useProducts from "../../hooks/useProducts";
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const { products, loading } = useProducts();
+  const withBase = (path) => {
+    if (!path || /^https?:\/\//.test(path)) return path;
+    return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+  };
+  const heroImage = withBase("/images/others/home.webp");
 
   return (
     <>
       <div className="page-content">
-        <section id="hero" className="hero">
+        <section
+          id="hero"
+          className="hero"
+          style={{ backgroundImage: `url("${heroImage}")` }}
+        >
           <div className="hero-text">
             <h1 className="logo">Artify</h1>
             <h2>Create, Imagine, Artify!</h2>
@@ -25,7 +34,7 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
                 key={cat.id}
                 to={`/products/${cat.id}`}
                 className="category-card"
-                style={{ backgroundImage: `url(${cat.image})` }}
+                style={{ backgroundImage: `url("${withBase(cat.image)}")` }}
               >
                 <div className="category-overlay"></div>
                 <h3>{cat.name}</h3>
