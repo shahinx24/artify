@@ -85,7 +85,7 @@ export default function AuthPage({ showToast }) {
       }
     } catch (error) {
       console.error("Auth request failed", error);
-      showToast?.("Cannot reach the server. Run npm run backend to start the API on http://localhost:3001", "error");
+      showToast?.(`Cannot reach the server at ${API_BASE_URL}`, "error");
     }
   };
 
