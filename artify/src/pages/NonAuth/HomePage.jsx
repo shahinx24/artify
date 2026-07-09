@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { categories } from "../../data/categories.js";
 import "../style/home.css"
 import useProducts from "../../hooks/useProducts";
+import BrandSlider from "./slideLogos.jsx"
 
 export default function HomePage({ authMode, setAuthMode, showToast }) {
   const { products, loading } = useProducts();
@@ -42,6 +43,8 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
             ))}
           </div>
         </section>
+
+        <section><BrandSlider/></section>
 
         <section id="about" className="about-section">
           <h2 className="section-title">About Artify</h2>
