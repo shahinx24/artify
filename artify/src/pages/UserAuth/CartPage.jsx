@@ -1,13 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../style/cart.css";
-import useProducts from "../../hooks/useProducts";
-import { saveUser } from "../../services/userService";
+import useCart from "../../hooks/useCart";
 import { useAuth } from "../../context/AuthContext";
 
 export default function CartPage({ showToast }) {
   const navigate = useNavigate();
-  const { auth, updateAuth } = useAuth();
-  const { products } = useProducts();
+  const { auth } = useAuth();
+  const { cart, cartItems, loading, removeFromCart, updateQty } = useCart();
 
   //  Login guard
   if (!auth) {
@@ -19,48 +18,24 @@ export default function CartPage({ showToast }) {
     );
   }
 
-  const cart = auth.cart || [];
-
-  const cartItems = cart
-    .map(item => {
-      const product = products.find(
-        p => Number(p.id) === Number(item.productId)
-      );
-      return product ? { ...product, qty: item.qty } : null;
-    })
-    .filter(Boolean);
-
-  // 🔁 Update cart helper
-  const updateCart = async (updatedCart) => {
-    const updatedUser = { ...auth, cart: updatedCart };
-
-    await saveUser(updatedUser);   // backend
-    updateAuth(updatedUser);       // context (sync navbar)
+  const increaseQty = async (id) => {
+    const currentItem = cart.find(
+      item => Number(item.productId) === Number(id)
+    );
+    if (!currentItem) return;
+    await updateQty(id, currentItem.qty + 1);
   };
 
-  const increaseQty = (id) => {
-    const updated = cart.map(item =>
-      Number(item.productId) === Number(id)
-        ? { ...item, qty: item.qty + 1 }
-        : item
+  const decreaseQty = async (id) => {
+    const currentItem = cart.find(
+      item => Number(item.productId) === Number(id)
     );
-    updateCart(updated);
+    if (!currentItem || currentItem.qty <= 1) return;
+    await updateQty(id, currentItem.qty - 1);
   };
 
-  const decreaseQty = (id) => {
-    const updated = cart.map(item =>
-      Number(item.productId) === Number(id) && item.qty > 1
-        ? { ...item, qty: item.qty - 1 }
-        : item
-    );
-    updateCart(updated);
-  };
-
-  const removeItem = (id) => {
-    const updated = cart.filter(
-      item => Number(item.productId) !== Number(id)
-    );
-    updateCart(updated);
+  const removeItem = async (id) => {
+    await removeFromCart(id);
     showToast("Removed from cart");
   };
 
@@ -79,6 +54,14 @@ export default function CartPage({ showToast }) {
       return showToast("Cart is empty");
     navigate("/checkout");
   };
+
+  if (loading) {
+    return (
+      <div className="page-contents">
+        <h2>Loading cart...</h2>
+      </div>
+    );
+  }
 
   // 🛒 Empty cart
   if (cartItems.length === 0) {

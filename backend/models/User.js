@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema(
 
     wishlist: [
       {
-        productId: Number,
+        type: Number,
       },
     ],
 

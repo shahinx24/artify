@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import { ORDER_STATUS } from "../../constants/orderStatus";
 import { ORDER_STATUS_LABELS } from "../../constants/statusLabels";
 import { getAllOrders, updateOrderStatus } from "../../services/orderService";
-import { reduceStock } from "../../services/productService";
 import PageHeader from "../components/PageHeader";
 import useCancelOrder from "../../hooks/useCancelOrder";
 import "../style/table.css";
@@ -33,18 +32,10 @@ export default function OrdersManagement() {
           prevStatus !== ORDER_STATUS.CANCELLED &&
           newStatus === ORDER_STATUS.CANCELLED
         ) {
-          await cancelOrder(order, true);
+          await cancelOrder(order);
+        } else {
+          await updateOrderStatus(order.id, newStatus);
         }
-
-        // RE-ACTIVATE -> decrease stock
-        if (
-          prevStatus === ORDER_STATUS.CANCELLED &&
-          newStatus !== ORDER_STATUS.CANCELLED
-        ) {
-          await reduceStock(order.items);
-        }
-
-        await updateOrderStatus(order.id, newStatus);
 
         setOrders(prev =>
           prev.map(o =>

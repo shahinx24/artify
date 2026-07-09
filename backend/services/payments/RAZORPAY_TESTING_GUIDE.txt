@@ -1,0 +1,47 @@
+Razorpay payment testing guide for Artify
+
+Payment backend location:
+- backend/services/payments/razorpayService.js creates Razorpay orders and exposes the public key id.
+- backend/services/payments/paymentMethods.js defines the allowed payment choices: UPI and card.
+- backend/services/orders/checkoutService.js creates Artify orders, reserves stock, creates the Razorpay order, and verifies the payment signature.
+- backend/routes/checkoutRoutes.js exposes:
+  GET /checkout/razorpay/config
+  POST /checkout
+  POST /checkout/razorpay/verify
+  POST /checkout/razorpay/cancel
+
+Environment variables required in backend/.env or the project .env used when starting backend:
+RAZORPAY_KEY_ID=rzp_test_your_key_id
+RAZORPAY_KEY_SECRET=your_test_key_secret
+PORT=3000
+
+How to test with Razorpay test mode:
+1. Start MongoDB and seed products/users if needed.
+2. Start the backend from the backend folder:
+   npm run dev
+3. Start the frontend from the artify folder:
+   npm run dev
+4. Log in as a user, add products to the cart, and open checkout.
+5. Select UPI or Card. Cash on Delivery is intentionally removed.
+6. Fill city, street, and PIN code, then click Pay securely.
+7. Razorpay Checkout should open. Use Razorpay test mode payment data from your Razorpay dashboard/docs.
+8. After successful payment, the frontend calls POST /checkout/razorpay/verify. The backend verifies the signature, marks paymentStatus as paid, changes order status to processing, and clears the user's cart.
+
+Expected database result after success:
+- Order.method is razorpay_upi or razorpay_card.
+- Order.paymentProvider is razorpay.
+- Order.paymentStatus is paid.
+- Order.status is processing.
+- Order.paymentDetails has razorpayOrderId, razorpayPaymentId, and razorpaySignature.
+
+Expected database result after a cancelled/failed checkout:
+- Order.status is cancelled.
+- Order.paymentStatus is failed.
+- Stock reserved during checkout is released.
+
+Common failures:
+- "Razorpay is not configured": set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET before starting backend.
+- "Failed to load Razorpay checkout": browser could not load https://checkout.razorpay.com/v1/checkout.js.
+- "No appropriate payment method found": confirm the Razorpay Dashboard mode matches the key id mode, and enable the selected payment method in Dashboard. The frontend sends Checkout method as "upi" or "card"; do not send an object of booleans.
+- "Invalid payment signature": the payment response does not match the backend key secret, or test/live keys are mixed.
+- "One or more items are out of stock": seed or update product stock before checkout.

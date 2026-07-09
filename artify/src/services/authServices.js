@@ -1,5 +1,4 @@
 import api from "./api";
-// import { API_USERS, API_ADMINS } from "../hooks/useAuth";
 
 export const normalizeUser = (u, role = "user") => ({
   id: u.id,
@@ -16,31 +15,33 @@ export async function loginUser({ email, pass }) {
     throw new Error("All fields required");
   }
 
-  // Admin check
-  const { data: admins } = await api.get("/admins");
-  const admin = admins.find(
-    a => a.email === email && a.password === pass
-  );
+  const normalizedEmail = email.trim().toLowerCase();
 
-  if (admin) {
+  try {
+    const { data: admin } = await api.post("/admins/login", {
+      email: normalizedEmail,
+      pass,
+    });
     return normalizeUser(admin, "admin");
+  } catch (adminError) {
+    const status = adminError.response?.status;
+    if (status && status !== 401 && status !== 404) {
+      throw new Error(adminError.response?.data?.message || "Login failed");
+    }
+    if (!status && adminError.request) {
+      throw new Error("Cannot reach the server");
+    }
   }
 
-  // User check
-  const { data: users } = await api.get("/users");
-  const user = users.find(
-    u => u.email === email && u.pass === pass
-  );
-
-  if (!user) {
-    throw new Error("Invalid credentials");
+  try {
+    const { data: user } = await api.post("/users/login", {
+      email: normalizedEmail,
+      pass,
+    });
+    return normalizeUser(user);
+  } catch (userError) {
+    throw new Error(userError.response?.data?.message || "Login failed");
   }
-
-  if (!user.isActive) {
-    throw new Error("Account deactivated");
-  }
-
-  return normalizeUser(user);
 }
 
 // Register
@@ -51,12 +52,8 @@ export async function registerUser({ email, pass, confirm }) {
   if (pass !== confirm)
     throw new Error("Passwords don't match");
 
-  const { data: users } = await api.get("/users");
-  if (users.find(u => u.email === email))
-    throw new Error("User already exists");
-
   await api.post("/users", {
-    email,
+    email: email.trim().toLowerCase(),
     pass,
     role: "user",
     cart: [],

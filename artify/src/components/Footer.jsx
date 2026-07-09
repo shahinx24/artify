@@ -20,7 +20,7 @@ export default function Footer() {
 
         <div className="footer-right">
           <div className="footer-icons">
-            <a href="https://www.instagram.com/artify" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
               <img src={instagram} alt="Instagram" className="social-icon" />
             </a>
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">

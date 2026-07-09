@@ -3,7 +3,8 @@ import AuthForm from "../../components/form/AuthForm";
 import AuthSwitch from "../../components/form/AuthSwitch";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
-import api from "../../services/api";
+import { loginUser, registerUser } from "../../services/authServices";
+import { API_BASE_URL } from "../../constants/api";
 
 export default function AuthPage({ showToast }) {
   const location = useLocation();
@@ -19,73 +20,22 @@ export default function AuthPage({ showToast }) {
   const isLogin = location.pathname === "/login";
 
   const handleSubmit = async () => {
-    const email = form.email.trim().toLowerCase();
-    const pass = form.pass.trim();
-
     try {
-      const [{ data: users }, { data: admins }] = await Promise.all([
-        api.get("/users"),
-        api.get("/admins")
-      ]);
-
       if (isLogin) {
-        const admin = admins.find(
-          a =>
-            a.email.toLowerCase() === email &&
-            a.pass === pass
-        );
-
-        if (admin) {
-          login(admin);
-          return;
-        }
-
-        const user = users.find(
-          u =>
-            u.email.toLowerCase() === email &&
-            u.pass === pass
-        );
-
-        if (!user) {
-          showToast?.("Invalid credentials", "error");
-          return;
-        }
-
-        if (!user.isActive) {
-          showToast?.("Account deactivated", "error");
-          return;
-        }
-
+        const user = await loginUser(form);
         login(user);
       } else {
-        if (form.pass !== form.confirm) {
-          showToast?.("Passwords do not match", "error");
-          return;
-        }
-
-        const exists =
-          users.some(u => u.email.toLowerCase() === email) ||
-          admins.some(a => a.email.toLowerCase() === email);
-
-        if (exists) {
-          showToast?.("Email already exists", "error");
-          return;
-        }
-
-        await api.post("/users", {
-          email,
-          pass,
-          role: "user",
-          cart: [],
-          wishlist: [],
-          isActive: true
-        });
-
+        await registerUser(form);
+        showToast?.("Registered successfully", "success");
         navigate("/login");
       }
     } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        `Cannot reach the server at ${API_BASE_URL}`;
       console.error("Auth request failed", error);
-      showToast?.(`Cannot reach the server at ${API_BASE_URL}`, "error");
+      showToast?.(message, "error");
     }
   };
 

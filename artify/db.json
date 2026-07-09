@@ -3,7 +3,7 @@
     {
       "id": 1,
       "email": "shahin@gmail.com",
-      "pass": "Shahin@12", 
+      "pass": "Shahin@12",
       "role": "admin"
     }
   ],
@@ -12,8 +12,23 @@
       "email": "hanan@gmail.com",
       "pass": "Hanan@12",
       "role": "user",
-      "cart": [],
-      "wishlist": [],
+      "cart": [
+        {
+          "productId": 8,
+          "qty": 1
+        },
+        {
+          "productId": 9,
+          "qty": 1
+        },
+        {
+          "productId": 10,
+          "qty": 1
+        }
+      ],
+      "wishlist": [
+        11
+      ],
       "isActive": true,
       "id": 1
     }
@@ -21,7 +36,7 @@
   "orders": [
     {
       "id": 1770017870424,
-      "userId": 1,  
+      "userId": 1,
       "userEmail": "hanan@gmail.com",
       "items": [
         {
@@ -61,11 +76,11 @@
       "userEmail": "hanan@gmail.com",
       "items": [
         {
-          "productId": "25",
+          "productId": 25,
           "qty": 1
         },
         {
-          "productId": "29",
+          "productId": 29,
           "qty": 1
         }
       ],
@@ -85,19 +100,19 @@
       "userEmail": "hanan@gmail.com",
       "items": [
         {
-          "productId": "30",
+          "productId": 30,
           "qty": 1
         },
         {
-          "productId": "31",
+          "productId": 31,
           "qty": 1
         },
         {
-          "productId": "34",
+          "productId": 34,
           "qty": 1
         },
         {
-          "productId": "35",
+          "productId": 35,
           "qty": 1
         }
       ],
@@ -125,7 +140,7 @@
           "qty": 2
         },
         {
-          "productId": "11",
+          "productId": 11,
           "qty": 1
         }
       ],
@@ -142,7 +157,7 @@
   ],
   "products": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Round Brush",
       "price": 120,
       "image": "/images/brushes/brush1.webp",
@@ -150,7 +165,7 @@
       "stock": 50
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Flat Brush",
       "price": 150,
       "image": "/images/brushes/brush2.jpg",
@@ -158,7 +173,7 @@
       "stock": 52
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Fan Brush",
       "price": 160,
       "image": "/images/brushes/brush3.jpg",
@@ -166,7 +181,7 @@
       "stock": 50
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "Detail Brush Set",
       "price": 200,
       "image": "/images/brushes/brush4.jpg",
@@ -174,7 +189,7 @@
       "stock": 48
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "Artist Filbert Brush",
       "price": 180,
       "image": "/images/brushes/brush5.jpg",
@@ -182,7 +197,7 @@
       "stock": 50
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "Professional Brush Kit",
       "price": 350,
       "image": "/images/brushes/brush6.jpg",
@@ -190,7 +205,7 @@
       "stock": 48
     },
     {
-      "id": "7",
+      "id": 7,
       "name": "Acrylic Color Pack",
       "price": 250,
       "image": "/images/colors/colors1.jpg",
@@ -198,7 +213,7 @@
       "stock": 50
     },
     {
-      "id": "8",
+      "id": 8,
       "name": "Oil Paint Starter",
       "price": 350,
       "image": "/images/colors/colors2.jpg",
@@ -206,7 +221,7 @@
       "stock": 50
     },
     {
-      "id": "9",
+      "id": 9,
       "name": "Watercolor Cakes",
       "price": 180,
       "image": "/images/colors/colors3.jpg",
@@ -214,7 +229,7 @@
       "stock": 48
     },
     {
-      "id": "10",
+      "id": 10,
       "name": "Poster Color Set",
       "price": 100,
       "image": "/images/colors/colors4.jpg",
@@ -222,7 +237,7 @@
       "stock": 49
     },
     {
-      "id": "11",
+      "id": 11,
       "name": "Fabric Paint Kit",
       "price": 200,
       "image": "/images/colors/colors5.webp",
@@ -230,7 +245,7 @@
       "stock": 28
     },
     {
-      "id": "12",
+      "id": 12,
       "name": "Premium Paint Box",
       "price": 450,
       "image": "/images/colors/colors6.jpg",
@@ -238,7 +253,7 @@
       "stock": 37
     },
     {
-      "id": "13",
+      "id": 13,
       "name": "Canvas Board",
       "price": 180,
       "image": "/images/canvas/canvas1.webp",
@@ -246,7 +261,7 @@
       "stock": 40
     },
     {
-      "id": "14",
+      "id": 14,
       "name": "Stretched Rectangular Canvas",
       "price": 220,
       "image": "/images/canvas/canvas2.jpg",
@@ -254,7 +269,7 @@
       "stock": 59
     },
     {
-      "id": "15",
+      "id": 15,
       "name": "Mini Canvas Pack",
       "price": 150,
       "image": "/images/canvas/canvas3.jpg",
@@ -262,7 +277,7 @@
       "stock": 58
     },
     {
-      "id": "16",
+      "id": 16,
       "name": "Large Canvas Sheet",
       "price": 280,
       "image": "/images/canvas/canvas4.jpg",
@@ -270,7 +285,7 @@
       "stock": 56
     },
     {
-      "id": "17",
+      "id": 17,
       "name": "Stretched Square Canvas",
       "price": 200,
       "image": "/images/canvas/canvas5.jpg",
@@ -278,7 +293,7 @@
       "stock": 56
     },
     {
-      "id": "18",
+      "id": 18,
       "name": "Pro Canvas Set",
       "price": 450,
       "image": "/images/canvas/canvas6.jpg",
@@ -286,7 +301,7 @@
       "stock": 65
     },
     {
-      "id": "19",
+      "id": 19,
       "name": "A4 Sketchbook",
       "price": 90,
       "image": "/images/sketchbooks/sketch1.jpg",
@@ -294,7 +309,7 @@
       "stock": 65
     },
     {
-      "id": "20",
+      "id": 20,
       "name": "Spiral Sketch Pad",
       "price": 120,
       "image": "/images/sketchbooks/sketch2.jpg",
@@ -302,7 +317,7 @@
       "stock": 76
     },
     {
-      "id": "21",
+      "id": 21,
       "name": "Watercolor Paper Pad",
       "price": 160,
       "image": "/images/sketchbooks/sketch3.jpg",
@@ -310,7 +325,7 @@
       "stock": 56
     },
     {
-      "id": "22",
+      "id": 22,
       "name": "Newsprint Rough Pad",
       "price": 80,
       "image": "/images/sketchbooks/sketch4.jpg",
@@ -318,7 +333,7 @@
       "stock": 55
     },
     {
-      "id": "23",
+      "id": 23,
       "name": "Hardbound Drawing Book",
       "price": 200,
       "image": "/images/sketchbooks/sketch5.jpg",
@@ -326,7 +341,7 @@
       "stock": 68
     },
     {
-      "id": "24",
+      "id": 24,
       "name": "Mixed Media Pad",
       "price": 220,
       "image": "/images/sketchbooks/sketch6.jpg",
@@ -334,7 +349,7 @@
       "stock": 77
     },
     {
-      "id": "25",
+      "id": 25,
       "name": "Dual Tip Marker Set",
       "price": 300,
       "image": "/images/markers/marker1.jpg",
@@ -342,7 +357,7 @@
       "stock": 64
     },
     {
-      "id": "26",
+      "id": 26,
       "name": "Fine Liner Pen Pack",
       "price": 180,
       "image": "/images/markers/marker2.jpg",
@@ -350,7 +365,7 @@
       "stock": 54
     },
     {
-      "id": "27",
+      "id": 27,
       "name": "Brush Marker Set",
       "price": 350,
       "image": "/images/markers/marker3.jpg",
@@ -358,7 +373,7 @@
       "stock": 44
     },
     {
-      "id": "28",
+      "id": 28,
       "name": "Permanent Marker Pack",
       "price": 150,
       "image": "/images/markers/marker4.jpg",
@@ -366,7 +381,7 @@
       "stock": 43
     },
     {
-      "id": "29",
+      "id": 29,
       "name": "Highlighter Marker Kit",
       "price": 90,
       "image": "/images/markers/marker5.jpg",
@@ -374,7 +389,7 @@
       "stock": 49
     },
     {
-      "id": "30",
+      "id": 30,
       "name": "Metallic Marker Set",
       "price": 250,
       "image": "/images/markers/marker6.jpg",
@@ -382,7 +397,7 @@
       "stock": 56
     },
     {
-      "id": "31",
+      "id": 31,
       "name": "Craft Scissors",
       "price": 120,
       "image": "/images/craft/craft1.jpg",
@@ -390,7 +405,7 @@
       "stock": 45
     },
     {
-      "id": "32",
+      "id": 32,
       "name": "Glue Gun",
       "price": 240,
       "image": "/images/craft/craft2.jpg",
@@ -398,7 +413,7 @@
       "stock": 43
     },
     {
-      "id": "33",
+      "id": 33,
       "name": "Hot Glue Sticks Pack",
       "price": 100,
       "image": "/images/craft/craft3.jpg",
@@ -406,7 +421,7 @@
       "stock": 42
     },
     {
-      "id": "34",
+      "id": 34,
       "name": "Sparkle Glitter Jars",
       "price": 150,
       "image": "/images/craft/craft4.jpg",
@@ -414,7 +429,7 @@
       "stock": 65
     },
     {
-      "id": "35",
+      "id": 35,
       "name": "Foam Sheet Pack",
       "price": 90,
       "image": "/images/craft/craft5.jpg",
@@ -422,30 +437,12 @@
       "stock": 67
     },
     {
-      "id": "36",
+      "id": 36,
       "name": "Craft Stick Set",
       "price": 60,
       "image": "/images/craft/craft6.jpg",
       "category": "craft",
       "stock": 64
     }
-  ],
-  
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

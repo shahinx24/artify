@@ -2,10 +2,10 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Search from "../../components/search/Search";
 import "../style/product.css";
-import { saveUser } from "../../services/userService";
 import useCart from "../../hooks/useCart";
 import { useAuth } from "../../context/AuthContext";
 import useProducts from "../../hooks/useProducts";
+import { toggleWishlistItem } from "../../services/commerce/wishlistService";
 
 export default function ProductsPage({ showToast }) {
   const { category } = useParams();
@@ -33,16 +33,8 @@ export default function ProductsPage({ showToast }) {
     if (!auth) return showToast("Login required!");
 
     const wishlist = auth.wishlist || [];
-
-    const updatedUser = {
-      ...auth,
-      wishlist: wishlist.includes(productId)
-        ? wishlist.filter(id => Number(id) !== Number(productId))
-        : [...wishlist, productId],
-    };
-
-    await saveUser(updatedUser);
-    updateAuth(updatedUser);
+    const { data } = await toggleWishlistItem(auth.id, productId);
+    updateAuth(data);
 
     showToast(
       wishlist.includes(productId)
