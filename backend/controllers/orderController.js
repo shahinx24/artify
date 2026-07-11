@@ -8,7 +8,7 @@ const nextNumericId = async () => {
     return Number.isFinite(value) ? Math.max(max, value) : max;
   }, 0);
 
-  return String(maxId + 1);
+  return maxId + 1;
 };
 
 const toOrderResponse = (order) => {
@@ -128,7 +128,7 @@ export const getAllOrders = async (req, res) => {
 export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findOne({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!order) {
@@ -184,7 +184,7 @@ const saveOrder = async (req, res) => {
     }
 
     const currentOrder = await Order.findOne({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!currentOrder) {
@@ -194,7 +194,7 @@ const saveOrder = async (req, res) => {
     await applyStockForStatusChange(currentOrder, payload.status);
 
     const order = await Order.findOneAndUpdate(
-      { id: String(req.params.id) },
+      { id: Number(req.params.id) },
       payload,
       {
         new: true,
@@ -220,7 +220,7 @@ export const patchOrder = async (req, res) => saveOrder(req, res);
 export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findOneAndDelete({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!order) {

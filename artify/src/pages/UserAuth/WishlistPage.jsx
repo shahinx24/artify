@@ -64,7 +64,7 @@ export default function WishlistPage({ showToast }) {
       <div className="wishlist-items">
         {products.map(p => (
           <div className="wishlist-item" key={p.id}>
-            <img src={p.image} alt={p.name} />
+            <img src={p.image?.url} alt={p.name} />
 
             <div className="wishlist-info">
               <h3>{p.name}</h3>

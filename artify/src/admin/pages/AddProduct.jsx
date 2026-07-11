@@ -6,50 +6,71 @@ import "../style/form.css";
 import "../style/buttons.css";
 
 export default function AddProduct() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
-  const [image, setImage] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    category: "",
+    newCategory: "",
+    image: null,
+  });
+
   const [useNewCategory, setUseNewCategory] = useState(false);
-  const [category, setCategory] = useState("");
-  const [newCategory, setNewCategory] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const finalCategory = useNewCategory
-      ? newCategory.trim()
-      : category;
+      ? form.newCategory.trim()
+      : form.category;
 
-    if (!name || !price || !stock || !finalCategory || !image) {
+    if (
+      !form.name ||
+      !form.price ||
+      !form.stock ||
+      !finalCategory ||
+      !form.image
+    ) {
       alert("Please fill all required fields");
       return;
     }
 
-    if (Number(price) < 0 || Number(stock) < 0) {
+    if (Number(form.price) < 0 || Number(form.stock) < 0) {
       alert("Price and stock must be positive values");
       return;
     }
 
-    const newProduct = {
-      name: name.trim(),
-      price: Number(price),
-      stock: Number(stock),
-      category: finalCategory,
-      image,
-    };
+    const formData = new FormData();
+
+    formData.append("name", form.name.trim());
+    formData.append("price", Number(form.price));
+    formData.append("stock", Number(form.stock));
+    formData.append("category", finalCategory);
+    formData.append("image", form.image);
 
     try {
-      await addProduct(newProduct);
+      await addProduct(formData);
+
       alert("Product added successfully");
 
-      // reset form
-      setName("");
-      setPrice("");
-      setStock("");
-      setCategory("");
-      setNewCategory("");
-      setImage("");
+      setForm({
+        name: "",
+        price: "",
+        stock: "",
+        category: "",
+        newCategory: "",
+        image: null,
+      });
+
       setUseNewCategory(false);
     } catch (error) {
       console.error("Add product failed", error);
@@ -66,14 +87,14 @@ export default function AddProduct() {
 
       <div className="admin-card">
         <form className="admin-form" onSubmit={handleSubmit}>
-          
+
           <div>
             <label>Product Name</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Name of the Product"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
             />
           </div>
 
@@ -81,9 +102,9 @@ export default function AddProduct() {
             <label>Price (₹)</label>
             <input
               type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="enter the price"
+              name="price"
+              value={form.price}
+              onChange={handleChange}
             />
           </div>
 
@@ -91,58 +112,65 @@ export default function AddProduct() {
             <label>Stock</label>
             <input
               type="number"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              placeholder="enter the stock"
+              name="stock"
+              value={form.stock}
+              onChange={handleChange}
             />
           </div>
 
           <div>
             <div>
-            <label>
+              <label>
                 <input
-                type="radio"
-                checked={!useNewCategory}
-                onChange={() => setUseNewCategory(false)}
+                  type="radio"
+                  checked={!useNewCategory}
+                  onChange={() => setUseNewCategory(false)}
                 />
                 Use Existing Category
-            </label>
+              </label>
 
-            <label style={{ marginLeft: "20px" }}>
+              <label style={{ marginLeft: "20px" }}>
                 <input
-                type="radio"
-                checked={useNewCategory}
-                onChange={() => setUseNewCategory(true)}
+                  type="radio"
+                  checked={useNewCategory}
+                  onChange={() => setUseNewCategory(true)}
                 />
                 Add New Category
-            </label>
+              </label>
             </div>
-            <br></br>
+
+            <br />
+
             {!useNewCategory && (
-            <div>
+              <div>
                 <label>Category</label>
                 <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                  name="category"
+                  value={form.category}
+                  onChange={handleChange}
                 >
-                <option value="">Select Category</option>
-                <option value="brushes">Brushes</option>
-                <option value="paints">Paints</option>
-                <option value="canvas">Canvas</option>
-                <option value="tools">Tools</option>
+                  <option value="">Select Category</option>
+                  <option value="brushes">Brushes</option>
+                  <option value="colors">Colors</option>
+                  <option value="canvas">Canvas</option>
+                  <option value="sketchbooks">Sketchbooks</option>
+                  <option value="markers">Markers</option>
+                  <option value="craft">Craft</option>
                 </select>
-            </div>
+              </div>
             )}
+
             {useNewCategory && (
-            <div>
+              <div>
                 <label>Add New Category</label>
                 <input
-                type="text"
-                value={newCategory}
-                onChange={(e) => setNewCategory(e.target.value)}
-                placeholder="eg: watercolors"
+                  type="text"
+                  name="newCategory"
+                  value={form.newCategory}
+                  onChange={handleChange}
+                  placeholder="eg: watercolors"
                 />
-            </div>
+              </div>
             )}
           </div>
 
@@ -150,17 +178,17 @@ export default function AddProduct() {
           <div>
             <label>Image Path</label>
             <input
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="eg: /images/brushes/brush1.webp"
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
             />
           </div>
 
           {/* Image Preview */}
-          {image && (
+          {form.image && (
             <img
-              src={image}
+              src={URL.createObjectURL(form.image)}
               alt="preview"
               style={{
                 width: "120px",

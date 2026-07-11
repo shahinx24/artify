@@ -81,7 +81,7 @@ export default function CartPage({ showToast }) {
       <div className="cart-items">
         {cartItems.map(p => (
           <div className="cart-item" key={p.id}>
-            <img src={p.image} alt={p.name} />
+            <img src={p.image?.url} alt={p.name} />
 
             <div className="item-info">
               <h3>{p.name}</h3>

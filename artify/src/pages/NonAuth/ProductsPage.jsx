@@ -65,7 +65,7 @@ export default function ProductsPage({ showToast }) {
         {filteredProducts.map(p => (
           <div className="product-card" key={p.id}>
             <img
-              src={p.image}
+              src={p.image?.url}
               alt={p.name}
               style={{
                 width: "100%",

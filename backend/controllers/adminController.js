@@ -7,7 +7,7 @@ const nextNumericId = async () => {
     return Number.isFinite(value) ? Math.max(max, value) : max;
   }, 0);
 
-  return String(maxId + 1);
+  return maxId + 1;
 };
 
 // Create Admin
@@ -56,7 +56,7 @@ export const getAllAdmins = async (req, res) => {
 export const getAdminById = async (req, res) => {
   try {
     const admin = await Admin.findOne({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!admin) {
@@ -81,7 +81,7 @@ const saveAdmin = async (req, res) => {
     }
 
     const admin = await Admin.findOneAndUpdate(
-      { id: String(req.params.id) },
+      { id: Number(req.params.id) },
       payload,
       {
         new: true,
@@ -107,7 +107,7 @@ export const patchAdmin = async (req, res) => saveAdmin(req, res);
 export const deleteAdmin = async (req, res) => {
   try {
     const admin = await Admin.findOneAndDelete({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!admin) {

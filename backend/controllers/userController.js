@@ -15,7 +15,7 @@ const nextNumericId = async (Model) => {
     return Number.isFinite(value) ? Math.max(max, value) : max;
   }, 0);
 
-  return String(maxId + 1);
+  return maxId + 1;
 };
 
 const hashPassword = async (password) => bcrypt.hash(password, SALT_ROUNDS);
@@ -94,7 +94,7 @@ export const getUser = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findOne({ id: String(req.params.id) }).lean();
+    const user = await User.findOne({ id: Number(req.params.id) }).lean();
 
     if (!user) {
       return res.status(404).json({
@@ -137,7 +137,7 @@ const saveUser = async (req, res) => {
     }
 
     const updatedUser = await User.findOneAndUpdate(
-      { id: String(req.params.id) },
+      { id: Number(req.params.id) },
       payload,
       {
         new: true,
@@ -205,7 +205,7 @@ export const loginUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findOneAndDelete({
-      id: String(req.params.id),
+      id: Number(req.params.id),
     }).lean();
 
     if (!deletedUser) {

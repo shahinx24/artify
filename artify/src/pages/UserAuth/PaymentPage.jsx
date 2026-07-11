@@ -31,15 +31,35 @@ export default function PaymentPage({ showToast }) {
   const { auth, updateAuth } = useAuth();
   const { cartItems, loading } = useCart();
 
-  const [method, setMethod] = useState("razorpay_upi");
-  const [address, setAddress] = useState({
-    city: "",
-    street: "",
-    pin: "",
+  const [checkoutState, setCheckoutState] = useState({
+    method: "razorpay_upi",
+    address: {
+      city: "",
+      street: "",
+      pin: "",
+    },
+    isSubmitting: false,
+    checkoutRequestId: "",
+    razorpayMethods: [],
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [checkoutRequestId, setCheckoutRequestId] = useState("");
-  const [razorpayMethods, setRazorpayMethods] = useState([]);
+
+  const handleAddressChange = (field, value) => {
+    setCheckoutState((prev) => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [field]: value,
+      },
+    }));
+  };
+
+  const {
+    method,
+    address,
+    isSubmitting,
+    checkoutRequestId,
+    razorpayMethods,
+  } = checkoutState;
 
   useEffect(() => {
     if (!auth) {
@@ -91,7 +111,10 @@ export default function PaymentPage({ showToast }) {
         return showToast("Fill address");
       }
 
-      setIsSubmitting(true);
+      setCheckoutState((prev) => ({
+        ...prev,
+        isSubmitting: true,
+      }));
 
       const { data: checkout } = await createCheckout({
         userId: Number(auth.id),
@@ -202,8 +225,8 @@ export default function PaymentPage({ showToast }) {
           reject(
             new Error(
               response?.error?.description ||
-                response?.error?.reason ||
-                "Payment failed"
+              response?.error?.reason ||
+              "Payment failed"
             )
           );
         });
@@ -257,7 +280,12 @@ export default function PaymentPage({ showToast }) {
                     type="radio"
                     name="pay"
                     checked={method === item.id}
-                    onChange={() => setMethod(item.id)}
+                    onChange={() =>
+                      setCheckoutState((prev) => ({
+                        ...prev,
+                        method: item.id,
+                      }))
+                    }
                   />
                   <span className="method-icon">{item.icon}</span>
                   <span>
@@ -297,27 +325,21 @@ export default function PaymentPage({ showToast }) {
               type="text"
               placeholder="City"
               value={address.city}
-              onChange={(e) =>
-                setAddress({ ...address, city: e.target.value })
-              }
+              onChange={(e) => handleAddressChange("city", e.target.value)}
             />
 
             <input
               type="text"
               placeholder="Street / Location"
               value={address.street}
-              onChange={(e) =>
-                setAddress({ ...address, street: e.target.value })
-              }
+              onChange={(e) => handleAddressChange("street", e.target.value)}
             />
 
             <input
               type="number"
               placeholder="PIN Code"
               value={address.pin}
-              onChange={(e) =>
-                setAddress({ ...address, pin: e.target.value })
-              }
+              onChange={(e) => handleAddressChange("pin", e.target.value)}
             />
 
             <button

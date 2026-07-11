@@ -1,18 +1,28 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
 import "../style/buttons.css";
-import { deleteProduct,updateProduct } from "../../services/productService";
+import { deleteProduct, updateProduct } from "../../services/productService";
 import useProducts from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductsManagement() {
-  const { products, loading, refetch } = useProducts();
+export default function ProductsManagement({ showToast }) {
+  const { products, refetch } = useProducts();
   const [editedProducts, setEditedProducts] = useState({});
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
+
+  const updateEditedProduct = (id, field, value) => {
+    setEditedProducts((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        [field]: value,
+      },
+    }));
+  };
 
   const categories = useMemo(
     () => [...new Set(products.map(p => p.category))],
@@ -33,7 +43,10 @@ export default function ProductsManagement() {
 
   const update = async (id) => {
     const edited = editedProducts[id];
-    if (!edited) return;
+    if (!edited) {
+      alert("No changes to update.");
+      return;
+    }
 
     const original = products.find(p => p.id === id);
     if (!original) return;
@@ -65,7 +78,10 @@ export default function ProductsManagement() {
       name: finalName,
       stock: finalStock,
       price: finalPrice,
+      image: edited.image,
     });
+
+    showToast("Product updated successfully!");
 
     await refetch(); // reload from source
 
@@ -116,6 +132,7 @@ export default function ProductsManagement() {
           <thead>
             <tr>
               <th>Product</th>
+              <th>Image</th>
               <th>Stock</th>
               <th>Price</th>
               <th>Update</th>
@@ -129,14 +146,41 @@ export default function ProductsManagement() {
                 <td>
                   <input
                     value={editedProducts[p.id]?.name ?? p.name}
-                    onChange={e =>
-                      setEditedProducts({
-                        ...editedProducts,
-                        [p.id]: {
-                          ...editedProducts[p.id],
-                          name: e.target.value,
-                        },
-                      })
+                    onChange={(e) =>
+                      updateEditedProduct(
+                        p.id,
+                        "name",
+                        e.target.value
+                      )
+                    }
+                  />
+                </td>
+
+                <td>
+                  <img
+                    src={editedProducts[p.id]?.image
+                      ? URL.createObjectURL(editedProducts[p.id].image)
+                      : p.image?.url}
+                    alt={p.name}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      objectFit: "cover",
+                      borderRadius: 8,
+                      display: "block",
+                      marginBottom: 8,
+                    }}
+                  />
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      updateEditedProduct(
+                        p.id,
+                        "image",
+                        e.target.files[0]
+                      )
                     }
                   />
                 </td>
@@ -145,14 +189,12 @@ export default function ProductsManagement() {
                   <input
                     type="number"
                     value={editedProducts[p.id]?.stock ?? p.stock}
-                    onChange={e =>
-                      setEditedProducts({
-                        ...editedProducts,
-                        [p.id]: {
-                          ...editedProducts[p.id],
-                          stock: Number(e.target.value),
-                        },
-                      })
+                    onChange={(e) =>
+                      updateEditedProduct(
+                        p.id,
+                        "stock",
+                        Number(e.target.value)
+                      )
                     }
                   />
                 </td>
@@ -161,20 +203,22 @@ export default function ProductsManagement() {
                   <input
                     type="number"
                     value={editedProducts[p.id]?.price ?? p.price}
-                    onChange={e =>
-                      setEditedProducts({
-                        ...editedProducts,
-                        [p.id]: {
-                          ...editedProducts[p.id],
-                          price: Number(e.target.value),
-                        },
-                      })
+                    onChange={(e) =>
+                      updateEditedProduct(
+                        p.id,
+                        "price",
+                        Number(e.target.value)
+                      )
                     }
                   />
                 </td>
 
                 <td>
-                  <button className="btn btn-primary" onClick={() => update(p.id)}>
+                  <button
+                    className="btn btn-primary"
+                    disabled={!editedProducts[p.id]}
+                    onClick={() => update(p.id)}
+                  >
                     Update
                   </button>
                 </td>
