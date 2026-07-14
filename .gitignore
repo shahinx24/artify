@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 
+# project files
 node_modules
 artify/.env
 backend/.env

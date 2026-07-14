@@ -2,10 +2,11 @@ import Admin from "../models/Admin.js";
 
 const nextNumericId = async () => {
   const docs = await Admin.find({}, { id: 1, _id: 0 }).lean();
-  const maxId = docs.reduce((max, doc) => {
-    const value = Number(doc.id);
-    return Number.isFinite(value) ? Math.max(max, value) : max;
-  }, 0);
+
+  const maxId = docs.reduce(
+    (max, doc) => Math.max(max, doc.id),
+    0
+  );
 
   return maxId + 1;
 };
