@@ -10,18 +10,24 @@ import {
   deleteAdmin,
 } from "../controllers/adminController.js";
 
+import { auth, authorizeRole, authorizeSelf } from "../middleware/auth.js";
+
 const router = express.Router();
 
-router.post("/", createAdmin);
+// Public
 router.post("/login", loginAdmin);
 
-router.get("/", getAllAdmins);
+// Protected (Admin Only)
+router.post("/", auth, authorizeRole("admin"), createAdmin);
 
-router.get("/:id", getAdminById);
+router.get("/", auth, authorizeRole("admin"), getAllAdmins);
 
-router.put("/:id", updateAdmin);
-router.patch("/:id", patchAdmin);
+router.get("/:id", auth, authorizeRole("admin"), getAdminById);
 
-router.delete("/:id", deleteAdmin);
+router.put("/:id", auth, authorizeSelf, updateAdmin);
+
+router.put("/:id", auth, authorizeSelf, updateAdmin);
+
+router.delete("/:id", auth, authorizeRole("admin"), deleteAdmin);
 
 export default router;

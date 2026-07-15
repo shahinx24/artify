@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 const normalizeUserPayload = (body = {}) => ({
   ...body,
@@ -54,14 +55,16 @@ export const createUser = async (req, res) => {
     const user = await User.create({
       id: payload.id || (await nextNumericId(User)),
       email: payload.email,
-      pass: await hashPassword(payload.pass),
+      pass: hashedPassword,
       role: payload.role || "user",
       cart: payload.cart || [],
       wishlist: payload.wishlist || [],
       isActive: payload.isActive ?? true,
     });
 
-    res.status(201).json(user);
+    const { pass, ...userWithoutPassword } = user.toObject();
+
+    res.status(201).json(userWithoutPassword);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -82,7 +85,7 @@ export const getUser = async (req, res) => {
       query.isActive = req.query.isActive === "true";
     }
 
-    const users = await User.find(query).lean();
+    const users = await User.find(query).select("-pass").lean();
     res.status(200).json(users);
   } catch (error) {
     console.log(error);
@@ -94,7 +97,9 @@ export const getUser = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findOne({ id: Number(req.params.id) }).lean();
+    const user = await User.findOne({ id: Number(req.params.id) })
+      .select("-pass")
+      .lean();
 
     if (!user) {
       return res.status(404).json({
@@ -118,7 +123,7 @@ const saveUser = async (req, res) => {
     if (payload.email) {
       const existingUser = await User.findOne({
         email: payload.email,
-        id: { $ne: String(req.params.id) },
+        id: { $ne: Number(req.params.id) }
       }).lean();
 
       if (existingUser) {
@@ -143,7 +148,9 @@ const saveUser = async (req, res) => {
         new: true,
         runValidators: true,
       }
-    ).lean();
+    )
+      .select("-pass")
+      .lean();
 
     if (!updatedUser) {
       return res.status(404).json({
@@ -173,6 +180,12 @@ export const loginUser = async (req, res) => {
     const email = req.body.email?.trim().toLowerCase();
     const pass = req.body.pass;
 
+    if (!email || !pass) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
     const user = await User.findOne({ email }).lean();
     if (!user) {
       return res.status(401).json({
@@ -193,7 +206,32 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    res.status(200).json(user);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      }
+    );
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({
+        message: "JWT secret is not configured.",
+      });
+    }
+
+    const { pass: password, ...userWithoutPassword } = user;
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: userWithoutPassword,
+    });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -214,9 +252,11 @@ export const deleteUser = async (req, res) => {
       });
     }
 
+    const { pass, ...userWithoutPassword } = deletedUser;
+
     res.status(200).json({
       message: "User deleted successfully",
-      deletedUser,
+      deletedUser: userWithoutPassword,
     });
   } catch (error) {
     console.log(error);

@@ -1,7 +1,16 @@
 import api from "./api";
 
 // Get all products
-export const getProducts = () => api.get("/products");
+export const getProducts = ({
+  search = "",
+  category = "",
+} = {}) =>
+  api.get("/products", {
+    params: {
+      search,
+      category,
+    },
+  });
 
 // Get total product count
 export const getProductCount = async () => {

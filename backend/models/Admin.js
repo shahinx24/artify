@@ -17,6 +17,7 @@ const adminSchema = new mongoose.Schema(
     pass: {
       type: String,
       required: true,
+      select: false,
     },
 
     role: {

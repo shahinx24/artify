@@ -28,7 +28,7 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
         </section>
 
         <section id="categories" className="category-section">
-          <h2 className="section-title">Shop by Category</h2>
+          <h2 className="section-title1">Shop by Category</h2>
           <div className="product-grid">
             {categories.map(cat => (
               <Link
@@ -47,7 +47,7 @@ export default function HomePage({ authMode, setAuthMode, showToast }) {
         <section><BrandSlider/></section>
 
         <section id="about" className="about-section">
-          <h2 className="section-title">About Artify</h2>
+          <h2 className="section-title2">About Artify</h2>
           <p className="about-text">
             Artify is more than a supply store — it’s a creative movement.
             We provide premium, thoughtfully crafted art materials designed to elevate every artist’s imagination.

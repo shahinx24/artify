@@ -26,6 +26,7 @@ export const useAuth = (showToast = () => {}) => {
       [e.target.name]: e.target.value,
     }));
   };
+  
   // Login
   const login = async () => {
     try {

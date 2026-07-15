@@ -122,8 +122,6 @@
   grid-template-columns: repeat(3, 1fr); /* 3 *3 */
   gap: 28px;
 }
-
-
 @media (max-width: 767px) {
   .hero {
     padding: 0 1.2rem;
@@ -138,10 +136,10 @@
     padding: 3rem 1.2rem;
     margin-top: -60px;
   }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
+
+  /* Move the title slightly down */
+  .section-title1 {
+    margin-top: 15px; /* Adjust to 10px, 20px, etc. as needed */
   }
 
   @keyframes fadeIn {

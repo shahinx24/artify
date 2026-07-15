@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import ProductFilter from "../components/filter/ProductFilter";
 import "../style/adminLayout.css";
 import "../style/table.css";
@@ -6,9 +6,13 @@ import "../style/buttons.css";
 import { deleteProduct, updateProduct } from "../../services/productService";
 import useProducts from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../../data/categories";
 
 export default function ProductsManagement({ showToast }) {
-  const { products, refetch } = useProducts();
+  const { products, refetch } = useProducts({
+    search,
+    category,
+  });
   const [editedProducts, setEditedProducts] = useState({});
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -24,22 +28,7 @@ export default function ProductsManagement({ showToast }) {
     }));
   };
 
-  const categories = useMemo(
-    () => [...new Set(products.map(p => p.category))],
-    [products]
-  );
-
-  const filteredProducts = products.filter(p => {
-    const matchName = p.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchCategory = category
-      ? p.category === category
-      : true;
-
-    return matchName && matchCategory;
-  });
+  const filteredProducts = products;
 
   const update = async (id) => {
     const edited = editedProducts[id];
@@ -120,6 +109,7 @@ export default function ProductsManagement({ showToast }) {
             setCategory={setCategory}
             categories={categories}
           />
+
           <button
             className="btn btn-sec"
             onClick={() => navigate("/admin/add")}

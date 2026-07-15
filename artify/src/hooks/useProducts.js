@@ -1,7 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { getProducts } from "../services/productService";
 
-export default function useProducts({ category } = {}) {
+export default function useProducts({
+  category = "",
+  search = "",
+} = {}) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,18 +12,16 @@ export default function useProducts({ category } = {}) {
   const fetchProducts = useCallback(() => {
     setLoading(true);
 
-    getProducts()
-      .then(res => {
-        const data = res.data;
-        setProducts(
-          category
-            ? data.filter(p => p.category === category)
-            : data
-        );
+    getProducts({
+      search,
+      category,
+    })
+      .then((res) => {
+        setProducts(res.data);
       })
-      .catch(err => setError(err))
+      .catch((err) => setError(err))
       .finally(() => setLoading(false));
-  }, [category]);
+  }, [search, category]);
 
   useEffect(() => {
     fetchProducts();

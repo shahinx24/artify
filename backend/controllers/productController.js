@@ -63,18 +63,31 @@ export const createProduct = async (req, res) => {
     });
   }
 };
-
 export const getAllProducts = async (req, res) => {
   try {
+    const { search = "", category = "" } = req.query;
+
     const query = {};
-    if (req.query.category) {
-      query.category = req.query.category;
+
+    if (search) {
+      query.name = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    if (category) {
+      query.category = category;
     }
 
     const products = await Product.find(query).lean();
+
     res.status(200).json(products);
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 

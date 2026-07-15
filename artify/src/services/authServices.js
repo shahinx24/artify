@@ -9,7 +9,7 @@ export const normalizeUser = (u, role = "user") => ({
   isActive: u.isActive ?? true,
 });
 
-// -Login
+// Login
 export async function loginUser({ email, pass }) {
   if (!email || !pass) {
     throw new Error("All fields required");
@@ -18,27 +18,40 @@ export async function loginUser({ email, pass }) {
   const normalizedEmail = email.trim().toLowerCase();
 
   try {
-    const { data: admin } = await api.post("/admins/login", {
+    const { data } = await api.post("/admins/login", {
       email: normalizedEmail,
       pass,
     });
-    return normalizeUser(admin, "admin");
+
+    localStorage.setItem("token", data.token);
+
+    const { data } = await api.post("/admins/login", {
+      email: normalizedEmail,
+      pass,
+    });
+
+    return normalizeUser(data, "admin");
   } catch (adminError) {
     const status = adminError.response?.status;
+
     if (status && status !== 401 && status !== 404) {
       throw new Error(adminError.response?.data?.message || "Login failed");
     }
+
     if (!status && adminError.request) {
       throw new Error("Cannot reach the server");
     }
   }
 
   try {
-    const { data: user } = await api.post("/users/login", {
+    const { data } = await api.post("/users/login", {
       email: normalizedEmail,
       pass,
     });
-    return normalizeUser(user);
+
+    localStorage.setItem("token", data.token);
+
+    return normalizeUser(data.user);
   } catch (userError) {
     throw new Error(userError.response?.data?.message || "Login failed");
   }
