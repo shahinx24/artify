@@ -13,6 +13,12 @@ import checkoutRoutes from "./routes/checkoutRoutes.js";
 import { logger } from "./middleware/logger.js";
 
 const app = express();
+
+app.get("/", (req, res) => {
+  console.log("ROOT HIT");
+  res.send("Backend Working");
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.use(

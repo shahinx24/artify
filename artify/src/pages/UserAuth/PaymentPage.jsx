@@ -74,17 +74,28 @@ export default function PaymentPage({ showToast }) {
 
   useEffect(() => {
     if (!checkoutRequestId) {
-      setCheckoutRequestId(
-        window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
-      );
+      setCheckoutState((prev) => ({
+        ...prev,
+        checkoutRequestId:
+          window.crypto?.randomUUID?.() ||
+          `${Date.now()}-${Math.random()}`,
+      }));
     }
   }, [checkoutRequestId]);
 
-  useEffect(() => {
-    getRazorpayConfig()
-      .then(({ data }) => setRazorpayMethods(data.paymentMethods || []))
-      .catch(() => setRazorpayMethods([]));
-  }, []);
+  getRazorpayConfig()
+    .then(({ data }) =>
+      setCheckoutState((prev) => ({
+        ...prev,
+        razorpayMethods: data.paymentMethods || [],
+      }))
+    )
+    .catch(() =>
+      setCheckoutState((prev) => ({
+        ...prev,
+        razorpayMethods: [],
+      }))
+    );
 
   if (!auth || !auth.cart || auth.cart.length === 0) {
     return (
@@ -190,7 +201,10 @@ export default function PaymentPage({ showToast }) {
                 updateAuth(data.user);
               }
 
-              setCheckoutRequestId("");
+              setCheckoutState((prev) => ({
+                ...prev,
+                checkoutRequestId: "",
+              }));
               showToast("Payment successful. Order placed!");
               navigate("/");
               resolve();
@@ -248,7 +262,10 @@ export default function PaymentPage({ showToast }) {
 
       showToast(error?.response?.data?.message || error.message || "Failed to place order");
     } finally {
-      setIsSubmitting(false);
+      setCheckoutState((prev) => ({
+        ...prev,
+        isSubmitting: false,
+      }));
     }
   };
 

@@ -22,6 +22,7 @@ export default function UsersManagement() {
               <th>Orders</th>
               <th>Status</th>
               <th>Actions</th>
+              <th>Delete</th>
             </tr>
           </thead>
 
@@ -56,7 +57,9 @@ export default function UsersManagement() {
                   >
                     Toggle
                   </button>
+                </td>
 
+                <td>
                   <button
                     className="btn btn-danger"
                     onClick={() => deleteUser(u.id)}

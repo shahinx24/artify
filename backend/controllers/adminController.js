@@ -15,6 +15,7 @@ const nextNumericId = async () => {
 
 // Create Admin
 export const createAdmin = async (req, res) => {
+  console.log("createAdmin called");
   try {
     const hashedPassword = await bcrypt.hash(req.body.pass, 10);
 

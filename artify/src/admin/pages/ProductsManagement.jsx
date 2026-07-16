@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { categories } from "../../data/categories";
 
 export default function ProductsManagement({ showToast }) {
+  const [editedProducts, setEditedProducts] = useState({});
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+
   const { products, refetch } = useProducts({
     search,
     category,
   });
-  const [editedProducts, setEditedProducts] = useState({});
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   const updateEditedProduct = (id, field, value) => {

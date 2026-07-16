@@ -45,8 +45,8 @@ export const createUser = async (req, res) => {
 
     const existingUser = await User.findOne({ email: payload.email });
     if (existingUser) {
-      return res.status(400).json({
-        message: "Email already exists",
+      return res.status(409).json({
+        message: "Email already exists"
       });
     }
 
@@ -186,7 +186,10 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email }).lean();
+    const user = await User.findOne({ email })
+      .select("+pass")
+      .lean();
+
     if (!user) {
       return res.status(401).json({
         message: "Invalid credentials",
@@ -206,6 +209,12 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({
+        message: "JWT secret is not configured.",
+      });
+    }
+
     const token = jwt.sign(
       {
         id: user.id,
@@ -214,17 +223,11 @@ export const loginUser = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: process.env.JWT_EXPIRES_IN,
+        expiresIn: process.env.JWT_EXPIRES_IN || "7d",
       }
     );
 
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({
-        message: "JWT secret is not configured.",
-      });
-    }
-
-    const { pass: password, ...userWithoutPassword } = user;
+    const { pass: _, ...userWithoutPassword } = user;
 
     res.status(200).json({
       message: "Login successful",

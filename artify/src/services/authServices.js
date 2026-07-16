@@ -25,12 +25,7 @@ export async function loginUser({ email, pass }) {
 
     localStorage.setItem("token", data.token);
 
-    const { data } = await api.post("/admins/login", {
-      email: normalizedEmail,
-      pass,
-    });
-
-    return normalizeUser(data, "admin");
+    return normalizeUser(data.user, "admin");
   } catch (adminError) {
     const status = adminError.response?.status;
 

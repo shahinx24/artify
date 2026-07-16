@@ -18,7 +18,7 @@ const router = express.Router();
 router.post("/login", loginAdmin);
 
 // Protected (Admin Only)
-router.post("/", auth, authorizeRole("admin"), createAdmin);
+router.post("/", createAdmin);
 
 router.get("/", auth, authorizeRole("admin"), getAllAdmins);
 
@@ -26,7 +26,7 @@ router.get("/:id", auth, authorizeRole("admin"), getAdminById);
 
 router.put("/:id", auth, authorizeSelf, updateAdmin);
 
-router.put("/:id", auth, authorizeSelf, updateAdmin);
+router.patch("/:id", auth, authorizeSelf, patchAdmin);
 
 router.delete("/:id", auth, authorizeRole("admin"), deleteAdmin);
 
