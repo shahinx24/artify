@@ -7,6 +7,7 @@ export default function AdminNavbar() {
 
   const logout = () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("token"); // <-- important
     navigate("/");
     window.location.reload();
   };
@@ -19,7 +20,7 @@ export default function AdminNavbar() {
 
       <div className="admin-center">
         <span className="admin-email">
-          {auth.email.split("@")[0]} 
+          {auth.email.split("@")[0]}
         </span>
         <button onClick={logout} className="admin-logout">
           Logout

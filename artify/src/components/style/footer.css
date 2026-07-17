@@ -48,8 +48,9 @@
 
 .footer-right {
   width: 29%;
-  font-size: 1.2rem;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-icons {
@@ -58,6 +59,23 @@
   align-items: center;
   gap: 1rem;   
   margin-top: .8rem;
+}
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.art-logo {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+}
+
+.footer-logo h3 {
+  margin: 0;
+  font-size: 1rem;
 }
 
 .footer-icons .icon {

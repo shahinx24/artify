@@ -26,7 +26,7 @@ export default function OrdersManagement() {
   const updateStatus = useCallback(
     async (order, newStatus) => {
       const prevStatus = order.status;
- 
+
       try {
         if (
           prevStatus !== ORDER_STATUS.CANCELLED &&

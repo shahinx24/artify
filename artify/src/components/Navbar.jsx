@@ -44,7 +44,7 @@ export default function Navbar() {
             <button
               className="nav-btn"
               onClick={() =>
-                document.getElementById("contact")
+                document.getElementById("about")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >

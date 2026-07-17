@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("auth");
+    localStorage.clear();
     setAuth(null);
     triggerRefresh();
 

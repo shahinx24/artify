@@ -30,6 +30,11 @@ export default function Footer() {
               <img src={mail} alt="Email" className="social-icon" />
             </a>
           </div>
+
+          <div className="footer-logo">
+            <img src="/art.svg" alt="Artify Logo" className="art-logo" />
+            <h3>Artify</h3>
+          </div>
         </div>
       </div>
       <p className="footer-copy">© 2026 Artify — All rights reserved.</p>
