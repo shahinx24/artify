@@ -45,13 +45,23 @@ export default function useWishlist(showToast) {
       loading: false,
       isWishlisted: () => false,
       toggleWishlist: () => showToast?.("Login required"),
-      removeFromWishlist: () => {},
-      moveToCart: () => {},
+      removeFromWishlist: () => { },
+      moveToCart: () => { },
     };
   }
 
   // Toggle wishlist
   const toggleWishlist = async (productId) => {
+    console.log("AUTH:", auth);
+
+    if (auth.role === "admin") {
+      console.log("Blocked admin");
+      showToast?.("Admins cannot use the wishlist");
+      return;
+    }
+
+    console.log("Calling API...");
+
     const { data } = await toggleWishlistItem(auth.id, productId);
     updateAuth(data);
 
@@ -64,6 +74,11 @@ export default function useWishlist(showToast) {
 
   // Remove from wishlist
   const removeFromWishlist = async (productId) => {
+    if (auth.role === "admin") {
+      showToast?.("Admins cannot use the wishlist");
+      return;
+    }
+
     const { data } = await removeWishlistItem(auth.id, productId);
     updateAuth(data);
     showToast?.("Removed from wishlist");
@@ -71,6 +86,11 @@ export default function useWishlist(showToast) {
 
   // Move to cart
   const moveToCart = async (productId) => {
+    if (auth.role === "admin") {
+      showToast?.("Admins cannot use the cart");
+      return;
+    }
+
     const { data } = await moveWishlistItemToCart(auth.id, productId);
     updateAuth(data);
 

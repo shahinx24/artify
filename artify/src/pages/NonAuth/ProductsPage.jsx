@@ -32,6 +32,10 @@ export default function ProductsPage({ showToast }) {
   const toggleWishlist = async (productId) => {
     if (!auth) return showToast("Login required!");
 
+    if (auth.role === "admin") {
+      return showToast("Admins cannot use the wishlist");
+    }
+
     const wishlist = auth.wishlist || [];
     const { data } = await toggleWishlistItem(auth.id, productId);
     updateAuth(data);
@@ -42,7 +46,7 @@ export default function ProductsPage({ showToast }) {
         : "Added to wishlist"
     );
   };
-
+  
   const isLiked = (id) => auth?.wishlist?.includes(id);
 
   return (

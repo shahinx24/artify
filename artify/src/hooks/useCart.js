@@ -41,7 +41,12 @@ export default function useCart() {
   const addToCart = async (productId) => {
     if (!auth) throw new Error("Login required");
 
+    if (auth.role === "admin") {
+      throw new Error("Admins cannot add items to the cart.");
+    }
+
     const { data } = await addCartItemRequest(auth.id, productId, 1);
+    console.log("Cart response:", data);
     updateAuth(data);
   };
 
