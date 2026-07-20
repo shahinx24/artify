@@ -30,10 +30,6 @@ export const getWishlistProducts = async (userId) => {
   const user = await getUserOrThrow(numericUserId);
   const wishlist = user.wishlist || [];
 
-  if (wishlist.length === 0) {
-    return [];
-  }
-
   return Product.find({
     id: { $in: wishlist.map((item) => Number(item)) },
   }).lean();
