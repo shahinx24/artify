@@ -59,7 +59,7 @@ export const addCartItem = async (userId, productId, qty = 1) => {
 
   const existingItem = user.cart.find(
     (item) => Number(item.productId) === numericProductId
-  );
+  );//addtoset
 
   if (existingItem) {
     existingItem.qty += incrementBy;

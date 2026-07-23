@@ -28,8 +28,7 @@ const getProductOrThrow = async (productId) => {
 export const getWishlistProducts = async (userId) => {
   const numericUserId = toNumber(userId);
   const user = await getUserOrThrow(numericUserId);
-  const wis
-  hlist = user.wishlist || [];
+  const wishlist = user.wishlist || [];
 
   if (wishlist.length === 0) {
     return [];

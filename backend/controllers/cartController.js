@@ -22,13 +22,21 @@ export const getUserCart = async (req, res) => {
 
 export const addUserCartItem = async (req, res) => {
   try {
+    console.log("=== ADD CART HIT ===");
+    console.log("Params:", req.params);
+    console.log("Body:", req.body);
+
     const user = await addCartItem(
       req.params.id,
       req.body.productId,
       req.body.qty
     );
+
+    console.log("SUCCESS");
+
     res.status(200).json(user);
   } catch (error) {
+    console.log("ERROR:", error);
     sendError(res, error);
   }
 };

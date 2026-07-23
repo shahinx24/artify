@@ -1,62 +1,40 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getOrderStats } from "../../services/orderService";
-import { getUserCount } from "../../services/userService";
-import { getProductCount } from "../../services/productService";
 import PageHeader from "../components/PageHeader";
 import "../style/adminLayout.css";
 import "../style/dashboard.css";
 import "../style/buttons.css";
 
 export default function AdminDashboard() {
-  const [totalOrders, setTotalOrders] = useState(0);
-  const [totalRevenue, setTotalRevenue] = useState(0);
-  const [stats, setStats] = useState({ users: 0, products: 0 });
+  const [stats, setStats] = useState({
+    users: 0,
+    products: 0,
+    totalOrders: 0,
+    totalRevenue: 0
+  });
 
   const navigate = useNavigate();
 
   // Orders stats (count + revenue)
   useEffect(() => {
-    const loadOrderStats = async () => {
+    const loadDashboard = async () => {
       try {
-        const { totalOrders, totalRevenue } = await getOrderStats();
-        setTotalOrders(totalOrders);
-        setTotalRevenue(totalRevenue);
-      } catch (err) {
-        console.error("Failed to load order stats", err);
-      }
-    };
-
-    loadOrderStats();
-  }, []);
-
-  // Users & Products
-  useEffect(() => {
-    const loadCounts = async () => {
-      try {
-        const [users, products] = await Promise.all([
-          getUserCount(),
-          getProductCount()
-        ]);
-
-        setStats({
-          users,
-          products
-        });
+        const data = await getDashboardStats();
+        setStats(data);
       } catch (err) {
         console.error("Failed to load dashboard stats", err);
       }
     };
 
-    loadCounts();
+    loadDashboard();
   }, []);
 
   return (
     <>
-    <PageHeader
-      title="Dashboard"
-      subtitle="Overview of your store"
-    />
+      <PageHeader
+        title="Dashboard"
+        subtitle="Overview of your store"
+      />
 
       <div className="admin-grid">
         <div className="stat-card">
@@ -74,7 +52,7 @@ export default function AdminDashboard() {
 
         <div className="stat-card">
           <div className="dashboard-box">
-            <h3>Total Products</h3>
+            <p>Create a new product</p>
             <p>{stats.products}</p>
           </div>
           <button
@@ -101,7 +79,7 @@ export default function AdminDashboard() {
         <div className="stat-card">
           <div className="dashboard-box">
             <h3>Total Orders</h3>
-            <p>{totalOrders}</p>
+            <p>{stats.totalOrders}</p>
           </div>
           <button
             className="btn btn-sec"
@@ -115,7 +93,9 @@ export default function AdminDashboard() {
         <div className="stat-card">
           <div className="dashboard-box">
             <h3>Total Revenue</h3>
-            <p>₹{totalRevenue}</p>
+            <p>
+              ₹{stats.totalRevenue.toLocaleString("en-IN")}
+            </p>
           </div>
         </div>
       </div>
