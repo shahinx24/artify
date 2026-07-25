@@ -8,10 +8,7 @@ import {
 } from "../services/commerce/wishlistService";
 
 export default function useWishlist(showToast) {
-  const { auth, updateAuth } = useAuth();
-  const wishlist = auth?.wishlist || [];
-  const cart = auth?.cart || [];
-
+  const { auth, refreshKey, triggerRefresh } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +16,7 @@ export default function useWishlist(showToast) {
   useEffect(() => {
     let active = true;
 
-    if (!auth?.id || wishlist.length === 0) {
+    if (!auth?.id) {
       setProducts([]);
       return;
     }
@@ -34,7 +31,7 @@ export default function useWishlist(showToast) {
     return () => {
       active = false;
     };
-  }, [auth?.id, wishlist.join(",")]);
+  }, [auth?.id, refreshKey, showToast]);
 
 
   // Not logged in
@@ -52,24 +49,19 @@ export default function useWishlist(showToast) {
 
   // Toggle wishlist
   const toggleWishlist = async (productId) => {
-    console.log("AUTH:", auth);
-
     if (auth.role === "admin") {
-      console.log("Blocked admin");
       showToast?.("Admins cannot use the wishlist");
       return;
     }
 
-    console.log("Calling API...");
-
-    const { data } = await toggleWishlistItem(auth.id, productId);
-    updateAuth(data);
-
-    showToast?.(
-      wishlist.includes(productId)
-        ? "Removed from wishlist"
-        : "Added to wishlist"
+    const wasWishlisted = products.some(
+      (item) => Number(item.id) === Number(productId)
     );
+    const { data } = await toggleWishlistItem(auth.id, productId);
+    setProducts(data);
+    triggerRefresh();
+
+    showToast?.(wasWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
 
   // Remove from wishlist
@@ -80,7 +72,8 @@ export default function useWishlist(showToast) {
     }
 
     const { data } = await removeWishlistItem(auth.id, productId);
-    updateAuth(data);
+    setProducts(data);
+    triggerRefresh();
     showToast?.("Removed from wishlist");
   };
 
@@ -92,16 +85,17 @@ export default function useWishlist(showToast) {
     }
 
     const { data } = await moveWishlistItemToCart(auth.id, productId);
-    updateAuth(data);
+    setProducts(data);
+    triggerRefresh();
 
     showToast?.("Moved to cart");
   };
 
   const isWishlisted = (productId) =>
-    wishlist.includes(productId);
+    products.some((item) => Number(item.id) === Number(productId));
 
   return {
-    wishlist,
+    wishlist: products.map((item) => item.id),
     products,
     loading,
     isWishlisted,

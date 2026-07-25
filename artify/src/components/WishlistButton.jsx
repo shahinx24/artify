@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import wishlist from "../assets/icons/wishlist.svg";
 import { useAuth } from "../context/AuthContext";
+import useWishlist from "../hooks/useWishlist";
 
 export default function WishlistButton() {
   const { auth } = useAuth();
+  const { wishlist: wishlistItems } = useWishlist();
 
   if (!auth) return null;
 
-  const count = auth.wishlist?.length || 0;
+  const count = wishlistItems.length;
 
   return (
     <Link to="/wishlist">

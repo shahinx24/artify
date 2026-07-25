@@ -6,14 +6,14 @@ import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
 import { authGuard } from "../utils/authGuard";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Connect() {
   const [toast, setToast] = useState("");
-  const showToast = (msg) => {
+  const showToast = useCallback((msg) => {
     setToast(msg);
     setTimeout(() => setToast(""), 2500);
-  };
+  }, []);
 
   const authState = useAuth();
   const { auth, loading, logout } = authState;
@@ -28,7 +28,7 @@ export default function Connect() {
         logout();
       }
     })();
-  }, [auth, loading]);
+  }, [auth, loading, logout, showToast]);
 
   if (loading) return null;
 

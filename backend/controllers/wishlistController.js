@@ -10,38 +10,37 @@ const sendError = (res, error) =>
     message: error.message || "Something went wrong",
   });
 
-export const getUserWishlist = async (req, res) => {
+const sendWishlist = async (res, action) => {
   try {
-    const products = await getWishlistProducts(req.params.id);
-    res.status(200).json(products);
+    res.status(200).json(await action());
   } catch (error) {
     sendError(res, error);
   }
 };
 
-export const toggleUserWishlistItem = async (req, res) => {
-  try {
-    const user = await toggleWishlistItem(req.params.id, req.body.productId);
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+export const getUserWishlist = (req, res) =>
+  sendWishlist(res, () => getWishlistProducts(req.params.id));
 
-export const deleteUserWishlistItem = async (req, res) => {
-  try {
-    const user = await removeWishlistItem(req.params.id, req.params.productId);
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+export const toggleUserWishlistItem = (req, res) =>
+  sendWishlist(res, () =>
+    toggleWishlistItem(
+      req.params.id,
+      req.body.productId
+    )
+  );
 
-export const moveUserWishlistItemToCart = async (req, res) => {
-  try {
-    const user = await moveWishlistItemToCart(req.params.id, req.params.productId);
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+export const deleteUserWishlistItem = (req, res) =>
+  sendWishlist(res, () =>
+    removeWishlistItem(
+      req.params.id,
+      req.params.productId
+    )
+  );
+
+export const moveUserWishlistItemToCart = (req, res) =>
+  sendWishlist(res, () =>
+    moveWishlistItemToCart(
+      req.params.id,
+      req.params.productId
+    )
+  );

@@ -21,7 +21,7 @@ export default function AppRoutes({ showToast }) {
 
         {/* ADMIN */}
         <Route element={<AdminRoutes />}>
-          <Route path="/admin/*" element={<AdminRouteConfig />} />
+          <Route path="/admin/*" element={<AdminRouteConfig showToast={showToast} />} />
         </Route>
 
         {/* PUBLIC (popup auth lives here) */}

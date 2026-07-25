@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import CheckoutAttempt from "../../models/CheckoutAttempt.js";
+import Cart from "../../models/Cart.js";
 import Order from "../../models/Order.js";
 import Product from "../../models/Product.js";
 import User from "../../models/User.js";
@@ -215,14 +216,15 @@ export const beginCheckout = async ({
       throw error;
     }
 
-    if (!user.cart?.length) {
+    const cart = await Cart.find({ userId: numericUserId }).lean();
+    if (!cart.length) {
       const error = new Error("Cart is empty");
       error.statusCode = 400;
       throw error;
     }
 
     const normalizedAddress = ensureAddress(address);
-    reservedStock = await reserveStock(buildOrderItems(user.cart));
+    reservedStock = await reserveStock(buildOrderItems(cart));
 
     const orderId = await nextNumericId();
     const total = computeTotal(reservedStock);
@@ -240,7 +242,7 @@ export const beginCheckout = async ({
       method,
       total,
       amountInPaise,
-      itemCount: user.cart.length,
+      itemCount: cart.length,
     });
 
     const razorpayOrder = await createRazorpayOrder({
@@ -258,7 +260,7 @@ export const beginCheckout = async ({
       userId: numericUserId,
       userEmail: normalizeEmail(user.email),
       clientRequestId,
-      items: buildOrderItems(user.cart),
+      items: buildOrderItems(cart),
       total,
       method,
       address: normalizedAddress,
@@ -368,15 +370,12 @@ export const verifyRazorpayCheckout = async ({
   };
   await order.save();
 
-  const user = await User.findOne({ id: order.userId });
-  if (user) {
-    user.cart = [];
-    await user.save();
-  }
+  await Cart.deleteMany({ userId: order.userId });
+  const user = await User.findOne({ id: order.userId }).lean();
 
   return {
     order: order.toObject(),
-    user: user?.toObject() || null,
+    user: user || null,
   };
 };
 

@@ -8,6 +8,7 @@ import {
   updateAdmin,
   patchAdmin,
   deleteAdmin,
+  getDashboardStats,
 } from "../controllers/adminController.js";
 
 import { auth, authorizeRole, authorizeSelf } from "../middleware/auth.js";
@@ -19,6 +20,8 @@ router.post("/login", loginAdmin);
 
 // Protected (Admin Only)
 router.post("/", createAdmin);
+
+router.get("/dashboard", auth, authorizeRole("admin"), getDashboardStats);
 
 router.get("/", auth, authorizeRole("admin"), getAllAdmins);
 

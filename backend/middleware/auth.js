@@ -1,22 +1,15 @@
 import jwt from "jsonwebtoken";
 
 export const auth = (req, res, next) => {
-  console.log("=================================");
-  console.log("Request:", req.method, req.originalUrl);
-  console.log("Authorization Header:", req.headers.authorization);
-
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    console.log("No Authorization header found");
-
     return res.status(401).json({
       message: "Authentication required.",
     });
   }
 
   const [, token] = authHeader.split(" ");
-  console.log("JWT Token Received");
 
   try {
     if (!process.env.JWT_SECRET) {
@@ -26,14 +19,11 @@ export const auth = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("JWT Verified");
 
     req.user = decoded;
 
     next();
   } catch (err) {
-    console.log("JWT VERIFY ERROR:", err.message);
-
     return res.status(401).json({
       message: "Invalid or expired token.",
     });

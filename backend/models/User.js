@@ -27,22 +27,6 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    cart: [
-      {
-        productId: Number,
-        qty: {
-          type: Number,
-          default: 1,
-        },
-      },
-    ],
-
-    wishlist: [
-      {
-        type: Number,
-      },
-    ],
-
     isActive: {
       type: Boolean,
       default: true,

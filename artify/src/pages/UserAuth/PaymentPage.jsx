@@ -67,10 +67,10 @@ export default function PaymentPage({ showToast }) {
       return;
     }
 
-    if (!auth.cart || auth.cart.length === 0) {
+    if (!loading && cartItems.length === 0) {
       navigate("/cart");
     }
-  }, [auth, navigate]);
+  }, [auth, cartItems.length, loading, navigate]);
 
   useEffect(() => {
     if (!checkoutRequestId) {
@@ -83,21 +83,23 @@ export default function PaymentPage({ showToast }) {
     }
   }, [checkoutRequestId]);
 
-  getRazorpayConfig()
-    .then(({ data }) =>
-      setCheckoutState((prev) => ({
-        ...prev,
-        razorpayMethods: data.paymentMethods || [],
-      }))
-    )
-    .catch(() =>
-      setCheckoutState((prev) => ({
-        ...prev,
-        razorpayMethods: [],
-      }))
-    );
+  useEffect(() => {
+    getRazorpayConfig()
+      .then(({ data }) =>
+        setCheckoutState((prev) => ({
+          ...prev,
+          razorpayMethods: data.paymentMethods || [],
+        }))
+      )
+      .catch(() =>
+        setCheckoutState((prev) => ({
+          ...prev,
+          razorpayMethods: [],
+        }))
+      );
+  }, []);
 
-  if (!auth || !auth.cart || auth.cart.length === 0) {
+  if (!auth || (!loading && cartItems.length === 0)) {
     return (
       <div className="payment-page">
         <p className="payment-warning">Cart is empty. Add items first.</p>

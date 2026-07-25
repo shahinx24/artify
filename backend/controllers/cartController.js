@@ -11,63 +11,42 @@ const sendError = (res, error) =>
     message: error.message || "Something went wrong",
   });
 
-export const getUserCart = async (req, res) => {
+const sendCart = async (res, action) => {
   try {
-    const cart = await getCartDetails(req.params.id);
-    res.status(200).json(cart);
+    res.status(200).json(await action());
   } catch (error) {
     sendError(res, error);
   }
 };
 
-export const addUserCartItem = async (req, res) => {
-  try {
-    console.log("=== ADD CART HIT ===");
-    console.log("Params:", req.params);
-    console.log("Body:", req.body);
+export const getUserCart = (req, res) =>
+  sendCart(res, () => getCartDetails(req.params.id));
 
-    const user = await addCartItem(
+export const addUserCartItem = (req, res) =>
+  sendCart(res, () =>
+    addCartItem(
       req.params.id,
       req.body.productId,
       req.body.qty
-    );
+    )
+  );
 
-    console.log("SUCCESS");
-
-    res.status(200).json(user);
-  } catch (error) {
-    console.log("ERROR:", error);
-    sendError(res, error);
-  }
-};
-
-export const updateUserCartItem = async (req, res) => {
-  try {
-    const user = await updateCartItemQty(
+export const updateUserCartItem = (req, res) =>
+  sendCart(res, () =>
+    updateCartItemQty(
       req.params.id,
       req.params.productId,
       req.body.qty
-    );
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+    )
+  );
 
-export const deleteUserCartItem = async (req, res) => {
-  try {
-    const user = await removeCartItem(req.params.id, req.params.productId);
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+export const deleteUserCartItem = (req, res) =>
+  sendCart(res, () =>
+    removeCartItem(
+      req.params.id,
+      req.params.productId
+    )
+  );
 
-export const clearUserCart = async (req, res) => {
-  try {
-    const user = await clearCart(req.params.id);
-    res.status(200).json(user);
-  } catch (error) {
-    sendError(res, error);
-  }
-};
+export const clearUserCart = (req, res) =>
+  sendCart(res, () => clearCart(req.params.id));

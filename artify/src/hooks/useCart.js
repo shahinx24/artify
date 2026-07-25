@@ -8,7 +8,7 @@ import {
 } from "../services/commerce/cartService";
 
 export default function useCart() {
-  const { auth, updateAuth } = useAuth();
+  const { auth, refreshKey, triggerRefresh } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +36,7 @@ export default function useCart() {
     return () => {
       active = false;
     };
-  }, [auth?.id, auth?.cart]);
+  }, [auth?.id, refreshKey]);
 
   const addToCart = async (productId) => {
     if (!auth) throw new Error("Login required");
@@ -46,26 +46,31 @@ export default function useCart() {
     }
 
     const { data } = await addCartItemRequest(auth.id, productId, 1);
-    console.log("Cart response:", data);
-    updateAuth(data);
+    setCartItems(data);
+    triggerRefresh();
   };
 
   const removeFromCart = async (productId) => {
     if (!auth) throw new Error("Login required");
 
     const { data } = await removeCartItemRequest(auth.id, productId);
-    updateAuth(data);
+    setCartItems(data);
+    triggerRefresh();
   };
 
   const updateQty = async (productId, qty) => {
     if (!auth) throw new Error("Login required");
 
     const { data } = await updateCartItemQty(auth.id, productId, qty);
-    updateAuth(data);
+    setCartItems(data);
+    triggerRefresh();
   };
 
   return {
-    cart: auth?.cart || [],
+    cart: cartItems.map((item) => ({
+      productId: item.productId ?? item.id,
+      qty: item.qty,
+    })),
     cartItems,
     loading,
     addToCart,

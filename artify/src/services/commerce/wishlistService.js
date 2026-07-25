@@ -1,15 +1,15 @@
 import api from "../api";
 
 export const getWishlistProducts = (userId) =>
-  api.get(`/users/${userId}/wishlist/products`);
+  api.get(`/api/wishlist/${userId}`);
 
 export const toggleWishlistItem = (userId, productId) =>
-  api.post(`/users/${userId}/wishlist/items`, {
+  api.post(`/api/wishlist/${userId}/items`, {
     productId,
   });
 
 export const removeWishlistItem = (userId, productId) =>
-  api.delete(`/users/${userId}/wishlist/items/${productId}`);
+  api.delete(`/api/wishlist/${userId}/items/${productId}`);
 
 export const moveWishlistItemToCart = (userId, productId) =>
-  api.post(`/users/${userId}/wishlist/items/${productId}/move-to-cart`);
+  api.post(`/api/wishlist/${userId}/items/${productId}/move-to-cart`);

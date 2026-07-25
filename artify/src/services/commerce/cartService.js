@@ -1,21 +1,21 @@
 import api from "../api";
 
 export const getCartItems = (userId) =>
-  api.get(`/users/${userId}/cart`);
+  api.get(`/api/cart/${userId}`);
 
 export const addCartItem = (userId, productId, qty = 1) =>
-  api.post(`/users/${userId}/cart/items`, {
+  api.post(`/api/cart/${userId}/items`, {
     productId,
     qty,
   });
 
 export const updateCartItemQty = (userId, productId, qty) =>
-  api.patch(`/users/${userId}/cart/items/${productId}`, {
+  api.patch(`/api/cart/${userId}/items/${productId}`, {
     qty,
   });
 
 export const removeCartItem = (userId, productId) =>
-  api.delete(`/users/${userId}/cart/items/${productId}`);
+  api.delete(`/api/cart/${userId}/items/${productId}`);
 
 export const clearCart = (userId) =>
-  api.delete(`/users/${userId}/cart`);
+  api.delete(`/api/cart/${userId}`);

@@ -1,6 +1,19 @@
 import Admin from "../models/Admin.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { getDashboardStats as getStats } from "../services/admin/dashboardService.js";
+
+const verifyPassword = async (plainPassword, storedPassword) => {
+  if (typeof storedPassword !== "string") {
+    return false;
+  }
+
+  if (storedPassword.startsWith("$2")) {
+    return bcrypt.compare(plainPassword, storedPassword);
+  }
+
+  return plainPassword === storedPassword;
+};
 
 const nextNumericId = async () => {
   const docs = await Admin.find({}, { id: 1, _id: 0 }).lean();
@@ -17,8 +30,6 @@ const nextNumericId = async () => {
 export const createAdmin = async (req, res) => {
   console.log("createAdmin called");
   try {
-    const hashedPassword = await bcrypt.hash(req.body.pass, 10);
-
     const { email, pass } = req.body;
 
     if (!email || !pass) {
@@ -26,6 +37,8 @@ export const createAdmin = async (req, res) => {
         message: "Email and password are required.",
       });
     }
+
+    const hashedPassword = await bcrypt.hash(pass, 10);
 
     const existingAdmin = await Admin.findOne({
       email: email.trim().toLowerCase(),
@@ -67,7 +80,7 @@ export const loginAdmin = async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(pass, admin.pass);
+    const isMatch = await verifyPassword(pass, admin.pass);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -196,6 +209,14 @@ export const deleteAdmin = async (req, res) => {
     }
 
     res.status(200).json({ message: "Admin deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    res.status(200).json(await getStats());
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

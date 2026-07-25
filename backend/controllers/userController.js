@@ -1,12 +1,13 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import { normalizeEmail } from "../utils/normalize.js";
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS) || 10;
 
 const normalizeUserPayload = (body = {}) => ({
   ...body,
-  email: body.email?.trim().toLowerCase(),
+  email: normalizeEmail(body.email),
 });
 
 const nextNumericId = async (Model) => {
@@ -57,8 +58,6 @@ export const createUser = async (req, res) => {
       email: payload.email,
       pass: hashedPassword,
       role: payload.role || "user",
-      cart: payload.cart || [],
-      wishlist: payload.wishlist || [],
       isActive: payload.isActive ?? true,
     });
 
@@ -78,7 +77,7 @@ export const getUser = async (req, res) => {
     const query = {};
 
     if (req.query.email) {
-      query.email = req.query.email.trim().toLowerCase();
+      query.email = normalizeEmail(req.query.email);
     }
 
     if (req.query.isActive !== undefined) {
@@ -177,7 +176,7 @@ export const patchUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const email = req.body.email?.trim().toLowerCase();
+    const email = normalizeEmail(req.body.email);
     const pass = req.body.pass;
 
     if (!email || !pass) {

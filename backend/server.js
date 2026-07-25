@@ -9,15 +9,12 @@ import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import checkoutRoutes from "./routes/checkoutRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 
 import { logger } from "./middleware/logger.js";
 
 const app = express();
-
-app.get("/", (req, res) => {
-  console.log("ROOT HIT");
-  res.send("Backend Working");
-});
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,7 +30,13 @@ app.use(logger);
 
 connectDB();
 
+app.get("/", (req, res) => {
+  res.send("Backend Working");
+});
+
 app.use("/users", userRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/admins", adminRoutes);

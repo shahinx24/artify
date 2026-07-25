@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/cart.svg";
 import { useAuth } from "../context/AuthContext";
+import useCart from "../hooks/useCart";
 
 export default function CartButton() {
   const { auth } = useAuth();
+  const { cartItems } = useCart();
 
   if (!auth) return null;
 
-  const count =
-    auth.cart?.reduce((total, item) => total + item.qty, 0) || 0;
+  const count = cartItems.reduce((total, item) => total + item.qty, 0);
 
   return (
     <Link to="/cart">

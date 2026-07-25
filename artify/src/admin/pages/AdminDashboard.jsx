@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
+import { getDashboardStats } from "../../services/admin/dashboardService";
 import "../style/adminLayout.css";
 import "../style/dashboard.css";
 import "../style/buttons.css";
@@ -15,7 +16,6 @@ export default function AdminDashboard() {
 
   const navigate = useNavigate();
 
-  // Orders stats (count + revenue)
   useEffect(() => {
     const loadDashboard = async () => {
       try {

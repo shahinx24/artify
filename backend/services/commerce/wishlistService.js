@@ -1,41 +1,21 @@
 import Product from "../../models/Product.js";
-import User from "../../models/User.js";
+import Wishlist from "../../models/Wishlist.js";
 import { toNumber } from "../../utils/normalize.js";
 import { addCartItem } from "./cartService.js";
-
-const getUserOrThrow = async (userId) => {
-  const user = await User.findOne({ id: userId });
-  if (!user) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    throw error;
-  }
-
-  return user;
-};
-
-const getProductOrThrow = async (productId) => {
-  const product = await Product.findOne({ id: productId }).lean();
-  if (!product) {
-    const error = new Error("Product not found");
-    error.statusCode = 404;
-    throw error;
-  }
-
-  return product;
-};
+import { getProductOrThrow, getUserOrThrow } from "./userProductGuards.js";
 
 export const getWishlistProducts = async (userId) => {
   const numericUserId = toNumber(userId);
-  const user = await getUserOrThrow(numericUserId);
-  const wishlist = user.wishlist || [];
+  await getUserOrThrow(numericUserId);
+
+  const wishlist = await Wishlist.find({ userId: numericUserId }).lean();
 
   if (wishlist.length === 0) {
     return [];
   }
- 
+
   return Product.find({
-    id: { $in: wishlist.map((item) => Number(item)) },
+    id: { $in: wishlist.map((item) => Number(item.productId)) },
   }).lean();
 };
 
@@ -44,29 +24,36 @@ export const toggleWishlistItem = async (userId, productId) => {
   const numericProductId = toNumber(productId);
 
   await getProductOrThrow(numericProductId);
-  const user = await getUserOrThrow(numericUserId);
+  await getUserOrThrow(numericUserId);
 
-  if ((user.wishlist || []).includes(numericProductId)) {
-    user.wishlist = user.wishlist.filter((item) => Number(item) !== numericProductId);
+  const existingItem = await Wishlist.findOne({
+    userId: numericUserId,
+    productId: numericProductId,
+  }).lean();
+
+  if (existingItem) {
+    await Wishlist.deleteOne({ _id: existingItem._id });
   } else {
-    user.wishlist.push(numericProductId);
+    await Wishlist.create({
+      userId: numericUserId,
+      productId: numericProductId,
+    });
   }
 
-  await user.save();
-  return user.toObject();
+  return getWishlistProducts(numericUserId);
 };
 
 export const removeWishlistItem = async (userId, productId) => {
   const numericUserId = toNumber(userId);
   const numericProductId = toNumber(productId);
-  const user = await getUserOrThrow(numericUserId);
+  await getUserOrThrow(numericUserId);
 
-  user.wishlist = (user.wishlist || []).filter(
-    (item) => Number(item) !== numericProductId
-  );
+  await Wishlist.deleteOne({
+    userId: numericUserId,
+    productId: numericProductId,
+  });
 
-  await user.save();
-  return user.toObject();
+  return getWishlistProducts(numericUserId);
 };
 
 export const moveWishlistItemToCart = async (userId, productId) => {
@@ -74,11 +61,11 @@ export const moveWishlistItemToCart = async (userId, productId) => {
   const numericProductId = toNumber(productId);
 
   await addCartItem(numericUserId, numericProductId, 1);
-  const user = await getUserOrThrow(numericUserId);
-  user.wishlist = (user.wishlist || []).filter(
-    (item) => Number(item) !== numericProductId
-  );
 
-  await user.save();
-  return user.toObject();
+  await Wishlist.deleteOne({
+    userId: numericUserId,
+    productId: numericProductId,
+  });
+
+  return getWishlistProducts(numericUserId);
 };

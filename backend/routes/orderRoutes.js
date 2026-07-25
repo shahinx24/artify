@@ -17,9 +17,9 @@ router.post("/", createOrder);
 
 router.get("/", getAllOrders);
 
-router.get("/:id", getOrderById);
-
 router.get("/user/:userId", getOrdersByUser);
+
+router.get("/:id", getOrderById);
 
 router.put("/:id", updateOrder);
 router.patch("/:id", patchOrder);
