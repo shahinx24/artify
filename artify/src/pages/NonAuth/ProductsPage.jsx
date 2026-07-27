@@ -59,13 +59,12 @@ export default function ProductsPage({ showToast }) {
             <div className="product-info">
               <div className="product-header">
                 <button
-  className={`wishlist-btn ${
-    isWishlisted(product.id) ? "wishlisted" : ""
-  }`}
-  onClick={() => handleWishlist(product.id)}
->
-  {isWishlisted(product.id) ? "♥" : "♡"}
-</button>
+                  className={`wishlist-btn ${isWishlisted(product.id) ? "wishlisted" : ""
+                    }`}
+                  onClick={() => handleWishlist(product.id)}
+                >
+                  {isWishlisted(product.id) ? "♥" : "♡"}
+                </button>
 
                 <div className="product-details">
                   <h3>{product.name}</h3>
