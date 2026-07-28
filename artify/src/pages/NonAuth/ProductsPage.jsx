@@ -27,7 +27,7 @@ export default function ProductsPage({ showToast }) {
       showToast(err.message);
     }
   };
-
+ 
   const handleWishlist = (productId) => {
     if (!auth) return showToast("Login required!");
     return toggleWishlist(productId);
