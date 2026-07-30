@@ -1,16 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
 import "../style/navbar.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function AdminNavbar() {
-  const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("auth"));
-
-  const logout = () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("token"); // <-- important
-    navigate("/");
-    window.location.reload();
-  };
+  const { auth, logout } = useAuth();
 
   return (
     <header className="admin-nav">
@@ -20,7 +12,7 @@ export default function AdminNavbar() {
 
       <div className="admin-center">
         <span className="admin-email">
-          {auth.email.split("@")[0]}
+          {auth?.email?.split("@")[0]}
         </span>
         <button onClick={logout} className="admin-logout">
           Logout

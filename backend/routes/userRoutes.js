@@ -6,6 +6,7 @@ import {
   getUser,
   getUserById,
   loginUser,
+  logoutUser,
   updateUser,
   patchUser,
   deleteUser,
@@ -18,6 +19,7 @@ router.post("/", createUser);
 
 router.use(auth);
 
+router.post("/logout", logoutUser);
 router.get("/", getUser);
 router.get("/:id", authorizeSelf, getUserById);
 

@@ -242,6 +242,12 @@ export const loginUser = async (req, res) => {
   }
 };
 
+export const logoutUser = async (req, res) => {
+  res.status(200).json({
+    message: "Logout successful",
+  });
+};
+
 export const deleteUser = async (req, res) => {
   try {
     const deletedUser = await User.findOneAndDelete({

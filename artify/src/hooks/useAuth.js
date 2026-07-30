@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../services/authServices";
+import { loginUser, logoutUser, registerUser } from "../services/authServices";
 
 export const useAuth = (showToast = () => {}) => {
   const navigate = useNavigate();
@@ -44,10 +44,21 @@ export const useAuth = (showToast = () => {}) => {
   };
 
   // Logout
-  const logout = () => {
-    localStorage.removeItem("auth");
-    setAuth(null); // THIS resets everything
-    navigate("/login");
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (token) {
+        await logoutUser();
+      }
+    } catch (err) {
+      console.error("Logout request failed", err);
+    } finally {
+      localStorage.removeItem("auth");
+      localStorage.removeItem("token");
+      setAuth(null); // THIS resets everything
+      navigate("/login");
+    }
   };
 
   // Register

@@ -71,3 +71,7 @@ export async function registerUser({ email, pass, confirm }) {
 
   return true;
 }
+
+export async function logoutUser() {
+  await api.post("/users/logout");
+}

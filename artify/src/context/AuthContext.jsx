@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../services/authServices";
 
 const AuthContext = createContext({
   auth: null,
@@ -56,14 +57,24 @@ export const AuthProvider = ({ children }) => {
     navigate(user.role === "admin" ? "/admin" : "/");
   };
 
-  const logout = () => {
-    localStorage.removeItem("auth");
-    localStorage.clear();
-    setAuth(null);
-    triggerRefresh();
+  const logout = useCallback(async () => {
+    const token = localStorage.getItem("token");
 
-    navigate("/");
-  };
+    try {
+      if (token) {
+        await logoutUser();
+      }
+    } catch (error) {
+      console.error("Logout request failed", error);
+    } finally {
+      localStorage.removeItem("auth");
+      localStorage.removeItem("token");
+      setAuth(null);
+      setRefreshKey(prev => prev + 1);
+
+      navigate("/");
+    }
+  }, [navigate]);
 
   const updateAuth = (updatedUser) => {
   localStorage.setItem("auth", JSON.stringify(updatedUser));
