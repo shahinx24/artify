@@ -332,7 +332,6 @@ export const updateAdmin = async (req, res) => {
   return saveAdmin(req, res);
 };
 
-
 // ======================================================
 // Patch Admin
 // ======================================================
@@ -340,7 +339,6 @@ export const updateAdmin = async (req, res) => {
 export const patchAdmin = async (req, res) => {
   return saveAdmin(req, res);
 };
-
 
 // ======================================================
 // Delete Admin
@@ -371,10 +369,7 @@ export const deleteAdmin = async (req, res) => {
   }
 };
 
-// ======================================================
 // Dashboard Stats
-// ======================================================
-
 export const getDashboardStats = async (req, res) => {
   try {
     const stats = await getStats();
