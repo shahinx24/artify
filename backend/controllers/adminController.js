@@ -340,10 +340,7 @@ export const patchAdmin = async (req, res) => {
   return saveAdmin(req, res);
 };
 
-// ======================================================
 // Delete Admin
-// ======================================================
-
 export const deleteAdmin = async (req, res) => {
   try {
     const admin = await Admin.findOneAndDelete({
