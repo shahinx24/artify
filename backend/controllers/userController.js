@@ -12,11 +12,14 @@ const normalizeUserPayload = (body = {}) => ({
 
 const nextNumericId = async (Model) => {
   const docs = await Model.find({}, { id: 1, _id: 0 }).lean();
-  const maxId = docs.reduce((max, doc) => {
-    const value = Number(doc.id);
-    return Number.isFinite(value) ? Math.max(max, value) : max;
-  }, 0);
+  let maxId = 0;
 
+  for (const doc of docs) {
+    const value = Number(doc.id);
+    if (Number.isFinite(value) && value > maxId) {
+      maxId = value;
+    }
+  }
   return maxId + 1;
 };
 
