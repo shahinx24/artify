@@ -306,12 +306,6 @@ const saveAdmin = async (req, res) => {
         message: "Admin not found",
       });
     }
-
-
-    // --------------------------------------------
-    // Response
-    // --------------------------------------------
-
     return res.status(200).json(admin);
 
   } catch (error) {
