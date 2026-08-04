@@ -323,19 +323,12 @@ const saveAdmin = async (req, res) => {
   }
 };
 
-
-// ======================================================
 // Update Admin
-// ======================================================
-
 export const updateAdmin = async (req, res) => {
   return saveAdmin(req, res);
 };
 
-// ======================================================
 // Patch Admin
-// ======================================================
-
 export const patchAdmin = async (req, res) => {
   return saveAdmin(req, res);
 };
