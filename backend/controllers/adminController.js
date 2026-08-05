@@ -265,12 +265,7 @@ const saveAdmin = async (req, res) => {
         .trim()
         .toLowerCase();
     }
-
-
-    // --------------------------------------------
-    // Hash password if password is being changed
-    // --------------------------------------------
-
+    
     if (payload.pass) {
       payload.pass = await bcrypt.hash(
         payload.pass,
