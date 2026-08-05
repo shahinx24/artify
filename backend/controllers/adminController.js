@@ -278,11 +278,6 @@ const saveAdmin = async (req, res) => {
       );
     }
 
-
-    // --------------------------------------------
-    // Update admin
-    // --------------------------------------------
-
     const admin = await Admin.findOneAndUpdate(
       {
         id: Number(req.params.id),
@@ -295,11 +290,6 @@ const saveAdmin = async (req, res) => {
     )
       .select("-pass")
       .lean();
-
-
-    // --------------------------------------------
-    // Admin not found
-    // --------------------------------------------
 
     if (!admin) {
       return res.status(404).json({
