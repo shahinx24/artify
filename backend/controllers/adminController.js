@@ -245,27 +245,18 @@ const saveAdmin = async (req, res) => {
     const payload = {
       ...req.body,
     };
-
-    // --------------------------------------------
-    // Remove protected fields
-    // --------------------------------------------
-
+    
     delete payload._id;
     delete payload.createdAt;
     delete payload.updatedAt;
     delete payload.id;
-
-
-    // --------------------------------------------
-    // Normalize email
-    // --------------------------------------------
 
     if (payload.email) {
       payload.email = payload.email
         .trim()
         .toLowerCase();
     }
-    
+
     if (payload.pass) {
       payload.pass = await bcrypt.hash(
         payload.pass,
