@@ -6,11 +6,7 @@ import {
   getDashboardStats as getStats,
 } from "../services/admin/dashboardService.js";
 
-
-// ======================================================
 // Helper: Verify Password
-// ======================================================
-
 const verifyPassword = async (plainPassword, storedPassword) => {
   if (typeof storedPassword !== "string") {
     return false;
@@ -25,11 +21,7 @@ const verifyPassword = async (plainPassword, storedPassword) => {
   return plainPassword === storedPassword;
 };
 
-
-// ======================================================
 // Helper: Generate Next Numeric Admin ID
-// ======================================================
-
 const nextNumericId = async () => {
   const result = await Admin.aggregate([
     {
@@ -45,11 +37,7 @@ const nextNumericId = async () => {
   return (result[0]?.maxId || 0) + 1;
 };
 
-
-// ======================================================
 // Create Admin
-// ======================================================
-
 export const createAdmin = async (req, res) => {
   console.log("createAdmin called");
 
@@ -104,11 +92,7 @@ export const createAdmin = async (req, res) => {
   }
 };
 
-
-// ======================================================
 // Login Admin
-// ======================================================
-
 export const loginAdmin = async (req, res) => {
   try {
     const { email, pass } = req.body;
@@ -183,11 +167,6 @@ export const loginAdmin = async (req, res) => {
   }
 };
 
-
-// ======================================================
-// Get All Admins
-// ======================================================
-
 export const getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find()
@@ -204,11 +183,6 @@ export const getAllAdmins = async (req, res) => {
     });
   }
 };
-
-
-// ======================================================
-// Get Admin By ID
-// ======================================================
 
 export const getAdminById = async (req, res) => {
   try {
@@ -235,17 +209,12 @@ export const getAdminById = async (req, res) => {
   }
 };
 
-
-// ======================================================
-// Shared Admin Update Helper
-// ======================================================
-
 const saveAdmin = async (req, res) => {
   try {
     const payload = {
       ...req.body,
     };
-    
+
     delete payload._id;
     delete payload.createdAt;
     delete payload.updatedAt;
