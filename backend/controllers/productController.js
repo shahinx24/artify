@@ -2,6 +2,8 @@ import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
 
+
+// ======================================================
 // Generate Next Numeric Product ID
 const nextNumericId = async () => {
   const result = await Product.aggregate([
