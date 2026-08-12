@@ -2,22 +2,24 @@ import Admin from "../models/Admin.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import {
-  getDashboardStats as getStats,
-} from "../services/admin/dashboardService.js";
-
 // Helper: Verify Password
-const verifyPassword = async (plainPassword, storedPassword) => {
+const verifyPassword = async (
+  plainPassword,
+  storedPassword
+) => {
   if (typeof storedPassword !== "string") {
     return false;
   }
 
   // Bcrypt hashed password
   if (storedPassword.startsWith("$2")) {
-    return await bcrypt.compare(plainPassword, storedPassword);
+    return bcrypt.compare(
+      plainPassword,
+      storedPassword
+    );
   }
 
-  // Old/plain-text password support
+  // Support old plain-text passwords
   return plainPassword === storedPassword;
 };
 
@@ -39,8 +41,6 @@ const nextNumericId = async () => {
 
 // Create Admin
 export const createAdmin = async (req, res) => {
-  console.log("createAdmin called");
-
   try {
     const { email, pass } = req.body;
 
@@ -51,7 +51,10 @@ export const createAdmin = async (req, res) => {
       });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    // Normalize email
+    const normalizedEmail = email
+      .trim()
+      .toLowerCase();
 
     // Check duplicate email
     const existingAdmin = await Admin.findOne({
@@ -65,10 +68,15 @@ export const createAdmin = async (req, res) => {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(pass, 10);
+    const hashedPassword = await bcrypt.hash(
+      pass,
+      10
+    );
 
-    // Generate ID
-    const id = req.body.id || (await nextNumericId());
+    // Generate numeric ID
+    const id =
+      Number(req.body.id) ||
+      (await nextNumericId());
 
     // Create admin
     const admin = await Admin.create({
@@ -78,13 +86,19 @@ export const createAdmin = async (req, res) => {
       pass: hashedPassword,
     });
 
-    // Remove password before sending response
-    const { pass: _, ...adminData } = admin.toObject();
+    // Remove password from response
+    const {
+      pass: _,
+      ...adminData
+    } = admin.toObject();
 
     return res.status(201).json(adminData);
 
   } catch (error) {
-    console.log("createAdmin error:", error);
+    console.error(
+      "createAdmin error:",
+      error
+    );
 
     return res.status(400).json({
       message: error.message,
@@ -111,7 +125,10 @@ export const loginAdmin = async (req, res) => {
       });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    // Normalize email
+    const normalizedEmail = email
+      .trim()
+      .toLowerCase();
 
     // Find admin
     const admin = await Admin.findOne({
@@ -146,20 +163,28 @@ export const loginAdmin = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+        expiresIn:
+          process.env.JWT_EXPIRES_IN || "7d",
       }
     );
 
     // Remove password
-    const { pass: _, ...adminData } = admin;
+    const {
+      pass: _,
+      ...adminData
+    } = admin;
 
     return res.status(200).json({
+      message: "Login successful",
       token,
       user: adminData,
     });
 
   } catch (error) {
-    console.log("loginAdmin error:", error);
+    console.error(
+      "loginAdmin error:",
+      error
+    );
 
     return res.status(500).json({
       message: "Server Error",
@@ -167,7 +192,11 @@ export const loginAdmin = async (req, res) => {
   }
 };
 
-export const getAllAdmins = async (req, res) => {
+// Get All Admins
+export const getAllAdmins = async (
+  req,
+  res
+) => {
   try {
     const admins = await Admin.find()
       .select("-pass")
@@ -176,7 +205,10 @@ export const getAllAdmins = async (req, res) => {
     return res.status(200).json(admins);
 
   } catch (error) {
-    console.log("getAllAdmins error:", error);
+    console.error(
+      "getAllAdmins error:",
+      error
+    );
 
     return res.status(500).json({
       message: error.message,
@@ -184,7 +216,11 @@ export const getAllAdmins = async (req, res) => {
   }
 };
 
-export const getAdminById = async (req, res) => {
+// Get Admin By ID
+export const getAdminById = async (
+  req,
+  res
+) => {
   try {
     const admin = await Admin.findOne({
       id: Number(req.params.id),
@@ -201,7 +237,10 @@ export const getAdminById = async (req, res) => {
     return res.status(200).json(admin);
 
   } catch (error) {
-    console.log("getAdminById error:", error);
+    console.error(
+      "getAdminById error:",
+      error
+    );
 
     return res.status(500).json({
       message: error.message,
@@ -209,8 +248,13 @@ export const getAdminById = async (req, res) => {
   }
 };
 
+// Shared Admin Update Helper
 const saveAdmin = async (req, res) => {
   try {
+    const adminId = Number(
+      req.params.id
+    );
+
     const payload = {
       ...req.body,
     };
@@ -224,37 +268,59 @@ const saveAdmin = async (req, res) => {
       payload.email = payload.email
         .trim()
         .toLowerCase();
+
+
+      // Check duplicate email
+      const existingAdmin =
+        await Admin.findOne({
+          email: payload.email,
+          id: {
+            $ne: adminId,
+          },
+        }).lean();
+
+      if (existingAdmin) {
+        return res.status(409).json({
+          message: "Email already exists.",
+        });
+      }
     }
 
     if (payload.pass) {
-      payload.pass = await bcrypt.hash(
-        payload.pass,
-        10
-      );
+      payload.pass =
+        await bcrypt.hash(
+          payload.pass,
+          10
+        );
     }
 
-    const admin = await Admin.findOneAndUpdate(
-      {
-        id: Number(req.params.id),
-      },
-      payload,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
-      .select("-pass")
-      .lean();
+    const admin =
+      await Admin.findOneAndUpdate(
+        {
+          id: adminId,
+        },
+        payload,
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+        .select("-pass")
+        .lean();
 
     if (!admin) {
       return res.status(404).json({
         message: "Admin not found",
       });
     }
+
     return res.status(200).json(admin);
 
   } catch (error) {
-    console.log("saveAdmin error:", error);
+    console.error(
+      "saveAdmin error:",
+      error
+    );
 
     return res.status(400).json({
       message: error.message,
@@ -263,21 +329,32 @@ const saveAdmin = async (req, res) => {
 };
 
 // Update Admin
-export const updateAdmin = async (req, res) => {
+export const updateAdmin = async (
+  req,
+  res
+) => {
   return saveAdmin(req, res);
 };
 
 // Patch Admin
-export const patchAdmin = async (req, res) => {
+export const patchAdmin = async (
+  req,
+  res
+) => {
   return saveAdmin(req, res);
 };
 
 // Delete Admin
-export const deleteAdmin = async (req, res) => {
+export const deleteAdmin = async (
+  req,
+  res
+) => {
   try {
-    const admin = await Admin.findOneAndDelete({
-      id: Number(req.params.id),
-    }).lean();
+    const admin =
+      await Admin.findOneAndDelete({
+        id: Number(req.params.id),
+      }).lean();
+
 
     if (!admin) {
       return res.status(404).json({
@@ -290,23 +367,10 @@ export const deleteAdmin = async (req, res) => {
     });
 
   } catch (error) {
-    console.log("deleteAdmin error:", error);
-
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-// Dashboard Stats
-export const getDashboardStats = async (req, res) => {
-  try {
-    const stats = await getStats();
-
-    return res.status(200).json(stats);
-
-  } catch (error) {
-    console.log("getDashboardStats error:", error);
+    console.error(
+      "deleteAdmin error:",
+      error
+    );
 
     return res.status(500).json({
       message: error.message,
