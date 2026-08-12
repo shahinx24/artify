@@ -1,15 +1,34 @@
-import { getDashboardStats } from "../../services/admin/dashboardService.js";
+import {
+  getDashboardStats,
+} from "../../services/admin/dashboardService.js";
 
-const sendError = (res, error) =>
-  res.status(error.statusCode || 500).json({
-    message: error.message || "Something went wrong",
+// Send Error Response
+const sendError = (res, error) => {
+  return res.status(
+    error.statusCode || 500
+  ).json({
+    message:
+      error.message ||
+      "Something went wrong",
   });
+};
 
-export const getAdminDashboardStats = async (req, res) => {
+// Get Admin Dashboard Stats
+export const getAdminDashboardStats = async (
+  req,
+  res
+) => {
   try {
     const stats = await getDashboardStats();
-    res.status(200).json(stats);
+
+    return res.status(200).json(stats);
+
   } catch (error) {
-    sendError(res, error);
+    console.error(
+      "getAdminDashboardStats error:",
+      error
+    );
+
+    return sendError(res, error);
   }
 };

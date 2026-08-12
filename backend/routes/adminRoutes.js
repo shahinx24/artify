@@ -8,29 +8,75 @@ import {
   updateAdmin,
   patchAdmin,
   deleteAdmin,
-  getDashboardStats,
 } from "../controllers/adminController.js";
 
-import { auth, authorizeRole, authorizeSelf } from "../middleware/auth.js";
+import {
+  getAdminDashboardStats,
+} from "../controllers/admin/dashboardController.js";
+
+import {
+  auth,
+  authorizeRole,
+  authorizeSelf,
+} from "../middleware/auth.js";
 
 const router = express.Router();
 
 // Public
-router.post("/login", loginAdmin);
+router.post(
+  "/login",
+  loginAdmin
+);
 
-// Protected (Admin Only)
-router.post("/", createAdmin);
+// Protected - Admin Only
+router.post(
+  "/",
+  auth,
+  authorizeRole("admin"),
+  createAdmin
+);
 
-router.get("/dashboard", auth, authorizeRole("admin"), getDashboardStats);
 
-router.get("/", auth, authorizeRole("admin"), getAllAdmins);
+router.get(
+  "/dashboard",
+  auth,
+  authorizeRole("admin"),
+  getAdminDashboardStats
+);
 
-router.get("/:id", auth, authorizeRole("admin"), getAdminById);
+router.get(
+  "/",
+  auth,
+  authorizeRole("admin"),
+  getAllAdmins
+);
 
-router.put("/:id", auth, authorizeSelf, updateAdmin);
+router.get(
+  "/:id",
+  auth,
+  authorizeRole("admin"),
+  getAdminById
+);
 
-router.patch("/:id", auth, authorizeSelf, patchAdmin);
+router.put(
+  "/:id",
+  auth,
+  authorizeSelf,
+  updateAdmin
+);
 
-router.delete("/:id", auth, authorizeRole("admin"), deleteAdmin);
+router.patch(
+  "/:id",
+  auth,
+  authorizeSelf,
+  patchAdmin
+);
+
+router.delete(
+  "/:id",
+  auth,
+  authorizeRole("admin"),
+  deleteAdmin
+);
 
 export default router;
