@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
 import { loginUser, registerUser } from "../../services/authServices";
 import { API_BASE_URL } from "../../constants/api";
+import "../../components/style/auth.css";
 
 export default function AuthPage({ showToast }) {
   const location = useLocation();
@@ -44,29 +45,32 @@ export default function AuthPage({ showToast }) {
   };
 
   return (
-    <>
-      <AuthForm
-        title={isLogin ? "Welcome Back" : "Create Account"}
-        buttonText={isLogin ? "LOGIN" : "REGISTER"}
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        values={form}
-        fields={[
-          { name: "email", type: "email", placeholder: "Email" },
-          { name: "pass", type: "password", placeholder: "Password" },
-          ...(!isLogin
-            ? [{ name: "confirm", type: "password", placeholder: "Confirm Password" }]
-            : [])
-        ]}
-      />
+    <main className="auth-page">
+      <section className="auth-card">
+        <AuthForm
+          title={isLogin ? "Welcome Back" : "Create Account"}
+          buttonText={isLogin ? "LOGIN" : "REGISTER"}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          values={form}
+          fields={[
+            { name: "email", type: "email", placeholder: "Email" },
+            { name: "pass", type: "password", placeholder: "Password" },
+            ...(!isLogin
+              ? [{ name: "confirm", type: "password", placeholder: "Confirm Password" }]
+              : [])
+          ]}
+        />
 
-      <AuthSwitch
-        text={isLogin ? "Don't have an account?" : "Already have an account?"}
-        actionText={isLogin ? "Register" : "Login"}
-        onClick={() =>
-          navigate(isLogin ? "/register" : "/login")
-        }
-      />
-    </>
+        <AuthSwitch
+          text={isLogin ? "Don't have an account?" : "Already have an account?"}
+          actionText={isLogin ? "Register" : "Login"}
+          onClick={() =>
+            navigate(isLogin ? "/register" : "/login")
+          }
+        />
+
+      </section>
+    </main>
   );
 }

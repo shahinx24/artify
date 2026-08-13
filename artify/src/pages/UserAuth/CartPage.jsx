@@ -129,7 +129,11 @@ export default function CartPage({ showToast }) {
           <span>₹{total}</span>
         </div>
 
-        <button className="checkout-btn" onClick={goToPayment}>
+        <button
+          type="button"
+          className="checkout-btn"
+          onClick={goToPayment}
+        >
           Proceed to Checkout
         </button>
 

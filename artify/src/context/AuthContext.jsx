@@ -20,8 +20,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedAuth = localStorage.getItem("auth");
-    if (storedAuth) {
-      setAuth(JSON.parse(storedAuth));
+    const token = localStorage.getItem("token");
+    if (storedAuth && token) {
+      try {
+        const parsedAuth = JSON.parse(storedAuth);
+        if (parsedAuth?.id && ["user", "admin"].includes(parsedAuth.role)) {
+          setAuth(parsedAuth);
+        } else {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("token");
+        }
+      } catch {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+      }
     }
     setLoading(false);
   }, []);
@@ -37,7 +49,11 @@ export const AuthProvider = ({ children }) => {
           setAuth(null);
           navigate("/");
         } else {
-          setAuth(JSON.parse(e.newValue));
+          try {
+            setAuth(JSON.parse(e.newValue));
+          } catch {
+            setAuth(null);
+          }
         }
       }
     };
@@ -54,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     setAuth(user);
     triggerRefresh();
 
-    navigate(user.role === "admin" ? "/admin" : "/");
+    navigate(user.role === "admin" ? "/admin/dashboard" : "/");
   };
 
   const logout = useCallback(async () => {

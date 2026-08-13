@@ -1,4 +1,5 @@
 import connectDB from "../config/db.js";
+import bcrypt from "bcrypt";
 
 import Product from "../models/Product.js";
 import User from "../models/User.js";
@@ -39,12 +40,21 @@ const normalizeSeedData = () => ({
     })),
 });
 
+const hashSeedPasswords = async (accounts) => Promise.all(
+    accounts.map(async (account) => ({
+        ...account,
+        pass: await bcrypt.hash(account.pass, Number(process.env.SALT_ROUNDS) || 10),
+    }))
+);
+
 const seedDatabase = async () => {
 
     try {
 
         await connectDB();
         const normalizedData = normalizeSeedData();
+        normalizedData.users = await hashSeedPasswords(normalizedData.users);
+        normalizedData.admins = await hashSeedPasswords(normalizedData.admins);
 
         // Optional: clear old data
         await Product.deleteMany();

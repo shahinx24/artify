@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
 
 import { normalizeEmail } from "../utils/normalize.js";
+import { authenticateAccount } from "../services/authenticationService.js";
 
 // Password Configuration
 const SALT_ROUNDS =
@@ -35,27 +35,6 @@ const nextNumericId = async (Model) => {
 // Hash Password
 const hashPassword = async (password) => {
   return bcrypt.hash(password, SALT_ROUNDS);
-};
-
-// Verify Password
-const verifyPassword = async (
-  plainPassword,
-  storedPassword
-) => {
-  if (typeof storedPassword !== "string") {
-    return false;
-  }
-
-  // Bcrypt hashed password
-  if (storedPassword.startsWith("$2")) {
-    return bcrypt.compare(
-      plainPassword,
-      storedPassword
-    );
-  }
-
-  // Support old plain-text passwords
-  return plainPassword === storedPassword;
 };
 
 // Create User
@@ -96,7 +75,7 @@ export const createUser = async (req, res) => {
 
       pass: hashedPassword,
 
-      role: payload.role || "user",
+      role: "user",
 
       isActive:
         payload.isActive ?? true,
@@ -272,95 +251,19 @@ export const patchUser = async (req, res) => {
 // Login User
 export const loginUser = async (req, res) => {
   try {
-    const email = normalizeEmail(
-      req.body.email
-    );
-
-    const pass = req.body.pass;
-
-    // Validate input
-    if (!email || !pass) {
-      return res.status(400).json({
-        message:
-          "Email and password are required",
-      });
-    }
-
-    // Find user
-    const user = await User.findOne({
-      email,
-    })
-      .select("+pass")
-      .lean();
-
-    if (!user) {
-      return res.status(401).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // Verify password
-    const isPasswordValid =
-      await verifyPassword(
-        pass,
-        user.pass
-      );
-
-
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // Check account status
-    if (!user.isActive) {
-      return res.status(403).json({
-        message: "Account deactivated",
-      });
-    }
-
-    // Check JWT secret
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({
-        message:
-          "JWT secret is not configured.",
-      });
-    }
-
-    // Generate JWT
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
-
-      process.env.JWT_SECRET,
-
-      {
-        expiresIn:
-          process.env.JWT_EXPIRES_IN || "7d",
-      }
-    );
-
-    // Remove password
-    const {
-      pass: _,
-      ...userWithoutPassword
-    } = user;
-
-    return res.status(200).json({
-      message: "Login successful",
-      token,
-      user: userWithoutPassword,
+    const result = await authenticateAccount({
+      email: req.body.email,
+      pass: req.body.pass,
+      roles: ["user"],
     });
+
+    return res.status(200).json({ message: "Login successful", ...result });
 
   } catch (error) {
     console.error("loginUser error:", error);
 
-    return res.status(500).json({
-      message: error.message,
+    return res.status(error.statusCode || 500).json({
+      message: error.statusCode ? error.message : "Server Error",
     });
   }
 };

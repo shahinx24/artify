@@ -1,10 +1,13 @@
-import { Routes, Route , Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function AdminRoutes() {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const { auth, loading } = useAuth();
+
+  if (loading) return null;
 
   if (!auth || auth.role !== "admin") {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

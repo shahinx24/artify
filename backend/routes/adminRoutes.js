@@ -36,7 +36,6 @@ router.post(
   createAdmin
 );
 
-
 router.get(
   "/dashboard",
   auth,

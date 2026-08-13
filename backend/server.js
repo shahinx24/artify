@@ -11,6 +11,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import checkoutRoutes from "./routes/checkoutRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 import { logger } from "./middleware/logger.js";
 
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/products", productRoutes);

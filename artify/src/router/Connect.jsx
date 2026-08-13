@@ -1,6 +1,5 @@
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-import AuthPanel from "../components/AuthPanel.jsx";
 import Toast from "../components/Toast.jsx";
 import AppRoutes from "./Route.jsx";
 import AdminNavbar from "../admin/components/AdminNavbar";
@@ -33,13 +32,11 @@ export default function Connect() {
   if (loading) return null;
 
   return (
-    <>
-      {/* AUTH POPUP */}
-      <AuthPanel authState={authState} showToast={showToast} />
+    <div className="app-shell">
       {auth?.role === "admin" ? <AdminNavbar /> : <Navbar />}
       <AppRoutes auth={auth} showToast={showToast} />
       <Footer />
       {toast && <Toast message={toast} />}
-    </>
+    </div>
   );
 }

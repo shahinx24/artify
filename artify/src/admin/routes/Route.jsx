@@ -14,6 +14,7 @@ export default function AdminRouteConfig({ showToast }) {
       <Routes>
         <Route element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="users" element={<UsersManagement />} />
           <Route
             path="products"

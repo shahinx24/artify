@@ -8,48 +8,23 @@ export const normalizeUser = (u, role = "user") => ({
   wishlist: u.wishlist ?? [],
   isActive: u.isActive ?? true,
 });
-
-// Login
 export async function loginUser({ email, pass }) {
   if (!email || !pass) {
     throw new Error("All fields required");
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedEmail = email
+    .trim()
+    .toLowerCase();
 
-  try {
-    const { data } = await api.post("/admins/login", {
-      email: normalizedEmail,
-      pass,
-    });
+  const { data } = await api.post("/auth/login", {
+    email: normalizedEmail,
+    pass,
+  });
 
-    localStorage.setItem("token", data.token);
+  localStorage.setItem("token", data.token);
 
-    return normalizeUser(data.user, "admin");
-  } catch (adminError) {
-    const status = adminError.response?.status;
-
-    if (status && status !== 401 && status !== 404) {
-      throw new Error(adminError.response?.data?.message || "Login failed");
-    }
-
-    if (!status && adminError.request) {
-      throw new Error("Cannot reach the server");
-    }
-  }
-
-  try {
-    const { data } = await api.post("/users/login", {
-      email: normalizedEmail,
-      pass,
-    });
-
-    localStorage.setItem("token", data.token);
-
-    return normalizeUser(data.user);
-  } catch (userError) {
-    throw new Error(userError.response?.data?.message || "Login failed");
-  }
+  return normalizeUser(data.user, data.user.role);
 }
 
 // Register

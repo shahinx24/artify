@@ -29,7 +29,7 @@ const PAYMENT_METHODS = [
 export default function PaymentPage({ showToast }) {
   const navigate = useNavigate();
   const { auth, updateAuth } = useAuth();
-  const { cartItems, loading } = useCart();
+  const { cartItems, loading, hasLoaded } = useCart();
 
   const [checkoutState, setCheckoutState] = useState({
     method: "razorpay_upi",
@@ -67,10 +67,10 @@ export default function PaymentPage({ showToast }) {
       return;
     }
 
-    if (!loading && cartItems.length === 0) {
+    if (hasLoaded && cartItems.length === 0) {
       navigate("/cart");
     }
-  }, [auth, cartItems.length, loading, navigate]);
+  }, [auth, cartItems.length, hasLoaded, navigate]);
 
   useEffect(() => {
     if (!checkoutRequestId) {
@@ -99,7 +99,7 @@ export default function PaymentPage({ showToast }) {
       );
   }, []);
 
-  if (!auth || (!loading && cartItems.length === 0)) {
+  if (!auth || (hasLoaded && cartItems.length === 0)) {
     return (
       <div className="payment-page">
         <p className="payment-warning">Cart is empty. Add items first.</p>
@@ -369,7 +369,11 @@ export default function PaymentPage({ showToast }) {
               {isSubmitting ? "Processing..." : `Pay Rs ${cartTotal}`}
             </button>
 
-            <button className="cancel-btn" onClick={() => navigate("/cart")}>
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate("/cart")}
+            >
               Cancel
             </button>
           </section>

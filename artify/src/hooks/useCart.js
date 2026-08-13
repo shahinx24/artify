@@ -10,17 +10,21 @@ import {
 export default function useCart() {
   const { auth, refreshKey, triggerRefresh } = useAuth();
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(Boolean(auth?.id));
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     let active = true;
 
     if (!auth?.id) {
       setCartItems([]);
+      setLoading(false);
+      setHasLoaded(true);
       return;
     }
 
     setLoading(true);
+    setHasLoaded(false);
     getCartItems(auth.id)
       .then(({ data }) => {
         if (active) {
@@ -30,6 +34,7 @@ export default function useCart() {
       .finally(() => {
         if (active) {
           setLoading(false);
+          setHasLoaded(true);
         }
       });
 
@@ -73,6 +78,7 @@ export default function useCart() {
     })),
     cartItems,
     loading,
+    hasLoaded,
     addToCart,
     removeFromCart,
     updateQty,
